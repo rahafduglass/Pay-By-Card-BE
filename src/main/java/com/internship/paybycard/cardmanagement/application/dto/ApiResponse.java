@@ -1,9 +1,8 @@
 package com.internship.paybycard.cardmanagement.application.dto;
 
-import org.springframework.http.HttpStatus;
+import lombok.Data;
 
-
-
+@Data
 public class ApiResponse<T> {
     private T response;
     private String message;

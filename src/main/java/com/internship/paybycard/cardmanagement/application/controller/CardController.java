@@ -4,7 +4,6 @@ import com.internship.paybycard.cardmanagement.application.dto.ApiResponse;
 import com.internship.paybycard.cardmanagement.application.dto.CardRequest;
 import com.internship.paybycard.cardmanagement.domain.mapper.CardMapper;
 import com.internship.paybycard.cardmanagement.domain.service.CardService;
-import com.internship.paybycard.cardmanagement.persistence.adapter.CardAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
