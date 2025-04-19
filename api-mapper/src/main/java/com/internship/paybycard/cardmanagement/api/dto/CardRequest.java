@@ -1,11 +1,33 @@
 package com.internship.paybycard.cardmanagement.api.dto;
 
-import lombok.Data;
 
-@Data
+
 public class CardRequest {
+    public String getClientName() {
+        return clientName;
+    }
 
-    String clientName;
-    String clientEmail;
-    Double balance;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getClientEmail() {
+        return clientEmail;
+    }
+
+    public void setClientEmail(String clientEmail) {
+        this.clientEmail = clientEmail;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
+    private String clientName;
+    private String clientEmail;
+    private Double balance;
 }

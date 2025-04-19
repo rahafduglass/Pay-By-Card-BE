@@ -2,14 +2,18 @@ package com.internship.paybycard.cardmanagement.api.mapper;
 
 import com.internship.paybycard.cardmanagement.api.dto.CardRequest;
 import com.internship.paybycard.cardmanagement.domain.model.CardModel;
-import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel="spring")
-public interface CardMapper {
-    CardModel requestToModel(CardRequest cardRequest);
-
-    CardEntity modelToEntity(CardModel cardModel);
-
-    CardModel entityToModel(CardEntity cardEntity);
+@Component
+public class CardMapper {
+    public CardModel requestToModel(CardRequest cardRequest) {
+        if(cardRequest == null ) {
+            return null;
+        }
+        CardModel cardModel = new CardModel();
+        cardModel.setBalance(cardRequest.getBalance());
+        cardModel.setClientEmail(cardRequest.getClientEmail());
+        cardModel.setClientName(cardRequest.getClientName());
+        return cardModel;
+    }
 }

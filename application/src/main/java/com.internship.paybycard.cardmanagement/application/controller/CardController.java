@@ -4,6 +4,7 @@ import com.internship.paybycard.cardmanagement.api.dto.ApiResponse;
 import com.internship.paybycard.cardmanagement.api.dto.CardRequest;
 import com.internship.paybycard.cardmanagement.api.mapper.CardMapper;
 import com.internship.paybycard.cardmanagement.domain.service.CardService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,4 +44,12 @@ public class CardController {
                     .body(apiResponse);
         }
     }
+  /*  @PostConstruct
+    public void init() {
+        CardRequest cardRequest = new CardRequest();
+        cardRequest.setBalance(0.0);
+        cardRequest.setClientEmail("client@paybycard.com");
+        cardRequest.setClientName("clienttt");
+       cardService.createCard(cardMapper.requestToModel(cardRequest));
+    }*/
 }

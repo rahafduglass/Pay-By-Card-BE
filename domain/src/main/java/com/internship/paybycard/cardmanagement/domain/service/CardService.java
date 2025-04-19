@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +18,9 @@ public class CardService {
     public boolean createCard(CardModel cardModel) {
         cardModel.setExpiryDate(LocalDate.now().plusYears(2));
         cardModel.setCVV(CardUtils.generateCVV());
-        cardModel.setCardNumber("temp");
+        cardModel.setCardNumber(UUID.randomUUID().toString());
         CardModel savedCard= cardRepository.saveCard(cardModel);
 
-        savedCard.setCardNumber(CardUtils.generateCardNumber(savedCard.getId()));
         cardRepository.saveCard(savedCard);
         return true;
     }

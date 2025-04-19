@@ -7,13 +7,13 @@ public class CardUtils {
     public static String generateCardNumber(Long cardId) {
         StringBuilder randomCapitals= new StringBuilder();
         for(int i=1;i<=10;i++) {
-            randomCapitals.append((char) (RANDOM.nextInt(65, 91)));
+            randomCapitals.append((char) (RANDOM.nextInt( 27))+65);
         }
         return cardId + "0000" +randomCapitals;
     }
 
     public static String generateCVV() {
-        int randomCVV= (int) (RANDOM.nextInt(100,999));
+        int randomCVV= (RANDOM.nextInt(900))+100;
         return String.valueOf(randomCVV);
     }
 }
