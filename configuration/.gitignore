@@ -16,10 +16,19 @@ target/**
 
 ### IntelliJ IDEA ###
 .idea
-.idea/*
 *.iws
 *.iml
 *.ipr
-target
-target/*
-target/**
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
