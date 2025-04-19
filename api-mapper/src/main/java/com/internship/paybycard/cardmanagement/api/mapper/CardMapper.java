@@ -5,15 +5,7 @@ import com.internship.paybycard.cardmanagement.domain.model.CardModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CardMapper {
-    public CardModel requestToModel(CardRequest cardRequest) {
-        if(cardRequest == null ) {
-            return null;
-        }
-        CardModel cardModel = new CardModel();
-        cardModel.setBalance(cardRequest.getBalance());
-        cardModel.setClientEmail(cardRequest.getClientEmail());
-        cardModel.setClientName(cardRequest.getClientName());
-        return cardModel;
-    }
+public interface CardMapper {
+     CardModel requestToModel(CardRequest cardRequest);
+
 }

@@ -2,6 +2,7 @@ package com.internship.paybycard.cardmanagement.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -54,11 +55,11 @@ public class CardEntity {
         this.expiryDate = expiryDate;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -82,5 +83,5 @@ public class CardEntity {
     LocalDate expiryDate;
 
     @Column(nullable = false)
-    Double balance;
+    BigDecimal balance;
 }

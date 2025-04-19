@@ -1,10 +1,8 @@
 package com.internship.paybycard.cardmanagement.application.controller;
 
-import com.internship.paybycard.cardmanagement.api.dto.ApiResponse;
 import com.internship.paybycard.cardmanagement.api.dto.CardRequest;
 import com.internship.paybycard.cardmanagement.api.mapper.CardMapper;
 import com.internship.paybycard.cardmanagement.domain.service.CardService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,34 +20,18 @@ public class CardController {
     private final CardMapper cardMapper;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Boolean>> createCard(@RequestBody CardRequest card) {
+    public ResponseEntity<String> createCard(@RequestBody CardRequest card) {
         try {
             boolean isSuccess = cardService.createCard(cardMapper.requestToModel(card));
-            ApiResponse<Boolean> apiResponse = ApiResponse.<Boolean>builder()
-                    .success(isSuccess)
-                    .message(isSuccess ? "Card created successfully" : "Card creation failed")
-                    .response(isSuccess)
-                    .build();
+            String apiResponse = isSuccess ? "Card created successfully" : "Card creation failed";
             return ResponseEntity
                     .status(isSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
                     .body(apiResponse);
         } catch (Exception e) {
-            ApiResponse<Boolean> apiResponse = ApiResponse.<Boolean>builder()
-                    .success(false)
-                    .message("an error occurred" + e.getMessage())
-                    .response(false)
-                    .build();
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(apiResponse);
+                    .body("an error occurred" + e.getMessage());
         }
     }
-  /*  @PostConstruct
-    public void init() {
-        CardRequest cardRequest = new CardRequest();
-        cardRequest.setBalance(0.0);
-        cardRequest.setClientEmail("client@paybycard.com");
-        cardRequest.setClientName("clienttt");
-       cardService.createCard(cardMapper.requestToModel(cardRequest));
-    }*/
+
 }

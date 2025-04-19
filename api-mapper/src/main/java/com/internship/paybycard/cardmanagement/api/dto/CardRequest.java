@@ -1,6 +1,7 @@
 package com.internship.paybycard.cardmanagement.api.dto;
 
 
+import java.math.BigDecimal;
 
 public class CardRequest {
     public String getClientName() {
@@ -19,15 +20,15 @@ public class CardRequest {
         this.clientEmail = clientEmail;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
     private String clientName;
     private String clientEmail;
-    private Double balance;
+    private BigDecimal balance;
 }

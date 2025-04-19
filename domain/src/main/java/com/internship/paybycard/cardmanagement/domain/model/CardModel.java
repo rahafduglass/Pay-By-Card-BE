@@ -2,6 +2,7 @@ package com.internship.paybycard.cardmanagement.domain.model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -13,5 +14,5 @@ public class CardModel {
     String clientName;
     String clientEmail;
     LocalDate expiryDate;
-    Double balance;
+    BigDecimal balance;
 }
