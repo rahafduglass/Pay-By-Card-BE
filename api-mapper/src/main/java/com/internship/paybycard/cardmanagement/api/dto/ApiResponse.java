@@ -2,11 +2,34 @@ package com.internship.paybycard.cardmanagement.api.dto;
 
 import lombok.Data;
 
-@Data
 public class ApiResponse<T> {
     private T response;
     private String message;
     private boolean success;
+
+    public T getResponse() {
+        return response;
+    }
+
+    public void setResponse(T response) {
+        this.response = response;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 
     private ApiResponse(T response, String message, boolean success) {
         this.response = response;

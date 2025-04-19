@@ -17,8 +17,8 @@ public class CardAdapter implements CardRepository {
     private final CardEntityMapper cardEntityMapper;
 
     @Override
-    public CardModel saveCard(CardModel cardModel) {
-        return cardEntityMapper.entityToModel(cardJpaRepository.save(cardEntityMapper.modelToEntity(cardModel)));
+    public void saveCard(CardModel cardModel) {
+        cardEntityMapper.entityToModel(cardJpaRepository.save(cardEntityMapper.modelToEntity(cardModel)));
 
     }
 }

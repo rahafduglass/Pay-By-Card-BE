@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardRepository {
-    CardModel saveCard(CardModel cardModel);
+    void saveCard(CardModel cardModel);
 }

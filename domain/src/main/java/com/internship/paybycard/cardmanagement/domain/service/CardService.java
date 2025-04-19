@@ -19,9 +19,8 @@ public class CardService {
         cardModel.setExpiryDate(LocalDate.now().plusYears(2));
         cardModel.setCVV(CardUtils.generateCVV());
         cardModel.setCardNumber(UUID.randomUUID().toString());
-        CardModel savedCard= cardRepository.saveCard(cardModel);
+        cardRepository.saveCard(cardModel);
 
-        cardRepository.saveCard(savedCard);
         return true;
     }
 }
