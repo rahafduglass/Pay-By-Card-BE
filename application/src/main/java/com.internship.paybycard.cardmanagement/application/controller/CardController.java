@@ -4,7 +4,6 @@ import com.internship.paybycard.cardmanagement.api.dto.CardRequest;
 import com.internship.paybycard.cardmanagement.api.mapper.CardMapper;
 import com.internship.paybycard.cardmanagement.domain.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,17 +20,8 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<String> createCard(@RequestBody CardRequest card) {
-        try {
-            boolean isSuccess = cardService.createCard(cardMapper.requestToModel(card));
-            String apiResponse = isSuccess ? "Card created successfully" : "Card creation failed";
-            return ResponseEntity
-                    .status(isSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
-                    .body(apiResponse);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("an error occurred" + e.getMessage());
-        }
+        cardService.createCard(cardMapper.requestToModel(card));
+        return ResponseEntity.ok("Card created successfully");
     }
 
 }
