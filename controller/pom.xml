@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>application</artifactId>
+    <artifactId>controller</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>application</name>
     <description>application</description>

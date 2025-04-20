@@ -14,7 +14,7 @@
     <modules>
         <module>core</module>
         <module>domain</module>
-        <module>application</module>
+        <module>controller</module>
         <module>configuration</module>
         <module>launcher</module>
         <module>persistence</module>
