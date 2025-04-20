@@ -28,6 +28,7 @@
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+<!--        todo only dependent on the core-->
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>domain</artifactId>
