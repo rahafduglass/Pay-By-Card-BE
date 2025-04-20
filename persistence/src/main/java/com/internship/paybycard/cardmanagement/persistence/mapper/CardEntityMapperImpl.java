@@ -25,6 +25,7 @@ public class CardEntityMapperImpl implements CardMapper< CardModel,CardEntity> {
     @Override
     public CardModel mapToModel(CardEntity cardEntity) {
         if(cardEntity == null ) {
+//todo return NULL-Pattern (read about it) Insted of NULL
             return null;
         }
         CardModel cardModel = new CardModel();
