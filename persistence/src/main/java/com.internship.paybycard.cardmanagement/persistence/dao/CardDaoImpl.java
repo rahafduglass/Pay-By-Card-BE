@@ -1,4 +1,4 @@
-package com.internship.paybycard.cardmanagement.persistence.adapter;
+package com.internship.paybycard.cardmanagement.persistence.dao;
 
 
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class CardAdapter implements CardDao<CardModel> {
+public class CardDaoImpl implements CardDao<CardModel> {
 
     private final CardJpaRepository cardJpaRepository;
 

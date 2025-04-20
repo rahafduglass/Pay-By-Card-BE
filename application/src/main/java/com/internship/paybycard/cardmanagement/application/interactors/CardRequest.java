@@ -1,4 +1,4 @@
-package com.internship.paybycard.cardmanagement.application.pojo;
+package com.internship.paybycard.cardmanagement.application.interactors;
 
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
 package com.internship.paybycard.cardmanagement.application.controller;
 
-import com.internship.paybycard.cardmanagement.application.pojo.CardRequest;
+import com.internship.paybycard.cardmanagement.application.interactors.CardRequest;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
 import com.internship.paybycard.core.service.CardService;

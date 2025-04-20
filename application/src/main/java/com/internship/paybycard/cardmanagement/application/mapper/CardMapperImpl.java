@@ -1,6 +1,6 @@
 package com.internship.paybycard.cardmanagement.application.mapper;
 
-import com.internship.paybycard.cardmanagement.application.pojo.CardRequest;
+import com.internship.paybycard.cardmanagement.application.interactors.CardRequest;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
 import org.springframework.stereotype.Component;
