@@ -1,6 +1,7 @@
 package com.internship.paybycard.cardmanagement.application.exception.handler;
 
-import com.internship.paybycard.cardmanagement.domain.exception.CardCreationException;
+
+import com.internship.paybycard.core.exception.CardCreationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

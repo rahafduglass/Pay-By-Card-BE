@@ -1,24 +1,28 @@
 package com.internship.paybycard.cardmanagement.persistence.adapter;
 
-import com.internship.paybycard.cardmanagement.domain.model.CardModel;
-import com.internship.paybycard.cardmanagement.domain.dao.CardDao;
-import com.internship.paybycard.cardmanagement.mapper.CardEntityMapper;
+
+import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
+import com.internship.paybycard.core.dao.CardDao;
+import com.internship.paybycard.core.mapper.CardMapper;
+import com.internship.paybycard.core.model.CardModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 
 
 @Repository
 @RequiredArgsConstructor
-public class CardAdapter implements CardDao {
+public class CardAdapter implements CardDao<CardModel> {
 
     private final CardJpaRepository cardJpaRepository;
-    private final CardEntityMapper cardEntityMapper;
+
+    @Qualifier("cardEntityMapperImpl")
+    private final CardMapper<CardModel,CardEntity> cardEntityMapper;
 
     @Override
     public void saveCard(CardModel cardModel) {
-        cardEntityMapper.entityToModel(cardJpaRepository.save(cardEntityMapper.modelToEntity(cardModel)));
-
+        cardEntityMapper.mapToModel(cardJpaRepository.save(cardEntityMapper.reverseMap(cardModel)));
     }
 }

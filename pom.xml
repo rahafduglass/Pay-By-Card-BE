@@ -9,15 +9,15 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>pay-by-card</name>
     <description>pay-by-card</description>
+
     <url/>
     <modules>
+        <module>core</module>
         <module>domain</module>
         <module>application</module>
         <module>configuration</module>
         <module>launcher</module>
         <module>persistence</module>
-        <module>api-mapper</module>
-        <module>entity-mapper</module>
     </modules>
     <properties>
         <java.version>17</java.version>

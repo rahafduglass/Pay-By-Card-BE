@@ -1,9 +1,10 @@
 package com.internship.paybycard.cardmanagement.domain.service;
 
-import com.internship.paybycard.cardmanagement.domain.dao.CardDao;
-import com.internship.paybycard.cardmanagement.domain.exception.CardCreationException;
-import com.internship.paybycard.cardmanagement.domain.model.CardModel;
 import com.internship.paybycard.cardmanagement.domain.util.CardUtils;
+import com.internship.paybycard.core.dao.CardDao;
+import com.internship.paybycard.core.exception.CardCreationException;
+import com.internship.paybycard.core.model.CardModel;
+import com.internship.paybycard.core.service.CardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 @Service
 @RequiredArgsConstructor
-public class CardServiceImpl implements CardService{
+public class CardServiceImpl implements CardService<CardModel> {
+
     private final CardDao cardDao;
 
+    @Override
     public boolean createCard(CardModel cardModel){
         cardModel.setExpiryDate(LocalDate.now().plusYears(2));
         cardModel.setCVV(CardUtils.generateCVV());
