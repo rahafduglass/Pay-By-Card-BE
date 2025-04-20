@@ -1,67 +1,57 @@
 package com.internship.paybycard.cardmanagement.api.dto;
 
-import lombok.Data;
+import org.springframework.http.HttpStatus;
 
-public class ApiResponse<T> {
-    private T response;
-    private String message;
-    private boolean success;
+public class ApiResponse {
 
-    public T getResponse() {
-        return response;
+    private HttpStatus status;
+    private String description;
+
+    public HttpStatus getStatus() {
+        return status;
     }
 
-    public void setResponse(T response) {
-        this.response = response;
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    private ApiResponse(T response, String message, boolean success) {
-        this.response = response;
-        this.message = message;
-        this.success = success;
+    private ApiResponse(HttpStatus status, String description) {
+        this.description = description;
+        this.status = status;
 
     }
 
-    public static <T> ApiResponseBuilder<T> builder() {
-        return new ApiResponseBuilder<>();
+    public static ApiResponseBuilder builder() {
+        return new ApiResponseBuilder();
     }
 
-    public static class ApiResponseBuilder<T> {
-        private T response;
+    public static class ApiResponseBuilder {
+
         private String message;
-        private boolean success;
+        private HttpStatus status;
 
-        public ApiResponseBuilder<T> response(T response) {
-            this.response= response;
-            return this;
-        }
-        public ApiResponseBuilder<T> message(String message) {
+
+        public ApiResponseBuilder message(String message) {
             this.message = message;
             return this;
         }
-        public ApiResponseBuilder<T> success(boolean success) {
-            this.success = success;
+
+        public ApiResponseBuilder status(HttpStatus status) {
+            this.status = status;
             return this;
         }
 
-        public ApiResponse<T> build() {
-            return new ApiResponse<T>(response, message, success);
+        public ApiResponse build() {
+            return new ApiResponse(status,message);
         }
     }
 
