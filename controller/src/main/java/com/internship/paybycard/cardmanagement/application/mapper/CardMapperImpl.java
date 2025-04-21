@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class CardMapperImpl implements CardMapper<CardModel,CardRequest> {
 
     @Override
-    public CardModel mapToModel(CardRequest cardRequest) {
+    public CardModel mapTo(CardRequest cardRequest) {
         if(cardRequest == null ) {
             return null;
         }
@@ -21,7 +21,14 @@ public class CardMapperImpl implements CardMapper<CardModel,CardRequest> {
     }
 
     @Override
-    public CardRequest reverseMap(CardModel reverseCard) {
-        return null;
+    public CardRequest reverseTo(CardModel cardModel) {
+        if(cardModel == null ) {
+            return null;
+        }
+        CardRequest cardRequest = new CardRequest();
+        cardRequest.setBalance(cardModel.getBalance());
+        cardRequest.setClientEmail(cardModel.getClientEmail());
+        cardRequest.setClientName(cardModel.getClientName());
+        return cardRequest;
     }
 }

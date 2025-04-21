@@ -1,6 +1,8 @@
 package com.internship.paybycard.cardmanagement.application.interactors;
 
 
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public class CardRequest {
@@ -28,7 +30,10 @@ public class CardRequest {
         this.balance = balance;
     }
 
+    @NotNull
     private String clientName;
+    @NotNull
     private String clientEmail;
+    @NotNull
     private BigDecimal balance;
 }

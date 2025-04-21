@@ -2,16 +2,20 @@ package com.internship.paybycard.cardmanagement.persistence.mapper;
 
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.core.mapper.CardMapper;
+import com.internship.paybycard.core.model.Card;
 import com.internship.paybycard.core.model.CardModel;
+import com.internship.paybycard.core.model.NullCardModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CardEntityMapperImpl implements CardMapper< CardModel,CardEntity> {
+public class CardEntityMapperImpl implements CardMapper<Card,CardEntity> {
     @Override
-    public CardEntity reverseMap(CardModel cardModel){
-        if(cardModel == null ) {
+    public CardEntity reverseTo(Card card){
+        if(card == null ) {
             return null;
         }
+
+        CardModel cardModel = (CardModel) card;
         CardEntity cardEntity = new CardEntity();
         cardEntity.setBalance(cardModel.getBalance());
         cardEntity.setCardNumber(cardModel.getCardNumber());
@@ -23,10 +27,9 @@ public class CardEntityMapperImpl implements CardMapper< CardModel,CardEntity> {
     }
 
     @Override
-    public CardModel mapToModel(CardEntity cardEntity) {
+    public Card mapTo(CardEntity cardEntity) {
         if(cardEntity == null ) {
-//todo return NULL-Pattern (read about it) Insted of NULL
-            return null;
+            return new NullCardModel();
         }
         CardModel cardModel = new CardModel();
         cardModel.setBalance(cardEntity.getBalance());

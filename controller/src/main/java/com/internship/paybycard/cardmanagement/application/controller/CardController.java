@@ -23,7 +23,7 @@ public class CardController {
 
     @PostMapping
     public ResponseEntity<String> createCard(@RequestBody CardRequest card) {
-        cardService.createCard(cardMapper.mapToModel(card));
+        cardService.createCard(cardMapper.mapTo(card));
         return ResponseEntity.ok("Card created successfully");
     }
 

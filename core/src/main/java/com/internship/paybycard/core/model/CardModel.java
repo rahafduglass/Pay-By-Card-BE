@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class CardModel {
+public class CardModel implements Card {
     Long id;
     String cardNumber;
 
@@ -15,4 +15,9 @@ public class CardModel {
     String clientEmail;
     LocalDate expiryDate;
     BigDecimal balance;
+
+    @Override
+    public boolean isNull() {
+        return false;
+    }
 }
