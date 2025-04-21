@@ -1,12 +1,9 @@
-package com.internship.paybycard.core.model;
-
-import lombok.Getter;
+package com.internship.paybycard.cardmanagement.application.interactors;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-public class NullCardModel implements CardModel {
+public class NullCardDto implements CardDto{
 
     Long id=-1L;
     String cardNumber="0000000000000000";
@@ -20,4 +17,5 @@ public class NullCardModel implements CardModel {
     public boolean isNull() {
         return true;
     }
+
 }

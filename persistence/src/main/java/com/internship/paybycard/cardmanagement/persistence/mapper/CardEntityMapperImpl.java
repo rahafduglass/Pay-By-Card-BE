@@ -2,36 +2,41 @@ package com.internship.paybycard.cardmanagement.persistence.mapper;
 
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.core.mapper.CardMapper;
-import com.internship.paybycard.core.model.Card;
 import com.internship.paybycard.core.model.CardModel;
 import com.internship.paybycard.core.model.NullCardModel;
+import com.internship.paybycard.core.model.RealCardModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CardEntityMapperImpl implements CardMapper<Card,CardEntity> {
+public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
     @Override
-    public CardEntity reverseTo(Card card){
-        if(card == null ) {
-            return null;
+    public CardEntity reverseTo(CardModel cardModel){
+        if(cardModel.isNull() ) {
+            throw new RuntimeException("CardEntityMapper: cant map, cardModel is null");
         }
 
-        CardModel cardModel = (CardModel) card;
+
+        if(!(cardModel instanceof RealCardModel realCardModel)) {
+            //dang wrong type
+            throw new RuntimeException("argument cardModel should be type RealCardModel");
+        }
+
         CardEntity cardEntity = new CardEntity();
-        cardEntity.setBalance(cardModel.getBalance());
-        cardEntity.setCardNumber(cardModel.getCardNumber());
-        cardEntity.setCVV(cardModel.getCVV());
-        cardEntity.setExpiryDate(cardModel.getExpiryDate());
-        cardEntity.setClientEmail(cardModel.getClientEmail());
-        cardEntity.setClientName(cardModel.getClientName());
+        cardEntity.setBalance(realCardModel.getBalance());
+        cardEntity.setCardNumber(realCardModel.getCardNumber());
+        cardEntity.setCVV(realCardModel.getCVV());
+        cardEntity.setExpiryDate(realCardModel.getExpiryDate());
+        cardEntity.setClientEmail(realCardModel.getClientEmail());
+        cardEntity.setClientName(realCardModel.getClientName());
         return cardEntity;
     }
 
     @Override
-    public Card mapTo(CardEntity cardEntity) {
+    public CardModel mapTo(CardEntity cardEntity) {
         if(cardEntity == null ) {
             return new NullCardModel();
         }
-        CardModel cardModel = new CardModel();
+        RealCardModel cardModel = new RealCardModel();
         cardModel.setBalance(cardEntity.getBalance());
         cardModel.setCardNumber(cardEntity.getCardNumber());
         cardModel.setCVV(cardEntity.getCVV());

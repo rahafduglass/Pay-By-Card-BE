@@ -1,23 +1,24 @@
 package com.internship.paybycard.core.model;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
-public class CardModel implements Card {
-    Long id;
-    String cardNumber;
+public interface CardModel {
 
-    String CVV;
-    String clientName;
-    String clientEmail;
-    LocalDate expiryDate;
-    BigDecimal balance;
+    boolean isNull();
 
-    @Override
-    public boolean isNull() {
-        return false;
-    }
+    Long getId();
+
+    BigDecimal getBalance();
+
+    LocalDate getExpiryDate();
+
+    String getClientEmail();
+
+    String getClientName();
+
+    String getCVV();
+
+    String getCardNumber();
+
 }
