@@ -31,7 +31,13 @@ public class CardController {
 
     @PostMapping("/validate")
     public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Boolean response=cardService.validateCard(validateCardRequest);
-        return ResponseEntity.ok().body(response? "Card Is valid" : "Card Is invalid");
+       cardService.validateCard(validateCardRequest);
+        return ResponseEntity.ok().body("Card Is valid");
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        cardService.deleteCard(validateCardRequest);
+        return ResponseEntity.ok().body( "Card deleted successfully");
     }
 }

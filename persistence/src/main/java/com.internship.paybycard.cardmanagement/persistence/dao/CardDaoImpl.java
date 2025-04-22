@@ -4,7 +4,9 @@ package com.internship.paybycard.cardmanagement.persistence.dao;
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
 import com.internship.paybycard.core.dao.CardDao;
+import com.internship.paybycard.core.exception.CardCreationException;
 import com.internship.paybycard.core.exception.CardNotFoundException;
+import com.internship.paybycard.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +32,14 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public boolean validateCard(String cardNumber, String cvv, LocalDate expiryDate) {
-        if (cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate).isPresent()) return true;
-        return false;
 
+        if (cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate).isPresent()) return true;
+        else throw new CardCreationException(" Invalid card: ");
+    }
+
+    @Override
+    public void deleteCard(ValidateCardInteractor card) {
+        if(!(cardJpaRepository.deleteByCardNumber(card.getCardNumber())>0)) throw new RuntimeException("couldn't delete card");
     }
 
     @Override

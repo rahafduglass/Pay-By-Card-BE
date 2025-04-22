@@ -26,7 +26,6 @@ public class CardServiceImpl implements CardService {
     @Override
     public boolean createCard(CreateCardInteractor card){
         RealCardModel cardModel= createCardMapperImpl.mapTo(card);
-
         cardModel.setExpiryDate(LocalDate.now().plusYears(2));
         cardModel.setCVV(CardUtils.generateCVV());
         cardModel.setCardNumber(UUID.randomUUID().toString());
@@ -45,8 +44,14 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public boolean validateCard(ValidateCardInteractor card) {
-        return cardDao.validateCard(card.getCardNumber(),card.getCVV(),card.getExpiryDate());
+    public void validateCard(ValidateCardInteractor card) {
+        cardDao.validateCard(card.getCardNumber(),card.getCVV(),card.getExpiryDate());
+    }
+
+    @Override
+    public void deleteCard(ValidateCardInteractor card) {
+        validateCard(card);
+        cardDao.deleteCard(card);
     }
 
 }
