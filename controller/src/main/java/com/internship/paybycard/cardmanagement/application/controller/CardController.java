@@ -5,10 +5,8 @@ import com.internship.paybycard.cardmanagement.application.interactors.CreateCar
 import com.internship.paybycard.cardmanagement.application.interactors.UpdateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
 import com.internship.paybycard.core.service.CardService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +29,9 @@ public class CardController {
         return ResponseEntity.ok("Card updated successfully");
     }
 
-    @GetMapping
-    public ResponseEntity<Boolean> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        return ResponseEntity.ok().body(cardService.validateCard(validateCardRequest));
+    @PostMapping("/validate")
+    public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        Boolean response=cardService.validateCard(validateCardRequest);
+        return ResponseEntity.ok().body(response? "Card Is valid" : "Card Is invalid");
     }
 }
