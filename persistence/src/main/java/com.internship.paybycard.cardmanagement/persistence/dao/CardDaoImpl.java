@@ -7,7 +7,6 @@ import com.internship.paybycard.core.dao.CardDao;
 import com.internship.paybycard.core.exception.CardNotFoundException;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
-import com.internship.paybycard.core.model.RealCardModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -25,8 +24,8 @@ public class CardDaoImpl implements CardDao {
     private final CardMapper<CardModel, CardEntity> cardEntityMapper;
 
     @Override
-    public void saveCard(RealCardModel cardModel) {
-        cardJpaRepository.save(cardEntityMapper.reverseTo(cardModel));
+    public void saveCard(CardModel cardModel) {
+       cardJpaRepository.save(cardEntityMapper.reverseTo(cardModel));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public boolean updateCard(RealCardModel cardModel) {
+    public boolean updateCard(CardModel cardModel) {
         CardEntity card = cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardModel.getCardNumber(),
                         cardModel.getCVV(),
                         cardModel.getExpiryDate())

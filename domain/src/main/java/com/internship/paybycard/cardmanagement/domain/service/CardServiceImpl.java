@@ -1,32 +1,31 @@
 package com.internship.paybycard.cardmanagement.domain.service;
 
+import com.internship.paybycard.cardmanagement.domain.mapper.CreateCardMapperImpl;
+import com.internship.paybycard.cardmanagement.domain.mapper.UpdateCardMapperImpl;
 import com.internship.paybycard.cardmanagement.domain.util.CardUtils;
 import com.internship.paybycard.core.dao.CardDao;
 import com.internship.paybycard.core.exception.CardCreationException;
 import com.internship.paybycard.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.core.interactor.ValidateCardInteractor;
-import com.internship.paybycard.core.model.RealCardModel;
+import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
 import com.internship.paybycard.core.service.CardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.UUID;
-@Service
+
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
-    @Qualifier("cardDaoImpl")
     private final CardDao cardDao;
 
-    private final CreateCardMapper createCardMapper;
-    private final UpdateCardMapper updateCardMapper;
+    private final CreateCardMapperImpl createCardMapperImpl;
+    private final UpdateCardMapperImpl updateCardMapper;
 
     @Override
     public boolean createCard(CreateCardInteractor card){
-        RealCardModel cardModel= createCardMapper.mapTo(card);
+        RealCardModel cardModel= createCardMapperImpl.mapTo(card);
 
         cardModel.setExpiryDate(LocalDate.now().plusYears(2));
         cardModel.setCVV(CardUtils.generateCVV());

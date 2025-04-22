@@ -1,5 +1,6 @@
-package com.internship.paybycard.core.model;
+package com.internship.paybycard.cardmanagement.domain.model;
 
+import com.internship.paybycard.core.model.CardModel;
 import lombok.Getter;
 
 import java.math.BigDecimal;

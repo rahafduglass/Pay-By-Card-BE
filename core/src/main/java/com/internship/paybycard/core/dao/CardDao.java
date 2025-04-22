@@ -1,12 +1,13 @@
 package com.internship.paybycard.core.dao;
 
 
-import com.internship.paybycard.core.model.RealCardModel;
+import com.internship.paybycard.core.model.CardModel;
+
 
 import java.time.LocalDate;
 
 public interface CardDao {
-    void saveCard(RealCardModel card);
-    boolean updateCard(RealCardModel card);
+    void saveCard(CardModel card);
+    boolean updateCard(CardModel card);
     boolean validateCard(String cardNumber, String cvv, LocalDate expiryDate);
 }

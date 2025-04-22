@@ -1,6 +1,5 @@
 package com.internship.paybycard.cardmanagement.application.interactors;
 
-import com.internship.paybycard.core.interactor.UpdateCardInteractor;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -9,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class UpdateCardRequest implements UpdateCardInteractor {
+public class UpdateCardRequest implements com.internship.paybycard.core.interactor.UpdateCardInteractor {
 
 
     @NotBlank

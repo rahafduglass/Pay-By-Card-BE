@@ -1,12 +1,13 @@
-package com.internship.paybycard.cardmanagement.domain.service;
+package com.internship.paybycard.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.core.interactor.UpdateCardInteractor;
-import com.internship.paybycard.core.model.RealCardModel;
-import org.springframework.stereotype.Component;
+import com.internship.paybycard.core.mapper.UpdateCardMapper;
+import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
 
-@Component
-public class UpdateCardMapper {
 
+public class UpdateCardMapperImpl implements UpdateCardMapper {
+
+    @Override
     public RealCardModel mapTo(UpdateCardInteractor updateCardInteractor) {
 
         RealCardModel cardModel = new RealCardModel();

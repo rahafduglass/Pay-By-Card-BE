@@ -1,12 +1,13 @@
-package com.internship.paybycard.cardmanagement.domain.service;
+package com.internship.paybycard.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.core.interactor.CreateCardInteractor;
-import com.internship.paybycard.core.model.RealCardModel;
-import org.springframework.stereotype.Component;
+import com.internship.paybycard.core.mapper.CreateCardMapper;
+import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
 
-@Component
-public class CreateCardMapper {
 
+public class CreateCardMapperImpl implements CreateCardMapper {
+
+    @Override
     public RealCardModel mapTo(CreateCardInteractor createCardInteractor) {
 
         RealCardModel cardModel= new RealCardModel();
@@ -15,5 +16,6 @@ public class CreateCardMapper {
         cardModel.setBalance(createCardInteractor.getBalance());
         return cardModel;
     }
+
 
 }
