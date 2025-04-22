@@ -1,7 +1,11 @@
 package com.internship.paybycard.core.service;
 
-public interface CardService<M> {
-    boolean createCard(M cardModel);
-    void updateCard(M cardModel);
-    boolean validateCard(M cardModel);
+import com.internship.paybycard.core.interactor.CreateCardInteractor;
+import com.internship.paybycard.core.interactor.UpdateCardInteractor;
+import com.internship.paybycard.core.interactor.ValidateCardInteractor;
+
+public interface CardService {
+    boolean createCard(CreateCardInteractor card);
+    void updateCard(UpdateCardInteractor card);
+    boolean validateCard(ValidateCardInteractor card);
 }

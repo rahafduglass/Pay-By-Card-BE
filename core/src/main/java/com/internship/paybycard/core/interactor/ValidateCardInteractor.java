@@ -1,0 +1,15 @@
+package com.internship.paybycard.core.interactor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public interface ValidateCardInteractor {
+    String getCardNumber();
+    String getCVV();
+    LocalDate getExpiryDate();
+
+    void setCardNumber(String cardNumber);
+    void setCVV(String CVV);
+    void setExpiryDate(LocalDate balance);
+}
+

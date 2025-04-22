@@ -20,6 +20,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGenericException(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("unexpected error" +e.getMessage());
+                .body("unexpected error: " +e.getMessage());
     }
 }

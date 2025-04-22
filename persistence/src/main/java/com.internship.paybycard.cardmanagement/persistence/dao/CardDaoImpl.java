@@ -7,17 +7,17 @@ import com.internship.paybycard.core.dao.CardDao;
 import com.internship.paybycard.core.exception.CardNotFoundException;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
+import com.internship.paybycard.core.model.RealCardModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.smartcardio.Card;
 import java.time.LocalDate;
 
 
 @Repository
 @RequiredArgsConstructor
-public class CardDaoImpl implements CardDao<CardModel> {
+public class CardDaoImpl implements CardDao {
 
     private final CardJpaRepository cardJpaRepository;
 
@@ -25,7 +25,7 @@ public class CardDaoImpl implements CardDao<CardModel> {
     private final CardMapper<CardModel, CardEntity> cardEntityMapper;
 
     @Override
-    public void saveCard(CardModel cardModel) {
+    public void saveCard(RealCardModel cardModel) {
         cardJpaRepository.save(cardEntityMapper.reverseTo(cardModel));
     }
 
@@ -37,10 +37,11 @@ public class CardDaoImpl implements CardDao<CardModel> {
     }
 
     @Override
-    public boolean updateCard(CardModel cardModel) {
+    public boolean updateCard(RealCardModel cardModel) {
         CardEntity card = cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardModel.getCardNumber(),
-                cardModel.getCVV(),
-                cardModel.getExpiryDate()).orElseThrow(() -> new CardNotFoundException("persistence error: invalid card info"));
-        return cardJpaRepository.updateCardBalanceAndClientEmailAndClientName(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(),card.getId()) > 0;
+                        cardModel.getCVV(),
+                        cardModel.getExpiryDate())
+                .orElseThrow(() -> new CardNotFoundException("persistence error: invalid card info"));
+        return cardJpaRepository.updateCardBalanceAndClientEmailAndClientName(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), card.getId()) > 0;
     }
 }

@@ -14,14 +14,14 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
-public interface CardJpaRepository extends JpaRepository<CardEntity, String> {
+public interface CardJpaRepository extends JpaRepository<CardEntity, Long> {
 
 
-    @Query("SELECT c FROM CardEntity c WHERE c.cardNumber=:cardNumber AND c.CVV=:cvv AND  c.expiryDate=:expirayDate")
-    Optional<CardEntity> findByCardNumberAndCvvAndExpiryDate(String cardNumber, String cvv, LocalDate expiryDate);
+    @Query("SELECT c FROM CardEntity c WHERE c.cardNumber=:cardNumber AND c.CVV=:cvv AND  c.expiryDate=:expiryDate")
+    Optional<CardEntity> findByCardNumberAndCvvAndExpiryDate(@Param("cardNumber") String cardNumber,@Param("cvv") String cvv,@Param("expiryDate") LocalDate expiryDate);
 
     @Transactional
     @Modifying
     @Query("UPDATE CardEntity c SET c.balance=:balance , c.clientEmail=:clientEmail,c.clientName=:clientName WHERE c.id=:id")
-    int updateCardBalanceAndClientEmailAndClientName(@Param("balance")BigDecimal balance, @Param("clientEmail")String clientEmail, @Param("clientName")String clientName,@Param ("id") Long id);
+    Integer updateCardBalanceAndClientEmailAndClientName(@Param("balance")BigDecimal balance, @Param("clientEmail")String clientEmail, @Param("clientName")String clientName,@Param ("id") Long id);
 }
