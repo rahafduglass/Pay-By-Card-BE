@@ -34,7 +34,7 @@ public class CardDaoImpl implements CardDao {
     public boolean validateCard(String cardNumber, String cvv, LocalDate expiryDate) {
 
         if (cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate).isPresent()) return true;
-        else throw new CardCreationException(" Invalid card: ");
+        else throw new CardNotFoundException(" Invalid card: ");
     }
 
     @Override

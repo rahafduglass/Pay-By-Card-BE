@@ -28,5 +28,5 @@ public interface CardJpaRepository extends JpaRepository<CardEntity, Long> {
     @Transactional
     @Modifying
     @Query("DELETE CardEntity c WHERE c.cardNumber=:cardNumber")
-    Integer deleteByCardNumber(String cardNumber);
+    Integer deleteByCardNumber(@Param("cardNumber")String cardNumber);
 }
