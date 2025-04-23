@@ -25,7 +25,7 @@ public class CardController {
     public ResponseEntity<String> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
         Result result = cardService.createCard(createCardRequest);
         if (result.getStatus().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.CREATED).body(result.getStatus().toString());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.getStatus().toString());
 
         return rejectResponse(result.getErrorCode());
     }
@@ -59,9 +59,9 @@ public class CardController {
         return rejectResponse(result.getErrorCode());
     }
 
-
+//todo parameterized response Entity
     private ResponseEntity rejectResponse(ErrorCode errorCode) {
-
+//todo enhance switch expression
         switch (errorCode) {
             case INVALID_CARD_INFO:
             case INVALID_BALANCE_INPUT:

@@ -13,10 +13,12 @@ import com.internship.paybycard.core.result.ErrorCode;
 import com.internship.paybycard.core.result.Status;
 import com.internship.paybycard.core.service.CardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
@@ -24,11 +26,13 @@ public class CardServiceImpl implements CardService {
 
     private final CreateCardMapperImpl createCardMapperImpl;
 
+//    todo replace it wth actial logger from SL4j or LOG4j , no need for logger layer
     private final CardServiceLogger LOGGER;
 
     @Override
     public Result createCard(CreateCardInteractor card) {
-        LOGGER.info("CardService: Creating new card");
+//        todo remove the class name after implementing the SL4j or LOG4j
+        LOGGER.info("Creating new card");
 
         LOGGER.debug("CardService: Mapping card interactor to card model");
         RealCardModel cardModel = createCardMapperImpl.mapTo(card);
