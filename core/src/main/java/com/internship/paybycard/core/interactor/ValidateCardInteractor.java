@@ -8,8 +8,5 @@ public interface ValidateCardInteractor {
     String getCVV();
     LocalDate getExpiryDate();
 
-    void setCardNumber(String cardNumber);
-    void setCVV(String CVV);
-    void setExpiryDate(LocalDate balance);
 }
 

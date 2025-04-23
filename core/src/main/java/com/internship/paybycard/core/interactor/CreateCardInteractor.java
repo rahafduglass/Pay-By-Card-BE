@@ -8,9 +8,4 @@ public interface CreateCardInteractor {
     String getClientName();
     BigDecimal getBalance();
 
-    void setClientEmail(String clientEmail);
-    void setClientName(String clientName);
-    void setBalance(BigDecimal balance);
-
-
 }

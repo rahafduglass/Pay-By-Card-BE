@@ -22,11 +22,11 @@ public interface CardJpaRepository extends JpaRepository<CardEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE CardEntity c SET c.balance=:balance , c.clientEmail=:clientEmail,c.clientName=:clientName WHERE c.id=:id")
-    Integer updateCardBalanceAndClientEmailAndClientName(@Param("balance")BigDecimal balance, @Param("clientEmail")String clientEmail, @Param("clientName")String clientName,@Param ("id") Long id);
+    @Query("DELETE CardEntity c WHERE c.cardNumber=:cardNumber")
+    Integer deleteByCardNumber(@Param("cardNumber")String cardNumber);
 
     @Transactional
     @Modifying
-    @Query("DELETE CardEntity c WHERE c.cardNumber=:cardNumber")
-    Integer deleteByCardNumber(@Param("cardNumber")String cardNumber);
+    @Query("UPDATE CardEntity c SET c.balance=:balance , c.clientEmail=:clientEmail,c.clientName=:clientName WHERE c.CVV=:cvv AND c.cardNumber=:cardNumber")
+    Integer updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumber(@Param("balance")BigDecimal balance, @Param("clientEmail")String clientEmail, @Param("clientName")String clientName,@Param("cvv") String cvv,@Param("cardNumber")String cardNumber);
 }
