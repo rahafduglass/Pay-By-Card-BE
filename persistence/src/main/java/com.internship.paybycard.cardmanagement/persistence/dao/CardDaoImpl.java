@@ -31,16 +31,16 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public void saveCard(CardModel cardModel) {
-        log.info("CardDao: Saving Card in DB with Jpa Repository");
+        log.info("Saving Card in DB with Jpa Repository");
         if (cardJpaRepository.save(cardEntityMapper.reverseTo(cardModel)).getId() == null) {
-            log.debug("CardDao: saveCard() card couldn't save ");
+            log.debug("saveCard() card couldn't save ");
             throw new CardCreationException("couldn't save card");
         }
     }
 
     @Override
     public void findCard(String cardNumber, String cvv, LocalDate expiryDate) {
-        log.info("CardDao: Finding Card in DB with Jpa Repository");
+        log.info("Finding Card in DB with Jpa Repository");
         if (!(cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate).isPresent())) {
             log.debug("CardDao: findCard() card not found | invalid card info");
             throw new CardNotFoundException("invalid card :");
@@ -49,18 +49,18 @@ public class CardDaoImpl implements CardDao {
 
     @Override
     public void deleteCard(ValidateCardInteractor card) {
-        log.info("CardDao: DELETING Card from DB with Jpa Repository");
+        log.info("DELETING Card from DB with Jpa Repository");
         if (!(cardJpaRepository.deleteByCardNumber(card.getCardNumber()) > 0)) {
-            log.debug("CardDao: deleteCard() card not found | probably invalid card info");
+            log.debug("deleteCard() card not found | probably invalid card info");
             throw new RuntimeException("invalid card info");
         }
     }
 
     @Override
     public void updateCard(UpdateCardInteractor cardModel) {
-        log.info("CardDao: Updating Card in DB with Jpa Repository");
+        log.info("Updating Card in DB with Jpa Repository");
         if (!(cardJpaRepository.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumber(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), cardModel.getCvv(), cardModel.getCardNumber()) > 0)) {
-            log.debug("CardDao: updateCard() card not found | probably invalid card info");
+            log.debug("updateCard() card not found | probably invalid card info");
             throw new RuntimeException("invalid card info");
         }
     }
