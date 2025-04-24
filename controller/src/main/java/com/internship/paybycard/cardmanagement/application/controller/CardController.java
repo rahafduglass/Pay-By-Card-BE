@@ -62,15 +62,9 @@ public class CardController {
 //todo parameterized response Entity
     private ResponseEntity rejectResponse(ErrorCode errorCode) {
 //todo enhance switch expression
-        switch (errorCode) {
-            case INVALID_CARD_INFO:
-            case INVALID_BALANCE_INPUT:
-            case INVALID_CLIENT_NAME:
-            case INVALID_CLIENT_EMAIL:
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorCode.toString());
-            case FAILED:
-            default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorCode.toString());
-        }
+        return switch (errorCode) {
+            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorCode.toString());
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorCode.toString());
+        };
     }
 }

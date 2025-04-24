@@ -9,7 +9,6 @@ import com.internship.paybycard.core.exception.CardNotFoundException;
 import com.internship.paybycard.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.core.logger.CardDaoLogger;
-import com.internship.paybycard.core.logger.CardServiceLogger;
 import com.internship.paybycard.core.mapper.CardMapper;
 import com.internship.paybycard.core.model.CardModel;
 import lombok.RequiredArgsConstructor;
