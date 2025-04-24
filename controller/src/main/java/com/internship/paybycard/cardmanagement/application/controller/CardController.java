@@ -59,9 +59,7 @@ public class CardController {
         return rejectResponse(result.getErrorCode());
     }
 
-//todo parameterized response Entity
-    private ResponseEntity rejectResponse(ErrorCode errorCode) {
-//todo enhance switch expression
+    private ResponseEntity<String> rejectResponse(ErrorCode errorCode) {
         return switch (errorCode) {
             case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorCode.toString());
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorCode.toString());

@@ -14,8 +14,8 @@ public class DomainBeansConfig{
 
 
     @Bean
-    public CardService cardService(CardDao cardDao, CardServiceLogger LOGGER) {
-        return new CardServiceImpl(cardDao, createCardMapperImpl(),LOGGER);
+    public CardService cardService(CardDao cardDao) {
+        return new CardServiceImpl(cardDao, createCardMapperImpl());
     }
 
     @Bean
