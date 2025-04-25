@@ -4,29 +4,44 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.internship.paybycard</groupId>
-        <artifactId>pay-by-card</artifactId>
+        <artifactId>CMS</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>domain</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>domain</name>
-    <description>domain</description>
 
+    <artifactId>configuration</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>configuration</name>
+    <description>configuration</description>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
     <dependencies>
+
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
         </dependency>
+
+
         <dependency>
             <groupId>com.internship.paybycard</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.9</version> <!-- or latest -->
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
+
     </dependencies>
+
+    <build>
+        <plugins>
+
+        </plugins>
+    </build>
+
 </project>

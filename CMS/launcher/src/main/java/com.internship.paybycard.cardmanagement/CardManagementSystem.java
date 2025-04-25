@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication(scanBasePackages = {  "com.internship.paybycard",  "com.internship.paybycard.configuration",   "com.internship.paybycard.cardmanagement.persistence" })
-@EntityScan(basePackages = "com.internship.paybycard.cardmanagement.persistence.entity")
-@EnableJpaRepositories(basePackages = "com.internship.paybycard.cardmanagement.persistence.jpa")
+@EntityScan(basePackages = "com.internship.paybycard.cardmanagement.persistence")
+@EnableJpaRepositories(basePackages = "com.internship.paybycard.cardmanagement.persistence")
 public class CardManagementSystem {
     public static void main(String[] args) {
         SpringApplication.run(CardManagementSystem.class, args);

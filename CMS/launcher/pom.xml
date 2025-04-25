@@ -9,7 +9,6 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.example</groupId>
     <artifactId>launcher</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>launcher</name>
@@ -19,11 +18,6 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>3.2.5</version>
-        </dependency>
 
         <dependency>
             <groupId>com.internship.paybycard</groupId>
@@ -31,25 +25,26 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.example</groupId>
+            <groupId>com.internship.paybycard</groupId>
             <artifactId>domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.example</groupId>
+            <groupId>com.internship.paybycard</groupId>
             <artifactId>controller</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.example</groupId>
+            <groupId>com.internship.paybycard</groupId>
             <artifactId>persistence</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.example</groupId>
+            <groupId>com.internship.paybycard</groupId>
             <artifactId>configuration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
 
     </dependencies>
 

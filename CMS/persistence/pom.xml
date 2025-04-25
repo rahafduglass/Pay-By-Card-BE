@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.internship.paybycard</groupId>
-        <artifactId>pay-by-card</artifactId>
+        <artifactId>CMS</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.example</groupId>
     <artifactId>persistence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>persistence</name>
