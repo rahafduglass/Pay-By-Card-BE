@@ -2,7 +2,7 @@ package com.internship.paybycard.cardmanagement.domain.service;
 
 import com.internship.paybycard.cardmanagement.domain.mapper.CreateCardMapperImpl;
 import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
-import com.internship.paybycard.cardmanagement.domain.result.Result;
+import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.domain.util.CardUtils;
 import com.internship.paybycard.cardmanagement.core.dao.CardDao;
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
@@ -27,9 +27,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Result createCard(CreateCardInteractor card) {
-
-        log.info("Creating new card");
-
+        log.info("Creating new card {}", card.getClientName());
         log.debug("Mapping card interactor to card model");
         RealCardModel cardModel = createCardMapperImpl.mapTo(card);
         log.debug("the mapped card model: {}", cardModel);

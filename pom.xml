@@ -13,6 +13,8 @@
     <url/>
     <modules>
        <module>CMS</module>
+<!--        todo  add PPS module-->
+       <module>PPS</module>
     </modules>
 
     <properties>
@@ -22,6 +24,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- todo to be removed-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>

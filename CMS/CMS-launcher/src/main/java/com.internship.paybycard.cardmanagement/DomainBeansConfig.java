@@ -1,4 +1,4 @@
-package com.internship.paybycard.cardmanagement.configuration.domain;
+package com.internship.paybycard.cardmanagement;
 
 import com.internship.paybycard.cardmanagement.domain.mapper.CreateCardMapperImpl;
 import com.internship.paybycard.cardmanagement.domain.mapper.UpdateCardMapperImpl;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DomainBeansConfig{
-
 
     @Bean
     public CardService cardService(CardDao cardDao) {

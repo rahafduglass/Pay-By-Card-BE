@@ -1,4 +1,4 @@
-package com.internship.paybycard.cardmanagement.configuration.documentaion;
+package com.internship.paybycard.cardmanagement;
 
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -14,8 +14,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("CMS API")
                         .version("1.0.0")
-                        .description(""))
-               ;
+                        .description(""));
     }
 
 }

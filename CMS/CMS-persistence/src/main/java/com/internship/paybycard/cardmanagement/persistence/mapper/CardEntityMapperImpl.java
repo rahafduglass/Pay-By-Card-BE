@@ -6,7 +6,9 @@ import com.internship.paybycard.cardmanagement.core.model.CardModel;
 import org.springframework.stereotype.Component;
 
 @Component
+// todo unit test
 public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
+//    todo switch between input / output
     @Override
     public CardEntity reverseTo(CardModel cardModel){
         if(cardModel.isNull() ) {

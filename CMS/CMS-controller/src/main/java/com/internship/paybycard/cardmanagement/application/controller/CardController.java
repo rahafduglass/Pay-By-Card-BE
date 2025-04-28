@@ -18,45 +18,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/cards")
 @RequiredArgsConstructor
 public class CardController {
-
+    // todo unit test
     private final CardService cardService;
 
     @PostMapping
     public ResponseEntity<String> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
         Result result = cardService.createCard(createCardRequest);
-        if (result.getStatus().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.getStatus().toString());
-
-        return rejectResponse(result.getErrorCode());
+        if (result.status().equals(Status.ACP))
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
+        return rejectResponse(result.errorCode());
     }
 
     @PutMapping
     public ResponseEntity<String> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
         Result result = cardService.updateCard(updateCardRequest);
-        if (result.getStatus().equals(Status.ACP))
-            return ResponseEntity.ok().body(result.getStatus().toString());
-
-        return rejectResponse(result.getErrorCode());
+        if (result.status().equals(Status.ACP))
+            // todo HTTP Code should be changed to map the REST standers
+            return ResponseEntity.ok().body(result.status().toString());
+        return rejectResponse(result.errorCode());
     }
 
     @PostMapping("/validate")
     public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
         Result result = cardService.validateCard(validateCardRequest);
-        if (result.getStatus().equals(Status.ACP))
-            return ResponseEntity.ok().body(result.getStatus().toString());
-
-
-        return rejectResponse(result.getErrorCode());
+        if (result.status().equals(Status.ACP))
+            // todo HTTP Code should be changed to map the REST standers
+            return ResponseEntity.ok().body(result.status().toString());
+        return rejectResponse(result.errorCode());
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Result result= cardService.deleteCard(validateCardRequest);
-        if (result.getStatus().equals(Status.ACP))
-            return ResponseEntity.ok().body(result.getStatus().toString());
+        Result result = cardService.deleteCard(validateCardRequest);
+        if (result.status().equals(Status.ACP))
+            // todo HTTP Code should be changed to map the REST standers
+            return ResponseEntity.ok().body(result.status().toString());
 
 
-        return rejectResponse(result.getErrorCode());
+        return rejectResponse(result.errorCode());
     }
 
     private ResponseEntity<String> rejectResponse(ErrorCode errorCode) {

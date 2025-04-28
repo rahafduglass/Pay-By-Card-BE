@@ -20,7 +20,6 @@
         <module>CMS-core</module>
         <module>CMS-domain</module>
         <module>CMS-controller</module>
-        <module>CMS-configuration</module>
         <module>CMS-launcher</module>
         <module>CMS-persistence</module>
     </modules>

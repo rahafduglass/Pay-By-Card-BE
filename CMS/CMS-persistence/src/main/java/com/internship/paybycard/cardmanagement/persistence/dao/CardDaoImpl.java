@@ -22,10 +22,11 @@ import java.time.LocalDate;
 @Repository
 @RequiredArgsConstructor
 public class CardDaoImpl implements CardDao {
-
+    // todo unit test (u may need spring data test to initialize h2 DB and spring data as well)
     private final CardJpaRepository cardJpaRepository;
 
 
+    // todo not needed any more
     @Qualifier("cardEntityMapperImpl")
     private final CardMapper<CardModel, CardEntity> cardEntityMapper;
 

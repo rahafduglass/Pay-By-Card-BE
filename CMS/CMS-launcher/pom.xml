@@ -40,11 +40,10 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.internship.paybycard</groupId>
-            <artifactId>CMS-configuration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
         </dependency>
-
 
     </dependencies>
 
