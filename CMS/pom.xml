@@ -5,7 +5,7 @@
 
     <parent>
         <groupId>com.internship.paybycard</groupId>
-        <artifactId>pay-by-card</artifactId>
+        <artifactId>pay-by-cardModel</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -17,12 +17,12 @@
 
     <url/>
     <modules>
-        <module>core</module>
-        <module>domain</module>
-        <module>controller</module>
-        <module>configuration</module>
-        <module>launcher</module>
-        <module>persistence</module>
+        <module>CMS-core</module>
+        <module>CMS-domain</module>
+        <module>CMS-controller</module>
+        <module>CMS-configuration</module>
+        <module>CMS-launcher</module>
+        <module>CMS-persistence</module>
     </modules>
 
     <properties>

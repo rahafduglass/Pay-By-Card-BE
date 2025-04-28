@@ -1,3 +1,3 @@
-# pay by card
+# pay by cardModel
 
 internship project for Progressoft 
