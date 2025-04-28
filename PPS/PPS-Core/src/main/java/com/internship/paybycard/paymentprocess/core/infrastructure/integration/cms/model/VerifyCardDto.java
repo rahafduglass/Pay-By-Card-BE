@@ -2,7 +2,7 @@ package com.internship.paybycard.paymentprocess.core.infrastructure.integration.
 
 import java.time.LocalDate;
 
-public interface VerifyCardModel {
+public interface VerifyCardDto {
     String getCardNumber();
     String getCVV();
     LocalDate getExpiryDate();

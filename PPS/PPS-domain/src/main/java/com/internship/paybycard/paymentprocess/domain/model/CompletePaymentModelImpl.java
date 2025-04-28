@@ -5,7 +5,7 @@ import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyRefere
 import com.internship.paybycard.paymentprocess.core.domain.model.CompletePaymentModel;
 import com.internship.paybycard.paymentprocess.core.infrastructure.OtpService;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsService;
+import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsApiHandler;
 import lombok.Data;
 
 @Data
@@ -14,7 +14,7 @@ public class CompletePaymentModelImpl implements CompletePaymentModel {
     private String OTP;
 
     private final OtpService otpService;
-    private final CmsService cmsService;
+    private final CmsApiHandler cmsApiHandler;
     private final PaymentDao paymentDao;
 
     @Override

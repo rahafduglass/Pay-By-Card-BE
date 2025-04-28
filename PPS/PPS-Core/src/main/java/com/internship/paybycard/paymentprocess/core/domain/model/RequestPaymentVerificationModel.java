@@ -5,6 +5,4 @@ public interface RequestPaymentVerificationModel {
     void process();
 
     String getReferenceNumber();
-
-    void setReferenceNumber(String referenceNumber);
 }

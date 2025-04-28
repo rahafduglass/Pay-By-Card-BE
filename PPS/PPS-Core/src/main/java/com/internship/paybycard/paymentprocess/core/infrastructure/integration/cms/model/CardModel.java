@@ -14,10 +14,4 @@ public interface CardModel {
     String getClientEmail();
     BigDecimal getBalance();
 
-    void setExpiryDate(LocalDate expiryDate);
-    void setCardNumber(String cardNumber);
-    void setCVV(String cvv);
-    void setClientName(String clientName);
-    void setClientEmail(String clientEmail);
-    void setBalance(String balance);
 }

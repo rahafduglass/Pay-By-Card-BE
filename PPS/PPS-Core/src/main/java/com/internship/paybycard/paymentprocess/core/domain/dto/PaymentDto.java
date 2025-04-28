@@ -1,8 +1,8 @@
-package com.internship.paybycard.paymentprocess.core.domain.model;
+package com.internship.paybycard.paymentprocess.core.domain.dto;
 
 import java.math.BigDecimal;
 
-public interface PaymentModel {
+public interface PaymentDto {
     Long getPaymentId();
     String getReferenceNumber();
     String getItems();

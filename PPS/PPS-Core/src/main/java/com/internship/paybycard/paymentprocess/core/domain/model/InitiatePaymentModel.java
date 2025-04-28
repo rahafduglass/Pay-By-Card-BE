@@ -1,20 +1,16 @@
 package com.internship.paybycard.paymentprocess.core.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.VerifyCardModel;
+import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.VerifyCardDto;
 
 import java.math.BigDecimal;
 
 public interface InitiatePaymentModel {
 
-    PaymentModel process();
+    PaymentDto process();
 
     String getItems();
     BigDecimal getAmount();
     String getClientName();
-    VerifyCardModel getCard();
-
-    void setCard(VerifyCardModel cardModel);
-    void setClientName(String clientName);
-    void setAmount(BigDecimal amount);
-    void setItems(String items);
+    VerifyCardDto getCard();
 }

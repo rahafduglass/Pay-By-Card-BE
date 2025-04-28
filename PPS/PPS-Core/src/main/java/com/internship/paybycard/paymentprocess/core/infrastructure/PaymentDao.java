@@ -1,13 +1,11 @@
 package com.internship.paybycard.paymentprocess.core.infrastructure;
 
-import com.internship.paybycard.paymentprocess.core.domain.model.PaymentModel;
-
-import java.util.Optional;
+import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 
 public interface PaymentDao {
 
-    PaymentModel createPayment(PaymentModel model);
-    PaymentModel findPaymentByReferenceNumber(String referenceNumber);
+    PaymentDto createPayment(PaymentDto model);
+    PaymentDto findPaymentByReferenceNumber(String referenceNumber);
     void updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed);
 
 }

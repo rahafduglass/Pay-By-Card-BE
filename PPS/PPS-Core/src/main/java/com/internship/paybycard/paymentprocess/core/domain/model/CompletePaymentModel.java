@@ -6,7 +6,4 @@ public interface CompletePaymentModel {
 
     String getReferenceNumber();
     String getOTP();
-
-    void setReferenceNumber(String paymentReference);
-    void setOTP(String otp);
 }

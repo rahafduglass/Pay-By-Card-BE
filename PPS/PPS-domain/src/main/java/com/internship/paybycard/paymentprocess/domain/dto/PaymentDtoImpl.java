@@ -1,13 +1,13 @@
-package com.internship.paybycard.paymentprocess.domain.model;
+package com.internship.paybycard.paymentprocess.domain.dto;
 
-import com.internship.paybycard.paymentprocess.core.domain.model.PaymentModel;
+import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 
 @Data
-public class PaymentModelImpl implements PaymentModel {
+public class PaymentDtoImpl implements PaymentDto {
     private Long paymentId;
     private String referenceNumber;
     private String items;
