@@ -33,8 +33,7 @@ public class CardController {
     public ResponseEntity<String> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
         Result result = cardService.updateCard(updateCardRequest);
         if (result.status().equals(Status.ACP))
-            // todo HTTP Code should be changed to map the REST standers
-            return ResponseEntity.ok().body(result.status().toString());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
         return rejectResponse(result.errorCode());
     }
 
@@ -42,8 +41,7 @@ public class CardController {
     public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
         Result result = cardService.validateCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            // todo HTTP Code should be changed to map the REST standers
-            return ResponseEntity.ok().body(result.status().toString());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
         return rejectResponse(result.errorCode());
     }
 
@@ -51,9 +49,7 @@ public class CardController {
     public ResponseEntity<String> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
         Result result = cardService.deleteCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            // todo HTTP Code should be changed to map the REST standers
-            return ResponseEntity.ok().body(result.status().toString());
-
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
 
         return rejectResponse(result.errorCode());
     }

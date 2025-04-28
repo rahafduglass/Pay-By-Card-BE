@@ -13,7 +13,6 @@
     <url/>
     <modules>
        <module>CMS</module>
-<!--        todo  add PPS module-->
        <module>PPS</module>
     </modules>
 
@@ -24,15 +23,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- todo to be removed-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>3.2.5</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
 
             <dependency>
                 <groupId>org.projectlombok</groupId>

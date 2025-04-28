@@ -25,15 +25,12 @@ public class CardDaoImpl implements CardDao {
     // todo unit test (u may need spring data test to initialize h2 DB and spring data as well)
     private final CardJpaRepository cardJpaRepository;
 
-
-    // todo not needed any more
-    @Qualifier("cardEntityMapperImpl")
     private final CardMapper<CardModel, CardEntity> cardEntityMapper;
 
     @Override
     public void saveCard(CardModel cardModel) {
         log.info("Saving Card in DB with Jpa Repository");
-        if (cardJpaRepository.save(cardEntityMapper.reverseTo(cardModel)).getId() == null) {
+        if (cardJpaRepository.save(cardEntityMapper.mapTo(cardModel)).getId() == null) {
             log.debug("saveCard() card couldn't save ");
             throw new CardCreationException("couldn't save card");
         }

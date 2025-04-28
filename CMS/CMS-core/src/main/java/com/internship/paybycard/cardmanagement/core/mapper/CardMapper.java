@@ -1,7 +1,7 @@
 package com.internship.paybycard.cardmanagement.core.mapper;
 
 public interface CardMapper<R,M> {
-     R mapTo(M card);
+     R reverseTo(M card);
 
-     M reverseTo(R reverseCard);
+     M mapTo(R reverseCard);
 }

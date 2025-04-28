@@ -8,9 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 // todo unit test
 public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
-//    todo switch between input / output
     @Override
-    public CardEntity reverseTo(CardModel cardModel){
+    public CardEntity mapTo(CardModel cardModel){
         if(cardModel.isNull() ) {
             throw new RuntimeException("CardEntityMapper: cant map, cardModel is null");
         }
@@ -26,7 +25,7 @@ public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
     }
 
     @Override
-    public CardModel mapTo(CardEntity cardEntity) {
+    public CardModel reverseTo(CardEntity cardEntity) {
         return null;
     }
 }
