@@ -4,7 +4,7 @@ public interface RequestPaymentVerificationModel {
     void verifyPayment();
     void process();
 
-    String getPaymentReference();
+    String getReferenceNumber();
 
-    void setPaymentReference(String paymentReference);
+    void setReferenceNumber(String referenceNumber);
 }

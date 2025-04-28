@@ -5,10 +5,10 @@
 
     <packaging>pom</packaging>
     <groupId>com.internship.paybycard</groupId>
-    <artifactId>pay-by-cardModel</artifactId>
+    <artifactId>pay-by-card</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pay-by-cardModel</name>
-    <description>pay-by-cardModel</description>
+    <name>pay-by-card</name>
+    <description>pay-by-card</description>
 
     <url/>
     <modules>

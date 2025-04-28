@@ -1,7 +1,5 @@
 package com.internship.paybycard.paymentprocess.core.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.CardModel;
-
 import java.math.BigDecimal;
 
 public interface PaymentModel {
@@ -10,12 +8,16 @@ public interface PaymentModel {
     String getItems();
     BigDecimal getAmount();
     Boolean getConfirmed();
-    CardModel getCard();
+    String getClientName();
+    String getCardNumber();
+    String getClientEmail();
 
     void setPaymentId(Long id);
     void setReferenceNumber(String referenceNumber);
     void setItems(String items);
     void setAmount(BigDecimal amount);
     void setConfirmed(Boolean confirmed);
-    void setCard(CardModel card);
+    void setClientName(String clientName);
+    void setCardNumber(String cardNumber);
+    void setClientEmail(String clientEmail);
 }
