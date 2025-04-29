@@ -12,32 +12,23 @@
 
     <url/>
     <modules>
-        <module>core</module>
-        <module>domain</module>
-        <module>controller</module>
-        <module>configuration</module>
-        <module>launcher</module>
-        <module>persistence</module>
+       <module>CMS</module>
+       <module>PPS</module>
     </modules>
+
     <properties>
         <java.version>17</java.version>
+        <lombok.version>1.18.28</lombok.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>3.2.5</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.30</version>
-                <optional>true</optional>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -51,12 +42,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.11.0</version>
                 <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
