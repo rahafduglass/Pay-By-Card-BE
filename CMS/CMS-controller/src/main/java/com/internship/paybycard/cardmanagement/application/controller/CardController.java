@@ -25,7 +25,7 @@ public class CardController {
     public ResponseEntity<String> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
         Result result = cardService.createCard(createCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
+            return ResponseEntity.status(HttpStatus.CREATED).body(result.status().toString());
         return rejectResponse(result.errorCode());
     }
 
