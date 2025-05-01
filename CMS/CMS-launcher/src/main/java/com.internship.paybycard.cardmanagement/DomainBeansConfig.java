@@ -5,6 +5,9 @@ import com.internship.paybycard.cardmanagement.domain.mapper.UpdateCardMapperImp
 import com.internship.paybycard.cardmanagement.domain.service.CardServiceImpl;
 import com.internship.paybycard.cardmanagement.core.dao.CardDao;
 import com.internship.paybycard.cardmanagement.core.service.CardService;
+import com.internship.paybycard.cardmanagement.persistence.dao.CardDaoImpl;
+import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
+import com.internship.paybycard.cardmanagement.persistence.mapper.CardEntityMapperImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,5 +29,12 @@ public class DomainBeansConfig{
         return new UpdateCardMapperImpl();
     }
 
-
+    @Bean
+    public CardDao cardDao(CardJpaRepository cardJpaRepository, CardEntityMapperImpl cardEntityMapper) {
+        return new CardDaoImpl(cardJpaRepository, cardEntityMapper);
+    }
+    @Bean
+    public CardDaoImpl cardDaoImpl(CardJpaRepository cardJpaRepository,CardEntityMapperImpl cardEntityMapper) {
+        return new CardDaoImpl(cardJpaRepository, cardEntityMapper);
+    }
 }

@@ -45,7 +45,7 @@ public class CardServiceImplTest {
 
         RealCardModel cardModel = new RealCardModel();
         when(createCardMapper.mapTo(card)).thenReturn(cardModel);
-        doNothing().when(cardDao).saveCard(cardModel);
+        when(cardDao.saveCard(cardModel)).thenReturn(cardModel);
 
         Result result = cardService.createCard(card);
 
@@ -78,7 +78,7 @@ public class CardServiceImplTest {
     @Test
     void testSuccessfulCardUpdate() {
         UpdateCardInteractor card= mock(UpdateCardInteractor.class);
-        doNothing().when(cardDao).updateCard(card);
+        doNothing().when(cardDao).updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
 
         Result result = cardService.updateCard(card);
 
@@ -89,7 +89,7 @@ public class CardServiceImplTest {
     @Test
     void testFailedCardUpdate() {
         UpdateCardInteractor card= mock(UpdateCardInteractor.class);
-        doThrow(new RuntimeException("failed")).when(cardDao).updateCard(card);
+        doThrow(new RuntimeException("failed")).when(cardDao).updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
 
         Result result = cardService.updateCard(card);
 
@@ -101,7 +101,7 @@ public class CardServiceImplTest {
     void testSuccessfulCardValidation(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
 
-        doNothing().when(cardDao).findCard(anyString(),anyString(),any());
+        when(cardDao.findCard(anyString(),anyString(),any())).thenReturn(new RealCardModel());
 
         Result result = cardService.validateCard(card);
 

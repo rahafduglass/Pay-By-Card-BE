@@ -54,7 +54,7 @@ public class CardServiceImpl implements CardService {
         log.info(" Updating card");
         try {
             log.debug(" updating card by card dao");
-            cardDao.updateCard(card);
+            cardDao.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
         } catch (Exception e) {
             log.error(" couldn't update card: {}", e.getMessage());
             return new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO);
