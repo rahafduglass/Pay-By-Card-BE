@@ -23,11 +23,9 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     private final VerifyCardDto card;
 
 
-
     private final PaymentDao paymentDao;
     private final CmsApiHandler cmsApiHandler;
     private boolean isPaymentValid = false;
-
 
     @Override
     public PaymentDto initiate() {

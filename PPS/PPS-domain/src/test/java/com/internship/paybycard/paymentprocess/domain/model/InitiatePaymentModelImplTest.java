@@ -35,7 +35,7 @@ public class InitiatePaymentModelImplTest {
     private InitiatePaymentModelImpl model;
 
     @Test
-    public void InitiatePaymentModelTest() {
+    public void testInitiatePaymentModel() {
         CardModel verifiedCard = mock(CardModel.class);
         when(verifiedCard.getCardNumber()).thenReturn("123456789");
         when(verifiedCard.getClientEmail()).thenReturn("client@email.com");
@@ -46,7 +46,6 @@ public class InitiatePaymentModelImplTest {
         when(cardTOVerify.getCVV()).thenReturn("123");
 
         when(cmsApiHandler.verifyCard(any())).thenReturn(verifiedCard);
-        when(paymentDao.createPayment(any())).thenReturn(new PaymentDtoImpl());
         when(paymentDao.createPayment(Mockito.any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         model = new InitiatePaymentModelImpl("items", BigDecimal.valueOf(23444), "client", cardTOVerify, paymentDao, cmsApiHandler);
@@ -63,7 +62,7 @@ public class InitiatePaymentModelImplTest {
     }
 
     @Test
-    public void validatePaymentModelTest_validInput() {
+    public void testValidatePaymentModel_validInput() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("123456789");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
@@ -75,7 +74,7 @@ public class InitiatePaymentModelImplTest {
 
 
     @Test
-    public void validatePaymentModelTest_invalidPaymentInput() {
+    public void testValidatePaymentModel_invalidPaymentInput() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("123456789");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
@@ -87,7 +86,7 @@ public class InitiatePaymentModelImplTest {
     }
 
     @Test
-    public void validatePaymentModelTest_invalidCardInput() {
+    public void testValidatePaymentModel_invalidCardInput() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
