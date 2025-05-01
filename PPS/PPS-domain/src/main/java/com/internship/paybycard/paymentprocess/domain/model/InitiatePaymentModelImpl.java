@@ -5,58 +5,64 @@ import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaym
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
 import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.CardModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.domain.dto.PaymentDtoImpl;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
 public class InitiatePaymentModelImpl implements InitiatePaymentModel {
-    private String items;
-    private BigDecimal amount;
-    private String clientName;
-    private VerifyCardDto card;
+    private final String items;
+    private final BigDecimal amount;
+    private final String clientName;
+    private final VerifyCardDto card;
 
 
 
     private final PaymentDao paymentDao;
     private final CmsApiHandler cmsApiHandler;
+    private boolean isPaymentValid = false;
 
 
     @Override
-    public PaymentDto process() {
-        validatePayment();
-        CardModel verifiedCard = cmsApiHandler.verifyCard(card);
+    public PaymentDto initiate() {
+        if (isPaymentValid) {
+            CardModel verifiedCard = cmsApiHandler.verifyCard(card);
 
-        PaymentDto paymentDto = new PaymentDtoImpl();
-        paymentDto.setAmount(amount);
-        paymentDto.setItems(items);
-        paymentDto.setClientName(clientName);
-        paymentDto.setClientEmail(verifiedCard.getClientEmail());
-        paymentDto.setCardNumber(verifiedCard.getCardNumber());
-        paymentDto.setConfirmed(false);
-        return paymentDao.createPayment(paymentDto);
+            PaymentDto paymentDto = new PaymentDtoImpl();
+            paymentDto.setAmount(amount);
+            paymentDto.setItems(items);
+            paymentDto.setClientName(clientName);
+            paymentDto.setClientEmail(verifiedCard.getClientEmail());
+            paymentDto.setCardNumber(verifiedCard.getCardNumber());
+            paymentDto.setConfirmed(false);
+            paymentDto.setReferenceNumber(UUID.randomUUID().toString());
+            return paymentDao.createPayment(paymentDto);
+        }else throw new RuntimeException("Payment is not valid: consider calling validatePayment() method first");
     }
 
-
-    private void validatePayment() {
+    @Override
+    public boolean validatePayment() {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0
-                || items == null || items.equals("")
-                || clientName == null || clientName.equals("")) {
+                || items == null || items.isEmpty()
+                || clientName == null || clientName.isEmpty()) {
             throw new InvalidPaymentException("invalid payment input");
         }
         validateCard();
+        isPaymentValid = true;
+        return true;
     }
 
     private void validateCard() {
         if (card == null
                 || card.getCardNumber() == null || card.getCardNumber().equals("")
                 || card.getExpiryDate() == null
-                || card.getCVV() == null || card.getCVV().equals("")) {
+                || card.getCVV() == null || card.getCVV().isEmpty()) {
             throw new InvalidPaymentException("invalid card input");
         }
     }

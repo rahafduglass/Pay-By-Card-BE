@@ -1,7 +1,7 @@
 package com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service;
 
 import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.CardModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.dto.VerifyCardDto;
 
 import java.math.BigDecimal;
 

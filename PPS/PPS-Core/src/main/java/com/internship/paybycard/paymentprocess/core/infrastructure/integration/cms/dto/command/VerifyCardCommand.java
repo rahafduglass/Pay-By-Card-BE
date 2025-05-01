@@ -1,8 +1,8 @@
-package com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model;
+package com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.dto.command;
 
 import java.time.LocalDate;
 
-public interface VerifyCardDto {
+public interface VerifyCardCommand {
     String getCardNumber();
     String getCVV();
     LocalDate getExpiryDate();
