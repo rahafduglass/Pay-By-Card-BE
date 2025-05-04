@@ -5,6 +5,9 @@ import com.internship.paybycard.cardmanagement.core.mapper.CardMapper;
 import com.internship.paybycard.cardmanagement.core.model.CardModel;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Component
 // todo unit test
 public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
@@ -26,6 +29,50 @@ public class CardEntityMapperImpl implements CardMapper<CardModel,CardEntity> {
 
     @Override
     public CardModel reverseTo(CardEntity cardEntity) {
-        return null;
+        if(cardEntity == null) {
+            throw new RuntimeException("CardEntityMapper: cant map, cardEntity is null");
+        }
+        CardModel cardModel= new CardModel() {
+            @Override
+            public boolean isNull() {
+                return false;
+            }
+
+            @Override
+            public Long getId() {
+                return cardEntity.getId();
+            }
+
+            @Override
+            public BigDecimal getBalance() {
+                return cardEntity.getBalance();
+            }
+
+            @Override
+            public LocalDate getExpiryDate() {
+                return cardEntity.getExpiryDate();
+            }
+
+            @Override
+            public String getClientEmail() {
+                return cardEntity.getClientEmail();
+            }
+
+            @Override
+            public String getClientName() {
+                return cardEntity.getClientName();
+            }
+
+            @Override
+            public String getCVV() {
+                return cardEntity.getCVV();
+            }
+
+            @Override
+            public String getCardNumber() {
+                return cardEntity.getCardNumber();
+            }
+        };
+        return cardModel;
     }
 }

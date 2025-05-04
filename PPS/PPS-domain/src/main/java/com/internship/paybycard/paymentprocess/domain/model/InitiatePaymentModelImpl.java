@@ -1,13 +1,12 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.CardModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.dto.VerifyCardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsApiHandler;
-import com.internship.paybycard.paymentprocess.domain.dto.PaymentDtoImpl;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -30,9 +29,9 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     @Override
     public PaymentDto initiate() {
         if (isPaymentValid) {
-            CardModel verifiedCard = cmsApiHandler.verifyCard(card);
+            CardDto verifiedCard=cmsApiHandler.verifyCard(card);
 
-            PaymentDto paymentDto = new PaymentDtoImpl();
+            PaymentDto paymentDto = new PaymentDto();
             paymentDto.setAmount(amount);
             paymentDto.setItems(items);
             paymentDto.setClientName(clientName);

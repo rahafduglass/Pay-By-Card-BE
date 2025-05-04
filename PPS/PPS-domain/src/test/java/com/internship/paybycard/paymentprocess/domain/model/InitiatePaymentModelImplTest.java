@@ -3,10 +3,9 @@ package com.internship.paybycard.paymentprocess.domain.model;
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.dto.VerifyCardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.model.CardModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsApiHandler;
-import com.internship.paybycard.paymentprocess.domain.dto.PaymentDtoImpl;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,7 +35,7 @@ public class InitiatePaymentModelImplTest {
 
     @Test
     public void testInitiatePaymentModel() {
-        CardModel verifiedCard = mock(CardModel.class);
+        CardDto verifiedCard = mock(CardDto.class);
         when(verifiedCard.getCardNumber()).thenReturn("123456789");
         when(verifiedCard.getClientEmail()).thenReturn("client@email.com");
 
@@ -71,7 +70,6 @@ public class InitiatePaymentModelImplTest {
         model = new InitiatePaymentModelImpl("items", BigDecimal.valueOf(23444), "client", cardTOVerify, paymentDao, cmsApiHandler);
         assertTrue(model.validatePayment());
     }
-
 
     @Test
     public void testValidatePaymentModel_invalidPaymentInput() {

@@ -21,7 +21,8 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.4.4</version></dependency>
+            <version>3.4.4</version>
+        </dependency>
         <dependency>
             <groupId>com.internship.paybycard</groupId>
             <artifactId>CMS-core</artifactId>
@@ -38,7 +39,6 @@
             <version>3.4.4</version>
         </dependency>
     </dependencies>
-
 
 
 </project>

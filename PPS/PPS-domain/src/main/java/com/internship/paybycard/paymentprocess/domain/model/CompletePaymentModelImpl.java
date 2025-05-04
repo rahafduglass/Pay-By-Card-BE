@@ -5,7 +5,7 @@ import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyRefere
 import com.internship.paybycard.paymentprocess.core.domain.model.CompletePaymentModel;
 import com.internship.paybycard.paymentprocess.core.infrastructure.OtpService;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.integration.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
 import lombok.Data;
 
 @Data

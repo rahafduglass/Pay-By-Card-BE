@@ -19,6 +19,8 @@
     <modules>
         <module>PPS-Core</module>
         <module>PPS-domain</module>
+        <module>PPS-infrastructure</module>
+        <module>PPS-presentation</module>
     </modules>
 
     <properties>
