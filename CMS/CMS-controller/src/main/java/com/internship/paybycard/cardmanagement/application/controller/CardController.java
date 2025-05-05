@@ -5,7 +5,6 @@ import com.internship.paybycard.cardmanagement.application.interactors.CreateCar
 import com.internship.paybycard.cardmanagement.application.interactors.UpdateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
 import com.internship.paybycard.cardmanagement.core.model.CardModel;
-import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
 import com.internship.paybycard.cardmanagement.core.service.CardService;
@@ -43,7 +42,7 @@ public class CardController {
         Result<CardModel> result = cardService.validateCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
             return ResponseEntity.status(HttpStatus.OK).body(result);
-        return rejectResponseWithBody(result);
+        return rejectResponse(result);
     }
 
     @DeleteMapping
@@ -55,13 +54,8 @@ public class CardController {
         return rejectResponse(result);
     }
 
-    private ResponseEntity<Result<Void>> rejectResponse(Result result) {
-        return switch (result.errorCode()) {
-            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
-            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
-        };
-    }
-    private <T> ResponseEntity<Result<T>> rejectResponseWithBody(Result<T> result) {
+
+    private <T> ResponseEntity<Result<T>> rejectResponse(Result<T> result) {
         return switch (result.errorCode()) {
             case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);

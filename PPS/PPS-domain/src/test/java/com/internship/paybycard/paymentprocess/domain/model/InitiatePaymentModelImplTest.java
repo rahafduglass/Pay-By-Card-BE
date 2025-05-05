@@ -1,6 +1,7 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
@@ -34,10 +35,11 @@ public class InitiatePaymentModelImplTest {
     private InitiatePaymentModelImpl model;
 
     @Test
-    public void testInitiatePaymentModel() {
+    public void givenValidPaymentModel_whenCallValidateCardThenInitiate_shouldReturnSavedPaymentDto() {
         CardDto verifiedCard = mock(CardDto.class);
         when(verifiedCard.getCardNumber()).thenReturn("123456789");
         when(verifiedCard.getClientEmail()).thenReturn("client@email.com");
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal("10678760.00"));
 
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("123456789");
@@ -61,7 +63,24 @@ public class InitiatePaymentModelImplTest {
     }
 
     @Test
-    public void testValidatePaymentModel_validInput() {
+    public void givenInvalidAmount_whenCallValidatePaymentThenIniitiate_shouldThrowExceptionAtInitiate() {
+        CardDto verifiedCard = mock(CardDto.class);
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal("1060.00"));
+
+        VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
+        when(cardTOVerify.getCardNumber()).thenReturn("123456789");
+        when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
+        when(cardTOVerify.getCVV()).thenReturn("123");
+
+        when(cmsApiHandler.verifyCard(any())).thenReturn(verifiedCard);
+
+        model = new InitiatePaymentModelImpl("items", BigDecimal.valueOf(23444), "client", cardTOVerify, paymentDao, cmsApiHandler);
+        model.validatePayment();
+        assertThrows(InsufficientCardBalance.class,()->model.initiate());
+    }
+
+    @Test
+    public void givenValidPaymentModel_whenCallValidatePayment_shouldReturnTrue() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("123456789");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
@@ -72,7 +91,7 @@ public class InitiatePaymentModelImplTest {
     }
 
     @Test
-    public void testValidatePaymentModel_invalidPaymentInput() {
+    public void givenInvalidPaymentModel_whenCallValidatePayment_shouldThrowException() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("123456789");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
@@ -84,7 +103,7 @@ public class InitiatePaymentModelImplTest {
     }
 
     @Test
-    public void testValidatePaymentModel_invalidCardInput() {
+    public void givenInvalidCardInput_whenCallValidatePayment_shouldThrowException() {
         VerifyCardDto cardTOVerify = mock(VerifyCardDto.class);
         when(cardTOVerify.getCardNumber()).thenReturn("");
         when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());

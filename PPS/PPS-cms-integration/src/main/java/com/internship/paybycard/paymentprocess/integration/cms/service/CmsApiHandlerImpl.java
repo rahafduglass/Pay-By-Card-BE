@@ -1,5 +1,6 @@
 package com.internship.paybycard.paymentprocess.integration.cms.service;
 
+import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidCardException;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
@@ -41,7 +42,7 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response ->
                         response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
+                                .flatMap(errorBody -> Mono.error(new InvalidCardException("Client error: " + errorBody)))
                 )
                 .onStatus(HttpStatusCode::is5xxServerError, response ->
                         response.bodyToMono(String.class)

@@ -1,13 +1,11 @@
 package com.internship.paybycard.paymentprocess.presentation.controller;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.InitiatePaymentCommand;
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.VerifyPaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
-import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.InitiatePaymentCommandImpl;
-import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.VerifyPaymentCommandImpl;
+import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment.InitiatePaymentCommandImpl;
+import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment.VerifyPaymentCommandImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

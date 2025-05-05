@@ -4,6 +4,7 @@ import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaym
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
@@ -50,8 +51,12 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     public PaymentDto initiate() {
         if (isPaymentValid) {
             log.info("Initiating payment with reference number {}", card.getCardNumber());
-            log.debug("verifying with CMS api card: {}",card.getCardNumber());
-            CardDto verifiedCard=cmsApiHandler.verifyCard(card);
+            log.debug("verifying with CMS api card: {}", card.getCardNumber());
+            CardDto verifiedCard = cmsApiHandler.verifyCard(card);
+
+            if (amount.compareTo(verifiedCard.getBalance()) > 0) {
+                throw new InsufficientCardBalance("the amount is bigger your card balance");
+            }
 
             PaymentDto paymentDto = new PaymentDto();
             paymentDto.setAmount(amount);
@@ -63,7 +68,7 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
             paymentDto.setReferenceNumber(UUID.randomUUID().toString());
             log.debug("creating payment record in database: {}", paymentDto);
             return paymentDao.createPayment(paymentDto);
-        }else{
+        } else {
             log.error("Payment is not valid ");
             throw new RuntimeException("Payment is not valid: consider calling validatePayment() method first");
         }
