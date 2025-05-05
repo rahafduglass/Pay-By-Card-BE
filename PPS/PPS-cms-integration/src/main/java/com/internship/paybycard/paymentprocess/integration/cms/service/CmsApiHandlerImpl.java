@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -26,10 +28,13 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
     @Getter@Setter
     private String baseUrl;
 
+    private final Logger log = LoggerFactory.getLogger(CmsApiHandlerImpl.class);
+
     private final WebClient client = WebClient.create(this.getBaseUrl());
 
     @Override
     public CardDto verifyCard(VerifyCardDto verifyCardDto) {
+        log.info("verifying card with CMS api: {}", verifyCardDto);
         Mono<CardApiResponse> apiResponse = client.post()
                 .uri("/api/v1/cards/validate")
                 .bodyValue(verifyCardDto)
@@ -45,10 +50,12 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .bodyToMono(CardApiResponse.class)
                 .doOnSuccess(response -> {
 
+                    log.debug("card validated: {}", response.getData());
                     System.out.println("✅ Card is valid");
 
                 })
                 .doOnError(error -> {
+                    log.error("card validation error: {}", error.getMessage());
                     System.err.println("❌ Error validating card: " + error.getMessage());
                 });
         return Objects.requireNonNull(apiResponse.block()).getData();

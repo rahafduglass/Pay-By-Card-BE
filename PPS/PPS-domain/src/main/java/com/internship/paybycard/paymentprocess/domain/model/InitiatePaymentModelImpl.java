@@ -9,6 +9,8 @@ import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsA
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -26,9 +28,29 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     private final CmsApiHandler cmsApiHandler;
     private boolean isPaymentValid = false;
 
+    private final Logger log = LoggerFactory.getLogger(InitiatePaymentModelImpl.class);
+
+
+    @Override
+    public boolean validatePayment() {
+        log.info("Validating payment with reference number {}", card.getCardNumber());
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0
+                || items == null || items.isEmpty()
+                || clientName == null || clientName.isEmpty()) {
+            log.error("Invalid payment data");
+            throw new InvalidPaymentException("invalid payment input");
+        }
+        log.debug("validating payment.card with cardNumber= {}", card.getCardNumber());
+        validateCard();
+        isPaymentValid = true;
+        return true;
+    }
+
     @Override
     public PaymentDto initiate() {
         if (isPaymentValid) {
+            log.info("Initiating payment with reference number {}", card.getCardNumber());
+            log.debug("verifying with CMS api card: {}",card.getCardNumber());
             CardDto verifiedCard=cmsApiHandler.verifyCard(card);
 
             PaymentDto paymentDto = new PaymentDto();
@@ -39,27 +61,22 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
             paymentDto.setCardNumber(verifiedCard.getCardNumber());
             paymentDto.setConfirmed(false);
             paymentDto.setReferenceNumber(UUID.randomUUID().toString());
+            log.debug("creating payment record in database: {}", paymentDto);
             return paymentDao.createPayment(paymentDto);
-        }else throw new RuntimeException("Payment is not valid: consider calling validatePayment() method first");
+        }else{
+            log.error("Payment is not valid ");
+            throw new RuntimeException("Payment is not valid: consider calling validatePayment() method first");
+        }
     }
 
-    @Override
-    public boolean validatePayment() {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0
-                || items == null || items.isEmpty()
-                || clientName == null || clientName.isEmpty()) {
-            throw new InvalidPaymentException("invalid payment input");
-        }
-        validateCard();
-        isPaymentValid = true;
-        return true;
-    }
 
     private void validateCard() {
+        log.debug("validating card input");
         if (card == null
-                || card.getCardNumber() == null || card.getCardNumber().equals("")
+                || card.getCardNumber() == null || card.getCardNumber().isEmpty()
                 || card.getExpiryDate() == null
                 || card.getCVV() == null || card.getCVV().isEmpty()) {
+            log.error("Invalid card input");
             throw new InvalidPaymentException("invalid card input");
         }
     }

@@ -12,6 +12,7 @@ public class VerifyCardMapperImpl implements VerifyCardMapper {
 
     @Override
     public VerifyCardDto commandToDto(VerifyCardCommand verifyCardCommand) {
+        if(verifyCardCommand == null) {return null;}
         VerifyCardDto verifyCardDto= new VerifyCardDtoImpl();
         verifyCardDto.setCardNumber(verifyCardCommand.getCardNumber());
         verifyCardDto.setExpiryDate(verifyCardCommand.getExpiryDate());
