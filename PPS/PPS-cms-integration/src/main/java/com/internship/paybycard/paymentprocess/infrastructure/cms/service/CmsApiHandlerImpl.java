@@ -5,6 +5,9 @@ import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.Car
 import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.infrastructure.cms.dto.CardApiResponse;
 import lombok.RequiredArgsConstructor;
+
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +20,10 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CmsApiHandlerImpl implements CmsApiHandler {
 
-    private final WebClient client = WebClient.create("http://localhost:8080");
+    @Value("${cms.api.base-url}")
+    private String cmsUrl;
+
+    private final WebClient client = WebClient.create(cmsUrl);
 
     @Override
     public CardDto verifyCard(VerifyCardDto verifyCardDto) {
@@ -27,7 +33,7 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response ->
                         response.bodyToMono(String.class)
-                               .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
+                                .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
                 )
                 .onStatus(HttpStatusCode::is5xxServerError, response ->
                         response.bodyToMono(String.class)

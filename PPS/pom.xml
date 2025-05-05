@@ -19,6 +19,7 @@
     <modules>
         <module>PPS-core</module>
         <module>PPS-domain</module>
+        <module>PPS-launcher</module>
         <module>PPS-cms-integration</module>
         <module>PPS-controller</module>
         <module>PPS-persistence</module>
