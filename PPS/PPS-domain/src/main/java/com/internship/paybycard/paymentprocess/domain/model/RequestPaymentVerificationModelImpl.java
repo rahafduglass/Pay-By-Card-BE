@@ -14,7 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RequestPaymentVerificationModelImpl implements RequestPaymentVerificationModel {
 
-    private String referenceNumber;
+    private final String referenceNumber;
+
     private boolean isVerified = false;
     private PaymentDto paymentDto;
 
@@ -25,18 +26,23 @@ public class RequestPaymentVerificationModelImpl implements RequestPaymentVerifi
 
     @Override
     public void verifyPayment() {
-        if(referenceNumber == null || referenceNumber.isEmpty()) {
+        if (referenceNumber == null || referenceNumber.isEmpty()) {
             throw new EmptyReferenceNumberException("empty reference number");
         }
         paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
+        if (paymentDto == null) {
+            throw new PaymentNotFoundException("payment not found " + referenceNumber);
+        }
         isVerified = true;
     }
 
     @Override
-    public void process() {
+    public void sendOtp() {
         if (isVerified) {
-            emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otpService.generateOtp(referenceNumber));
-        }else throw new PaymentNotFoundException("payment record doesn't exist");
+            String otp = otpService.generateOtp();
+            otpService.storeOtp(referenceNumber, otp);
+            emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otpService.getOtp(referenceNumber));
+        } else throw new PaymentNotFoundException("payment record doesn't exist");
     }
 
 }

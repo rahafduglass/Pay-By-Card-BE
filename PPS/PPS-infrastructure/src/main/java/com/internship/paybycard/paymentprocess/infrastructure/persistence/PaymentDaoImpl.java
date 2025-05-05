@@ -2,6 +2,7 @@ package com.internship.paybycard.paymentprocess.infrastructure.persistence;
 
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public class PaymentDaoImpl implements PaymentDao {
 
     @Override
     public PaymentDto findPaymentByReferenceNumber(String referenceNumber) {
-        return null;
+        return paymentEntityMapper.entityToDto(paymentProcessJpaRepository.findByReferenceNumber(referenceNumber));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, response ->
                         response.bodyToMono(String.class)
-                                .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
+                               .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
                 )
                 .onStatus(HttpStatusCode::is5xxServerError, response ->
                         response.bodyToMono(String.class)

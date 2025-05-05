@@ -1,6 +1,8 @@
 package com.internship.paybycard.paymentprocess.core.infrastructure;
 
 public interface OtpService {
-    String generateOtp(String paymentReferenceNumber);
+    String getOtp(String paymentReferenceNumber);
     boolean verifyOtp(String paymentReferenceNumber, String otpCode);
+    void storeOtp(String paymentReferenceNumber,String otp);
+    String generateOtp();
 }
