@@ -8,10 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>PPS-infrastructure</artifactId>
+    <artifactId>PPS-persistence</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>PPS-infrastructure</name>
-    <description>PPS-infrastructure</description>
+    <name>PPS-persistence</name>
+    <description>PPS-persistence</description>
 
     <properties>
         <java.version>17</java.version>
@@ -30,31 +30,17 @@
         </dependency>
         <dependency>
             <groupId>com.internship.paybycard</groupId>
-            <artifactId>PPS-Core</artifactId>
+            <artifactId>PPS-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>3.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>4.2.3</version>
-        </dependency>
     </dependencies>
 
     <build>
+
     </build>
 
 </project>

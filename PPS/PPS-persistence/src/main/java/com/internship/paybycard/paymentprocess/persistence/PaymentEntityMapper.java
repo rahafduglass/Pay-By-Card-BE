@@ -1,9 +1,7 @@
-package com.internship.paybycard.paymentprocess.infrastructure.persistence;
+package com.internship.paybycard.paymentprocess.persistence;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 public class PaymentEntityMapper {

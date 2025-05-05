@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.infrastructure.persistence;
+package com.internship.paybycard.paymentprocess.persistence;
 
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;

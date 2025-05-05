@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.infrastructure.persistence;
+package com.internship.paybycard.paymentprocess.persistence;
 
 import jakarta.persistence.*;
 import lombok.Data;

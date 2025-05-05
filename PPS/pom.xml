@@ -17,10 +17,13 @@
 
 
     <modules>
-        <module>PPS-Core</module>
+        <module>PPS-core</module>
         <module>PPS-domain</module>
-        <module>PPS-infrastructure</module>
-        <module>PPS-presentation</module>
+        <module>PPS-cms-integration</module>
+        <module>PPS-controller</module>
+        <module>PPS-persistence</module>
+        <module>PPS-email-service</module>
+        <module>PPS-otp-service</module>
     </modules>
 
     <properties>
