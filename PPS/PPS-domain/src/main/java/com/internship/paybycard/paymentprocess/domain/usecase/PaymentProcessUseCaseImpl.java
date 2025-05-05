@@ -3,11 +3,15 @@ package com.internship.paybycard.paymentprocess.domain.usecase;
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.CompletePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.InitiatePaymentCommand;
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.RequestPaymentVerificationCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidCardException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
+import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.InitiatePaymentModelMapper;
+import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.VerifyPaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
+import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
@@ -20,14 +24,15 @@ import org.slf4j.LoggerFactory;
 public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
 
     private final InitiatePaymentModelMapper initiatePaymentModelMapper;
+    private final VerifyPaymentModelMapper verifyPaymentModelMapper;
     private final Logger log = LoggerFactory.getLogger(PaymentProcessUseCaseImpl.class);
 
     @Override
     public  Result<String> initiatePayment(InitiatePaymentCommand command) {
-        log.info("Initiate payment use case command: {}", command);
+        log.info("Initiate payment use case with command: {}", command);
         try {
             InitiatePaymentModel initiatePaymentModel = initiatePaymentModelMapper.commandToModel(command);
-            log.debug("mapping command to model: {}", initiatePaymentModel);
+            log.debug("mapping command to model, mapped model: {}", initiatePaymentModel);
 
             log.debug("validating mode: {}", initiatePaymentModel);
             initiatePaymentModel.validatePayment();
@@ -52,8 +57,30 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
     }
 
     @Override
-    public Result requestPaymentVerification(RequestPaymentVerificationCommand command) {
-        return null;
+    public Result<Void> verifyPayment(VerifyPaymentCommand command) {
+       try {
+           log.info("Verify payment use case with command: {}", command);
+           VerifyPaymentModel verifyPaymentModel = verifyPaymentModelMapper.commandToModel(command);
+           log.debug("mapping command to model, mapped model: {}", verifyPaymentModel);
+           log.debug("verifying payment with model verifyPayment(): {}", verifyPaymentModel);
+           verifyPaymentModel.verifyPayment();
+           log.debug("sending OTP to email with the following reference number: : {}", verifyPaymentModel.getReferenceNumber());
+           verifyPaymentModel.sendOtp();
+           return new Result<>(Status.ACT,ErrorCode.NULL,null);
+       }catch (IllegalArgumentException e) {
+           log.error("invalid command argument: {}",e.getMessage());
+           return new Result<>(Status.RJC, ErrorCode.INVALID_COMMAND_INPUT, null);
+       }catch (EmptyReferenceNumberException e){
+           log.error("empty reference number: {}",e.getMessage());
+           return new Result<>(Status.RJC,ErrorCode.EMPTY_REFERENCE_NUMBER,null);
+       }catch (PaymentNotFoundException e){
+           log.error("payment not found: {}",e.getMessage());
+           return new Result<>(Status.RJC,ErrorCode.PAYMENT_NOT_FOUND,null);
+       }catch (Exception e){
+           log.error("unexpected error: {}", e.getMessage());
+           return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR,null);
+       }
+
     }
 
     @Override
