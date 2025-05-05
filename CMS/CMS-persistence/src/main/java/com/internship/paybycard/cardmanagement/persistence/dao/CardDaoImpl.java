@@ -56,7 +56,7 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public void updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(UpdateCardInteractor cardModel) {
+    public void updateCardInfo(UpdateCardInteractor cardModel) {
         log.info("Updating Card in DB with Jpa Repository");
         if (!(cardJpaRepository.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), cardModel.getCvv(), cardModel.getCardNumber(),cardModel.getExpiryDate()) > 0)) {
             log.debug("updateCard() card not found | probably invalid card info");

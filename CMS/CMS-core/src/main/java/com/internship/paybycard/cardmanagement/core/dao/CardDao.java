@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 public interface CardDao {
     CardModel saveCard(CardModel card);
-    void updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(UpdateCardInteractor card);
+    void updateCardInfo(UpdateCardInteractor card);
     CardModel findCard(String cardNumber, String cvv, LocalDate expiryDate);
     CardModel findCardById(Long cardId);
     void deleteCard(ValidateCardInteractor card);

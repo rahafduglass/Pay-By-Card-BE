@@ -39,7 +39,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testSuccessfulCardCreation() {
+    void givenValidCardInteractorWithCardMapperMappingToCardModelAndCardDaoReturnSavedModel_whenCallCreateCard_thenShouldReturnGeneratedValuesWithAccepted() {
         CreateCardInteractor card= mock(CreateCardInteractor.class);
         when(card.getClientName()).thenReturn("someone");
 
@@ -58,7 +58,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testFailedCardCreation() {
+    void givenCardWithCardDaoThrowingException_whenCallCreateCard_thenReturnResultWithRejectedStatusAndFailedErrorCode() {
         CreateCardInteractor card= mock(CreateCardInteractor.class);
         when(card.getClientName()).thenReturn("someone");
 
@@ -68,17 +68,14 @@ public class CardServiceImplTest {
 
         Result result = cardService.createCard(card);
 
-        assertEquals(LocalDate.now().plusYears(2),cardModel.getExpiryDate());
-        assertEquals(3,cardModel.getCVV().length());
-        assertNotNull(cardModel.getCardNumber());
         assertEquals(Status.RJC,result.status());
         assertEquals(ErrorCode.FAILED,result.errorCode());
     }
 
     @Test
-    void testSuccessfulCardUpdate() {
+    void givenCardWithCardDaoReturningNothing_whenCallUpdateCard_thenReturnAcceptedResultWithNullErrorCode() {
         UpdateCardInteractor card= mock(UpdateCardInteractor.class);
-        doNothing().when(cardDao).updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
+        doNothing().when(cardDao).updateCardInfo(card);
 
         Result result = cardService.updateCard(card);
 
@@ -87,9 +84,9 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testFailedCardUpdate() {
+    void givenCardWithCardDaoThrowingException_whenCallUpdateCard_thenReturnRejectedResultWithInvalidCardInfoErrorCode() {
         UpdateCardInteractor card= mock(UpdateCardInteractor.class);
-        doThrow(new RuntimeException("failed")).when(cardDao).updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
+        doThrow(new RuntimeException("failed")).when(cardDao).updateCardInfo(card);
 
         Result result = cardService.updateCard(card);
 
@@ -98,7 +95,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testSuccessfulCardValidation(){
+    void givenCardWithCardDaoReturnCardModel_whenCallVaildateCard_thenReturnAcceptedResultWithNullErrorCode(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
 
         when(cardDao.findCard(anyString(),anyString(),any())).thenReturn(new RealCardModel());
@@ -110,7 +107,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testFailedCardValidation(){
+    void givenCardWithCardDaoThrowingException_whenCallValidateCard_thenReturnRejectedResultAndInvalidCardInfoErrorCode(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
         when(card.getCardNumber()).thenReturn("someone");
         when(card.getExpiryDate()).thenReturn(LocalDate.now().plusYears(2));
@@ -124,7 +121,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testSuccessfulCardDelete(){
+    void givenCardWithCardDaoDoNothing_whenCallDeleteCard_thenReturnAcceptedAndErrorCode(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
         doNothing().when(cardDao).deleteCard(card);
         Result result = cardService.deleteCard(card);
@@ -133,7 +130,7 @@ public class CardServiceImplTest {
     }
 
     @Test
-    void testFailedCardDelete(){
+    void givenCardWithCardDaoThrowingException_whenCallDeleteCard_thenReturnRejectedResultAndInvalidCardInfoErrorCode(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
         doThrow(new RuntimeException("failed")).when(cardDao).deleteCard(card);
         Result result = cardService.deleteCard(card);

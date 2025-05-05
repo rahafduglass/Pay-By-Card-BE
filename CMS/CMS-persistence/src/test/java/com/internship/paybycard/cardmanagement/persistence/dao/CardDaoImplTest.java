@@ -6,6 +6,9 @@ import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInterac
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.model.CardModel;
 import com.internship.paybycard.cardmanagement.persistence.PersistenceTestApp;
+import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
+import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
+import com.internship.paybycard.cardmanagement.persistence.mapper.CardEntityMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,63 +28,70 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CardDaoImplTest {
 
     @Autowired
+    private CardJpaRepository cardJpaRepository;
+
+    @Autowired
     private CardDaoImpl cardDaoImpl;
 
+    @Autowired
+    private CardEntityMapperImpl cardEntityMapper;
 
     @Test
-    public void testSaveCard() {
-        CardModel savedCard = cardDaoImpl.saveCard(cardModel);
-        assertNotNull(savedCard);
-        assertEquals(cardModel.getBalance(), savedCard.getBalance());
-        assertTrue(isEqualWithoutId(cardModel, savedCard));
-    }
-
-    @Test
-    public void testFindCard() {
-        cardDaoImpl.saveCard(cardModel);
-        CardModel retrievedCard = cardDaoImpl.findCard(cardModel.getCardNumber(), cardModel.getCVV(), cardModel.getExpiryDate());
+    public void givenValidCard_whenCallSaveCardThenCallFindById_thenRetrievedCardEqualsSavedCard() {
+        CardModel savedCard = cardDaoImpl.saveCard(validCardModel);
+        CardEntity retrievedCard = cardJpaRepository.findById(savedCard.getId()).orElse(null);
         assertNotNull(retrievedCard);
-        System.out.println(cardModel.getBalance());
-        assertTrue(isEqualWithoutId(cardModel, retrievedCard));
+        assertNotNull(savedCard);
+        CardModel retrievedCardModel = cardEntityMapper.reverseTo(retrievedCard);
+        assertTrue(isEqualWithoutId(retrievedCardModel, savedCard));
     }
 
     @Test
-    public void testFindCard_invalidCardInfo() {
+    public void givenValidCard_whenCallSaveCardThenCallFindCard_thenReturnSavedCard() {
+        cardDaoImpl.saveCard(validCardModel);
+        CardModel retrievedCard = cardDaoImpl.findCard(validCardModel.getCardNumber(), validCardModel.getCVV(), validCardModel.getExpiryDate());
+        assertNotNull(retrievedCard);
+        System.out.println(validCardModel.getBalance());
+        assertTrue(isEqualWithoutId(validCardModel, retrievedCard));
+    }
+
+    @Test
+    public void givenInvalidCardInfo_whenCallFindCard_thenThrowException() {
         Exception exception = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCard("", "", LocalDate.of(1994, 3, 4)));
         assertEquals("invalid card :", exception.getMessage());
 
-        cardDaoImpl.saveCard(cardModel);
-        Exception exception2 = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCard(cardModel.getCardNumber(), "", LocalDate.of(1994, 3, 4)));
+        cardDaoImpl.saveCard(validCardModel);
+        Exception exception2 = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCard(validCardModel.getCardNumber(), "", LocalDate.of(1994, 3, 4)));
         assertEquals("invalid card :", exception2.getMessage());
     }
 
     @Test
-    public void testDeleteCard() {
-        cardDaoImpl.saveCard(cardModel);
+    public void givenValidCard_whenCallDeleteCardThenTryToFindIt_thenThrowException() {
+        cardDaoImpl.saveCard(validCardModel);
         ValidateCardInteractor card = new ValidateCardInteractor() {
 
             @Override
             public String getCardNumber() {
-                return cardModel.getCardNumber();
+                return validCardModel.getCardNumber();
             }
 
             @Override
             public String getCVV() {
-                return cardModel.getCVV();
+                return validCardModel.getCVV();
             }
 
             @Override
             public LocalDate getExpiryDate() {
-                return cardModel.getExpiryDate();
+                return validCardModel.getExpiryDate();
             }
         };
         cardDaoImpl.deleteCard(card);
-        Exception exception = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCard(cardModel.getCardNumber(), cardModel.getCVV(), cardModel.getExpiryDate()));
+        Exception exception = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCard(validCardModel.getCardNumber(), validCardModel.getCVV(), validCardModel.getExpiryDate()));
         assertEquals("invalid card :", exception.getMessage());
     }
 
     @Test
-    public void testDeleteCard_invalidCardInfo() {
+    public void givenInvalidCard_whenCallDeleteCard_thenThrowException() {
         ValidateCardInteractor invalidCard = new ValidateCardInteractor() {
             @Override
             public String getCardNumber() {
@@ -103,18 +113,18 @@ public class CardDaoImplTest {
     }
 
     @Test
-    public void testUpdateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate() {
-        cardDaoImpl.saveCard(cardModel);
+    public void givenValidCardModel_whenSaveCardThenUpdateCard_thenReturnNothingAndUpdateCard() {
+        cardDaoImpl.saveCard(validCardModel);
         UpdateCardInteractor card = new UpdateCardInteractor() {
 
             @Override
             public String getCvv() {
-                return cardModel.getCVV();
+                return validCardModel.getCVV();
             }
 
             @Override
             public String getCardNumber() {
-                return cardModel.getCardNumber();
+                return validCardModel.getCardNumber();
             }
 
             @Override
@@ -134,21 +144,21 @@ public class CardDaoImplTest {
 
             @Override
             public LocalDate getExpiryDate() {
-                return cardModel.getExpiryDate();
+                return validCardModel.getExpiryDate();
             }
         };
-        cardDaoImpl.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card);
-        CardModel updatedCard=cardDaoImpl.findCard(cardModel.getCardNumber(), cardModel.getCVV(), cardModel.getExpiryDate());
+        cardDaoImpl.updateCardInfo(card);
+        CardModel updatedCard = cardDaoImpl.findCard(validCardModel.getCardNumber(), validCardModel.getCVV(), validCardModel.getExpiryDate());
         assertNotNull(updatedCard);
-        assertFalse(isEqualWithoutId(cardModel, updatedCard));
-        assertTrue(updatedCard.getClientEmail().equals("lala@email.com"));
-        assertTrue(updatedCard.getClientName().equals("lala"));
-        assertTrue(updatedCard.getBalance().compareTo(BigDecimal.valueOf(5000)) == 0);
+        assertFalse(isEqualWithoutId(validCardModel, updatedCard));
+        assertEquals("lala@email.com", updatedCard.getClientEmail());
+        assertEquals("lala", updatedCard.getClientName());
+        assertEquals(0, updatedCard.getBalance().compareTo(BigDecimal.valueOf(5000)));
     }
 
     @Test
-    public void testUpdateCardBalanceAndClientEmailAndClientName_invalidCardInfo() {
-        cardDaoImpl.saveCard(cardModel);
+    public void givenInvalidCardModel_whenCallUpdateCardInfo_thenThrowException() {
+        cardDaoImpl.saveCard(validCardModel);
         UpdateCardInteractor card = new UpdateCardInteractor() {
 
             @Override
@@ -178,27 +188,27 @@ public class CardDaoImplTest {
 
             @Override
             public LocalDate getExpiryDate() {
-                return cardModel.getExpiryDate();
+                return validCardModel.getExpiryDate();
             }
         };
-        Exception exception=assertThrows(RuntimeException.class,()->cardDaoImpl.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(card));
-        assertEquals("invalid card info",exception.getMessage());
+        Exception exception = assertThrows(RuntimeException.class, () -> cardDaoImpl.updateCardInfo(card));
+        assertEquals("invalid card info", exception.getMessage());
     }
 
     @Test
-    public void testFindById(){
-        CardModel savedCard=cardDaoImpl.saveCard(cardModel);
-        CardModel retrievedCard= cardDaoImpl.findCardById(savedCard.getId());
+    public void givenValidCardId_whenCallFindById_thenReturnSavedCard() {
+        CardModel savedCard = cardDaoImpl.saveCard(validCardModel);
+        CardModel retrievedCard = cardDaoImpl.findCardById(savedCard.getId());
         assertNotNull(retrievedCard);
-        assertTrue(isEqualWithoutId(cardModel, retrievedCard));
+        assertTrue(isEqualWithoutId(validCardModel, retrievedCard));
     }
 
-
     @Test
-    public void testFindById_invalidId(){
-        Exception exception= assertThrows(CardNotFoundException.class,()->cardDaoImpl.findCardById(0L));
+    public void givenInvalidCardId_whenCallFindById_thenThrowException() {
+        Exception exception = assertThrows(CardNotFoundException.class, () -> cardDaoImpl.findCardById(0L));
         assertEquals("couldn't find card with id", exception.getMessage());
     }
+
     private boolean isEqualWithoutId(CardModel cardModel, CardModel savedCard) {
         return (cardModel.getCardNumber().equals(savedCard.getCardNumber())
                 && cardModel.getCVV().equals(savedCard.getCVV())
@@ -208,7 +218,7 @@ public class CardDaoImplTest {
                 && cardModel.getBalance().compareTo(savedCard.getBalance()) == 0);
     }
 
-    private final CardModel cardModel = new CardModel() {
+    private final CardModel validCardModel = new CardModel() {
         private final UUID cardNumber = UUID.randomUUID();
 
         @Override
