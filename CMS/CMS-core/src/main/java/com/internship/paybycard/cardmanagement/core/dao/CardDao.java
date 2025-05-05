@@ -9,8 +9,9 @@ import com.internship.paybycard.cardmanagement.core.model.CardModel;
 import java.time.LocalDate;
 
 public interface CardDao {
-    void saveCard(CardModel card);
-    void updateCard(UpdateCardInteractor card);
-    void findCard(String cardNumber, String cvv, LocalDate expiryDate);
+    CardModel saveCard(CardModel card);
+    void updateCardInfo(UpdateCardInteractor card);
+    CardModel findCard(String cardNumber, String cvv, LocalDate expiryDate);
+    CardModel findCardById(Long cardId);
     void deleteCard(ValidateCardInteractor card);
 }

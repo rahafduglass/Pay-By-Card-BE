@@ -28,6 +28,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public Result createCard(CreateCardInteractor card) {
         log.info("Creating new card {}", card.getClientName());
+
         log.debug("Mapping card interactor to card model");
         RealCardModel cardModel = createCardMapperImpl.mapTo(card);
         log.debug("the mapped card model: {}", cardModel);
@@ -44,35 +45,35 @@ public class CardServiceImpl implements CardService {
             log.error("couldn't create card: {}", e.getMessage());
             return new Result(Status.RJC, ErrorCode.FAILED);
         }
-        log.debug("card created successfully");
+        log.debug("card: {} created successfully", cardModel.getCardNumber());
         return new Result(Status.ACP, null);
     }
 
     @Override
     public Result updateCard(UpdateCardInteractor card) {
-        log.info("CardService: Updating card");
+        log.info(" Updating card");
         try {
-            log.debug("CardService: updating card by card dao");
-            cardDao.updateCard(card);
+            log.debug(" updating card by card dao");
+            cardDao.updateCardInfo(card);
         } catch (Exception e) {
-            log.error("CardService: couldn't update card: {}", e.getMessage());
+            log.error(" couldn't update card: {}", e.getMessage());
             return new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO);
         }
-        log.debug("CardService: card updated successfully");
+        log.debug(" card updated successfully");
         return new Result(Status.ACP, null);
     }
 
     @Override
     public Result validateCard(ValidateCardInteractor card) {
-        log.info("CardService: Validating card");
+        log.info(" Validating card");
         try {
-            log.debug("CardService: validating card by card dao");
+            log.debug(" validating card by card dao");
             cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
         } catch (Exception e) {
-            log.debug("CardService: invalid card: {}", e.getMessage());
+            log.debug(" invalid card: {}", e.getMessage());
             return new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO);
         }
-        log.debug("CardService: card validated successfully");
+        log.debug(" card validated successfully");
         return new Result(Status.ACP, null);
 
     }
@@ -82,10 +83,10 @@ public class CardServiceImpl implements CardService {
         try {
             cardDao.deleteCard(card);
         } catch (Exception e) {
-            log.error("CardService: couldn't delete card: {}", e.getMessage());
+            log.error(" couldn't delete card: {}", e.getMessage());
             return new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO);
         }
-        log.debug("CardService: card deleted successfully");
+        log.debug(" card deleted successfully");
         return new Result(Status.ACP, null);
     }
 
