@@ -2,8 +2,7 @@ package com.internship.paybycard.paymentprocess.persistence;
 
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
-import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
+import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

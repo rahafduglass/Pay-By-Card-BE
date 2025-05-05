@@ -1,16 +1,14 @@
 package com.internship.paybycard.paymentprocess.infrastructure.cms.service;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto.VerifyCardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.CardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.infrastructure.cms.dto.CardApiResponse;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;

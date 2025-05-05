@@ -2,10 +2,10 @@ package com.internship.paybycard.paymentprocess.domain.model;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
-import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto.VerifyCardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.CardDto;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
+import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.infrastructure.cms.dto;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto.VerifyCardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import lombok.Data;
 
 import java.time.LocalDate;

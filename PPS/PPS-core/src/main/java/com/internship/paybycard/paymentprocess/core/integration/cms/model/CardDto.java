@@ -1,11 +1,10 @@
-package com.internship.paybycard.paymentprocess.core.infrastructure.cms.model;
+package com.internship.paybycard.paymentprocess.core.integration.cms.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor

@@ -3,9 +3,9 @@ package com.internship.paybycard.paymentprocess.domain.model;
 import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyOtpException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.model.CompletePaymentModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.OtpService;
-import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.core.integration.OtpService;
+import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
+import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import lombok.Data;
 
 @Data

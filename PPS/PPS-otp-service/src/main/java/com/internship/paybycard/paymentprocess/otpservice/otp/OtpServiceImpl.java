@@ -1,13 +1,15 @@
 package com.internship.paybycard.paymentprocess.otpservice.otp;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.OtpService;
+import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Component
 public class OtpServiceImpl implements OtpService {
 
     @Autowired
@@ -30,6 +32,7 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public boolean verifyOtp(String paymentReferenceNumber, String otp) {
-        return getOtp(paymentReferenceNumber).equals(otp);
+        String storedOtp=getOtp(paymentReferenceNumber);
+        return storedOtp != null && storedOtp.equals(otp);
     }
 }

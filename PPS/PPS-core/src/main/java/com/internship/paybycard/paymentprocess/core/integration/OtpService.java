@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.core.infrastructure;
+package com.internship.paybycard.paymentprocess.core.integration;
 
 public interface OtpService {
     String getOtp(String paymentReferenceNumber);

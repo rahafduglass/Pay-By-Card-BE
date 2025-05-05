@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.core.infrastructure.cms.dto;
+package com.internship.paybycard.paymentprocess.core.integration.cms.dto;
 
 import java.time.LocalDate;
 

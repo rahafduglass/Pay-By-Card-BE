@@ -4,9 +4,9 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.model.RequestPaymentVerificationModel;
-import com.internship.paybycard.paymentprocess.core.infrastructure.EmailService;
-import com.internship.paybycard.paymentprocess.core.infrastructure.OtpService;
-import com.internship.paybycard.paymentprocess.core.infrastructure.PaymentDao;
+import com.internship.paybycard.paymentprocess.core.integration.EmailService;
+import com.internship.paybycard.paymentprocess.core.integration.OtpService;
+import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

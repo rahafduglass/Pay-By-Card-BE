@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.infrastructure.cms.dto;
 
-import com.internship.paybycard.paymentprocess.core.infrastructure.cms.model.CardDto;
+import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 
 public class CardApiResponse {
     private String status;
