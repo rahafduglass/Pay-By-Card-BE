@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.core.domain.model;
 
-public interface RequestPaymentVerificationModel {
+public interface VerifyPaymentModel {
     void verifyPayment();
     void sendOtp();
 
