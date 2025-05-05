@@ -1,15 +1,10 @@
-package com.internship.paybycard.paymentprocess.otpservice.otp;
+package com.internship.paybycard.paymentprocess.integration.otpservice.otp;
 
 
 import com.internship.paybycard.paymentprocess.OtpTestApp;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
 

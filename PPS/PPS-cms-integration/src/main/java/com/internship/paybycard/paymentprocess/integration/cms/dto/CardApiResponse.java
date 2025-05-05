@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.infrastructure.cms.dto;
+package com.internship.paybycard.paymentprocess.integration.cms.dto;
 
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 

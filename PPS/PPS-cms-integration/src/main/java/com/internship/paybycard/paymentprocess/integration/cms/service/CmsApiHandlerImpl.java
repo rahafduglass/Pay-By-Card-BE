@@ -1,9 +1,9 @@
-package com.internship.paybycard.paymentprocess.infrastructure.cms.service;
+package com.internship.paybycard.paymentprocess.integration.cms.service;
 
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
-import com.internship.paybycard.paymentprocess.infrastructure.cms.dto.CardApiResponse;
+import com.internship.paybycard.paymentprocess.integration.cms.dto.CardApiResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

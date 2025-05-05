@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.otpservice.otp;
+package com.internship.paybycard.paymentprocess.integration.otpservice.otp;
 
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
