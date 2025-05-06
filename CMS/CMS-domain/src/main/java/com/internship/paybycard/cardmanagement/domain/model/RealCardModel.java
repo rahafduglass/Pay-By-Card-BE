@@ -20,4 +20,15 @@ public class RealCardModel implements CardModel {
     public boolean isNull() {
         return false;
     }
+
+    @Override
+    public boolean equals(CardModel cardModel) {
+        return cardModel.getId().equals(this.id)
+                && cardModel.getCardNumber().equals(this.cardNumber)
+                && cardModel.getCVV().equals(this.CVV)
+                && cardModel.getClientName().equals(this.clientName)
+                && cardModel.getClientEmail().equals(this.clientEmail)
+                && cardModel.getExpiryDate().equals(this.expiryDate)
+                && cardModel.getBalance().equals(this.balance);
+    }
 }

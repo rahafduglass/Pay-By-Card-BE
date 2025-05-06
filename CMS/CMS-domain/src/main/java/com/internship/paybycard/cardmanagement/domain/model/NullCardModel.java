@@ -21,4 +21,9 @@ public class NullCardModel implements CardModel {
     public boolean isNull() {
         return true;
     }
+
+    @Override
+    public boolean equals(CardModel cardModel) {
+        return false;
+    }
 }

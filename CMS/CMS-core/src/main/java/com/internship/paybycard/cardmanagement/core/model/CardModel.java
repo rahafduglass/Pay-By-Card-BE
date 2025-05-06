@@ -21,4 +21,6 @@ public interface CardModel {
 
     String getCardNumber();
 
+    boolean equals(CardModel cardModel);
+
 }
