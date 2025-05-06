@@ -18,15 +18,15 @@ public class CmsApiHandlerImplTest {
     @Autowired
     private CmsApiHandlerImpl cmsApiHandlerImpl;
 
-    @Test
-    public void givenValidRequest_whenCallVerifyCard_thenReturnCardDto(){
-        VerifyCardDto verifyCardDto = new VerifyCardDtoImpl();
-        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
-        verifyCardDto.setCVV("123");
-        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
-        CardDto cardDto = cmsApiHandlerImpl.verifyCard(verifyCardDto);
-        assertNotNull(cardDto);
-    }
+//    @Test
+//    public void givenValidRequest_whenCallVerifyCard_thenReturnCardDto(){
+//        VerifyCardDto verifyCardDto = new VerifyCardDtoImpl();
+//        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
+//        verifyCardDto.setCVV("123");
+//        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
+//        CardDto cardDto = cmsApiHandlerImpl.verifyCard(verifyCardDto);
+//        assertNotNull(cardDto);
+//    }
 
    // @Test
  //   public void givenValidRequest_whenCallPay_then

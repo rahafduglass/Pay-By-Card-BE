@@ -20,6 +20,6 @@ public class CompletePaymentModelMapperImpl implements CompletePaymentModelMappe
     public CompletePaymentModel commandToModel(CompletePaymentCommand command) {
         if (command == null)
             throw new IllegalArgumentException("command cannot be null");
-        return new CompletePaymentModelImpl(command.getPaymentReference(), command.getOTP(), command.getVerifyCard(), command.getAmount(), otpService, cmsApiHandler, paymentDao);
+        return new CompletePaymentModelImpl(command.getPaymentReference(), command.getOTP(), command.getVerifyCard(), otpService, cmsApiHandler, paymentDao);
     }
 }

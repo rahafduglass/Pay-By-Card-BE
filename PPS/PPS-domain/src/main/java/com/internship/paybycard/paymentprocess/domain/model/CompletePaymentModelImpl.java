@@ -1,9 +1,7 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyOtpException;
-import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
-import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidOtpException;
-import com.internship.paybycard.paymentprocess.core.domain.exception.PersistenceException;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.exception.*;
 import com.internship.paybycard.paymentprocess.core.domain.model.CompletePaymentModel;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
@@ -20,7 +18,7 @@ public class CompletePaymentModelImpl implements CompletePaymentModel {
     private final String referenceNumber;
     private final String OTP;
     private final VerifyCardDto verifyCardDto;
-    private final BigDecimal amount;
+    private  BigDecimal amount;
     private boolean isOtpVerified=false;
 
     private final OtpService otpService;
@@ -42,7 +40,9 @@ public class CompletePaymentModelImpl implements CompletePaymentModel {
     @Override
     public void pay() {
         if(isOtpVerified) {
-            cmsApiHandler.pay(verifyCardDto, amount);
+            PaymentDto paymentDto=paymentDao.findPaymentByReferenceNumber(referenceNumber);
+            if(paymentDto.isNull()) throw new PaymentNotFoundException("Payment not found");
+            cmsApiHandler.pay(verifyCardDto, paymentDto.getAmount());
             if(!(paymentDao.updatePaymentConfirmedByReferenceNumber(referenceNumber,true)==1))
                 throw new PersistenceException("couldn't update card");
         }else throw new InvalidOtpException("invalid or expired Otp OR consider calling verifyOTP() first");

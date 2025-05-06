@@ -10,7 +10,5 @@ import java.math.BigDecimal;
 public class CompletePaymentCommandImpl implements CompletePaymentCommand {
     String paymentReference;
     String OTP;
-    BigDecimal amount;
     VerifyCardDtoImpl verifyCard;
-
 }

@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 public interface CompletePaymentCommand {
     String getPaymentReference();
     String getOTP();
-    BigDecimal getAmount();
     VerifyCardDto getVerifyCard();
 
 }

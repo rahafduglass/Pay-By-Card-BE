@@ -106,6 +106,10 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             log.error("invalid card: {}", e.getMessage());
             return new Result<>(Status.RJC,ErrorCode.INVALID_CARD,null);
         }
+        catch (PaymentNotFoundException e){
+            log.error("payment not found: {}", e.getMessage());
+            return new Result<>(Status.RJC,ErrorCode.PAYMENT_NOT_FOUND,null);
+        }
         catch (Exception e) {
             log.error("unexpected error: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
