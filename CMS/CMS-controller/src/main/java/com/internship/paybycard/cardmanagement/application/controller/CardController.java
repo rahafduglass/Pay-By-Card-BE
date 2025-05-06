@@ -4,6 +4,7 @@ package com.internship.paybycard.cardmanagement.application.controller;
 import com.internship.paybycard.cardmanagement.application.interactors.CreateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.UpdateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
+import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
@@ -22,42 +23,42 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping
-    public ResponseEntity<String> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
-        Result result = cardService.createCard(createCardRequest);
+    public ResponseEntity<Result<Void>> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
+        Result<Void> result = cardService.createCard(createCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.CREATED).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return rejectResponse(result);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
-        Result result = cardService.updateCard(updateCardRequest);
+    public ResponseEntity<Result<Void>> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
+        Result<Void> result = cardService.updateCard(updateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
+        return rejectResponse(result);
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Result result = cardService.validateCard(validateCardRequest);
+    public ResponseEntity<Result<CardDto>> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        Result<CardDto> result = cardService.validateCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        return rejectResponse(result);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Result result = cardService.deleteCard(validateCardRequest);
+    public ResponseEntity<Result<Void>> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        Result<Void> result = cardService.deleteCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
 
-        return rejectResponse(result.errorCode());
+        return rejectResponse(result);
     }
 
-    private ResponseEntity<String> rejectResponse(ErrorCode errorCode) {
-        return switch (errorCode) {
-            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorCode.toString());
-            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorCode.toString());
+    private <T> ResponseEntity<Result<T>> rejectResponse(Result<T> result) {
+        return switch (result.errorCode()) {
+            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         };
     }
 }

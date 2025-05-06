@@ -31,6 +31,7 @@ public class CardEntityMapperImpl implements CardMapper<CardDto,CardEntity> {
            return new NullCardDto();
         }
         RealCardDto cardModel= new RealCardDto();
+        cardModel.setId(cardEntity.getId());
         cardModel.setBalance(cardEntity.getBalance());
         cardModel.setCardNumber(cardEntity.getCardNumber());
         cardModel.setCVV(cardEntity.getCVV());

@@ -2,7 +2,6 @@ package com.internship.paybycard.cardmanagement.persistence.dao;
 
 
 import com.internship.paybycard.cardmanagement.core.dao.CardDao;
-import com.internship.paybycard.cardmanagement.core.exception.CardCreationException;
 import com.internship.paybycard.cardmanagement.core.exception.CardNotFoundException;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
@@ -28,23 +27,23 @@ public class CardDaoImpl implements CardDao {
     private final CardMapper<CardDto, CardEntity> cardEntityMapper;
 
     @Override
-    public void saveCard(CardDto cardDto) {
+    public CardDto saveCard(CardDto cardModel) {
         log.info("Saving Card in DB with Jpa Repository");
-        if (cardJpaRepository.save(cardEntityMapper.mapTo(cardDto)).getId() == null) {
-            log.debug("saveCard() card couldn't save ");
-            throw new CardCreationException("couldn't save card");
-        }
+        CardEntity retrievedEntity = cardJpaRepository.save(cardEntityMapper.mapTo(cardModel));
+        return cardEntityMapper.reverseTo(retrievedEntity);
     }
 
     @Override
     public CardDto findCard(String cardNumber, String cvv, LocalDate expiryDate) {
         log.info("Finding Card in DB with Jpa Repository");
-        Optional<CardEntity> card=cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate);
-        if (!card.isPresent()) {
+        Optional<CardEntity> retrievedEntity = cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate);
+        if (retrievedEntity.isEmpty()) {
             log.debug("CardDao: findCard() card not found | invalid card info");
             throw new CardNotFoundException("invalid card :");
+        } else {
+            CardEntity cardEntity = retrievedEntity.get();
+            return cardEntityMapper.reverseTo(cardEntity);
         }
-        else return cardEntityMapper.reverseTo(card.get());
     }
 
     @Override
@@ -57,11 +56,19 @@ public class CardDaoImpl implements CardDao {
     }
 
     @Override
-    public void updateCard(UpdateCardInteractor cardModel) {
+    public void updateCardInfo(UpdateCardInteractor cardModel) {
         log.info("Updating Card in DB with Jpa Repository");
         if (!(cardJpaRepository.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), cardModel.getCvv(), cardModel.getCardNumber(),cardModel.getExpiryDate()) > 0)) {
             log.debug("updateCard() card not found | probably invalid card info");
             throw new RuntimeException("invalid card info");
         }
+    }
+
+    @Override
+    public CardDto findCardById(Long id) {
+        Optional<CardEntity> retrievedEntity = cardJpaRepository.findById(id);
+        if (retrievedEntity.isPresent())
+            return cardEntityMapper.reverseTo(retrievedEntity.get());
+        else throw new CardNotFoundException("couldn't find card with id");
     }
 }
