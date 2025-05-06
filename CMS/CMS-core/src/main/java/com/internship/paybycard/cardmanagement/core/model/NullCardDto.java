@@ -1,13 +1,12 @@
-package com.internship.paybycard.cardmanagement.domain.model;
+package com.internship.paybycard.cardmanagement.core.model;
 
-import com.internship.paybycard.cardmanagement.core.model.CardModel;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
-public class NullCardModel implements CardModel {
+public class NullCardDto implements CardDto {
 
     Long id=-1L;
     String cardNumber="0000000000000000";
@@ -23,7 +22,7 @@ public class NullCardModel implements CardModel {
     }
 
     @Override
-    public boolean equals(CardModel cardModel) {
+    public boolean equals(CardDto cardDto) {
         return false;
     }
 }

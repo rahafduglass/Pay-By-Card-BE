@@ -5,11 +5,11 @@ import com.internship.paybycard.cardmanagement.core.exception.CardNotFoundExcept
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
+import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
 import com.internship.paybycard.cardmanagement.domain.mapper.CreateCardMapperImpl;
-import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
 import com.internship.paybycard.cardmanagement.domain.service.CardServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class CardServiceImplTest {
         CreateCardInteractor card= mock(CreateCardInteractor.class);
         when(card.getClientName()).thenReturn("someone");
 
-        RealCardModel cardModel = new RealCardModel();
+        RealCardDto cardModel = new RealCardDto();
         when(createCardMapper.mapTo(card)).thenReturn(cardModel);
         when(cardDao.saveCard(cardModel)).thenReturn(cardModel);
 
@@ -62,7 +62,7 @@ public class CardServiceImplTest {
         CreateCardInteractor card= mock(CreateCardInteractor.class);
         when(card.getClientName()).thenReturn("someone");
 
-        RealCardModel cardModel = new RealCardModel();
+        RealCardDto cardModel = new RealCardDto();
         when(createCardMapper.mapTo(card)).thenReturn(cardModel);
         doThrow(new RuntimeException("failed")).when(cardDao).saveCard(cardModel);
 
@@ -98,7 +98,7 @@ public class CardServiceImplTest {
     void givenCardWithCardDaoReturnCardModel_whenCallVaildateCard_thenReturnAcceptedResultWithNullErrorCode(){
         ValidateCardInteractor card= mock(ValidateCardInteractor.class);
 
-        when(cardDao.findCard(anyString(),anyString(),any())).thenReturn(new RealCardModel());
+        when(cardDao.findCard(anyString(),anyString(),any())).thenReturn(new RealCardDto());
 
         Result result = cardService.validateCard(card);
 

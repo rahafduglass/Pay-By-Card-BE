@@ -7,7 +7,7 @@ import com.internship.paybycard.cardmanagement.core.exception.CardNotFoundExcept
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.mapper.CardMapper;
-import com.internship.paybycard.cardmanagement.core.model.CardModel;
+import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,19 +25,19 @@ public class CardDaoImpl implements CardDao {
     // todo unit test (u may need spring data test to initialize h2 DB and spring data as well)
     private final CardJpaRepository cardJpaRepository;
 
-    private final CardMapper<CardModel, CardEntity> cardEntityMapper;
+    private final CardMapper<CardDto, CardEntity> cardEntityMapper;
 
     @Override
-    public void saveCard(CardModel cardModel) {
+    public void saveCard(CardDto cardDto) {
         log.info("Saving Card in DB with Jpa Repository");
-        if (cardJpaRepository.save(cardEntityMapper.mapTo(cardModel)).getId() == null) {
+        if (cardJpaRepository.save(cardEntityMapper.mapTo(cardDto)).getId() == null) {
             log.debug("saveCard() card couldn't save ");
             throw new CardCreationException("couldn't save card");
         }
     }
 
     @Override
-    public CardModel findCard(String cardNumber, String cvv, LocalDate expiryDate) {
+    public CardDto findCard(String cardNumber, String cvv, LocalDate expiryDate) {
         log.info("Finding Card in DB with Jpa Repository");
         Optional<CardEntity> card=cardJpaRepository.findByCardNumberAndCvvAndExpiryDate(cardNumber, cvv, expiryDate);
         if (!card.isPresent()) {
@@ -59,7 +59,7 @@ public class CardDaoImpl implements CardDao {
     @Override
     public void updateCard(UpdateCardInteractor cardModel) {
         log.info("Updating Card in DB with Jpa Repository");
-        if (!(cardJpaRepository.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumber(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), cardModel.getCvv(), cardModel.getCardNumber()) > 0)) {
+        if (!(cardJpaRepository.updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(cardModel.getBalance(), cardModel.getClientEmail(), cardModel.getClientName(), cardModel.getCvv(), cardModel.getCardNumber(),cardModel.getExpiryDate()) > 0)) {
             log.debug("updateCard() card not found | probably invalid card info");
             throw new RuntimeException("invalid card info");
         }

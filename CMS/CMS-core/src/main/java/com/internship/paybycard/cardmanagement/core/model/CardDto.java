@@ -3,7 +3,7 @@ package com.internship.paybycard.cardmanagement.core.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public interface CardModel {
+public interface CardDto {
 
     boolean isNull();
 
@@ -21,6 +21,6 @@ public interface CardModel {
 
     String getCardNumber();
 
-    boolean equals(CardModel cardModel);
+    boolean equals(CardDto cardDto);
 
 }
