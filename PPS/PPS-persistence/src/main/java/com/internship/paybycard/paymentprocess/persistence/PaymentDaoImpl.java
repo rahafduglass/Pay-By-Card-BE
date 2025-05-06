@@ -2,6 +2,7 @@ package com.internship.paybycard.paymentprocess.persistence;
 
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,9 +20,9 @@ public class PaymentDaoImpl implements PaymentDao {
     private final Logger log = LoggerFactory.getLogger(PaymentDaoImpl.class);
 
     @Override
-    public PaymentDto createPayment(PaymentDto paymentDto) {
-        log.debug("creating payment {}", paymentDto);
-        return paymentEntityMapper.entityToDto(paymentProcessJpaRepository.save(paymentEntityMapper.dtoToEntity(paymentDto)));
+    public PaymentDto createPayment(RealPaymentDto realPaymentDto) {
+        log.debug("creating payment {}", realPaymentDto);
+        return paymentEntityMapper.entityToDto(paymentProcessJpaRepository.save(paymentEntityMapper.dtoToEntity(realPaymentDto)));
     }
 
     @Override

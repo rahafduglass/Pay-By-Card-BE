@@ -1,41 +1,43 @@
 package com.internship.paybycard.paymentprocess.persistence;
 
+import com.internship.paybycard.paymentprocess.core.domain.dto.NullPaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentEntityMapper {
 
-    public PaymentProcessEntity dtoToEntity(PaymentDto paymentDto) {
-        if(paymentDto == null) {
+    public PaymentProcessEntity dtoToEntity(PaymentDto realPaymentDto) {
+        if(realPaymentDto == null) {
             throw new RuntimeException("Payment DTO is null");
         }
         PaymentProcessEntity paymentProcessEntity = new PaymentProcessEntity();
-        paymentProcessEntity.setId(paymentDto.getId());
-        paymentProcessEntity.setReferenceNumber(paymentDto.getReferenceNumber());
-        paymentProcessEntity.setItems(paymentDto.getItems());
-        paymentProcessEntity.setAmount(paymentDto.getAmount());
-        paymentProcessEntity.setCardNumber(paymentDto.getCardNumber());
-        paymentProcessEntity.setClientName(paymentDto.getClientName());
-        paymentProcessEntity.setClientEmail(paymentDto.getClientEmail());
-        paymentProcessEntity.setConfirmed(paymentDto.getConfirmed());
+        paymentProcessEntity.setId(realPaymentDto.getId());
+        paymentProcessEntity.setReferenceNumber(realPaymentDto.getReferenceNumber());
+        paymentProcessEntity.setItems(realPaymentDto.getItems());
+        paymentProcessEntity.setAmount(realPaymentDto.getAmount());
+        paymentProcessEntity.setCardNumber(realPaymentDto.getCardNumber());
+        paymentProcessEntity.setClientName(realPaymentDto.getClientName());
+        paymentProcessEntity.setClientEmail(realPaymentDto.getClientEmail());
+        paymentProcessEntity.setConfirmed(realPaymentDto.getConfirmed());
         return paymentProcessEntity;
     }
 
     public PaymentDto entityToDto(PaymentProcessEntity paymentEntity) {
         if (paymentEntity == null) {
-            throw new RuntimeException("Payment process entity is null");
+            return new NullPaymentDto();
         }
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setId(paymentEntity.getId());
-        paymentDto.setReferenceNumber(paymentEntity.getReferenceNumber());
-        paymentDto.setItems(paymentEntity.getItems());
-        paymentDto.setAmount(paymentEntity.getAmount());
-        paymentDto.setCardNumber(paymentEntity.getCardNumber());
-        paymentDto.setClientName(paymentEntity.getClientName());
-        paymentDto.setClientEmail(paymentEntity.getClientEmail());
-        paymentDto.setConfirmed(paymentEntity.getConfirmed());
-        return paymentDto;
+        RealPaymentDto realPaymentDto = new RealPaymentDto();
+        realPaymentDto.setId(paymentEntity.getId());
+        realPaymentDto.setReferenceNumber(paymentEntity.getReferenceNumber());
+        realPaymentDto.setItems(paymentEntity.getItems());
+        realPaymentDto.setAmount(paymentEntity.getAmount());
+        realPaymentDto.setCardNumber(paymentEntity.getCardNumber());
+        realPaymentDto.setClientName(paymentEntity.getClientName());
+        realPaymentDto.setClientEmail(paymentEntity.getClientEmail());
+        realPaymentDto.setConfirmed(paymentEntity.getConfirmed());
+        return realPaymentDto;
     }
 
 }

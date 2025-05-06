@@ -43,7 +43,7 @@ public class PaymentProcessController {
         return switch (errorCode) {
             case INVALID_COMMAND_INPUT, INVALID_PAYMENT_INPUT, INVALID_CARD, EMPTY_REFERENCE_NUMBER,
                  PAYMENT_NOT_FOUND ->
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Result<>(Status.RJC, errorCode, null));
+                    ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new Result<>(Status.RJC, errorCode, null));
             default ->
                     ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Result<>(Status.RJC, errorCode, null));
         };

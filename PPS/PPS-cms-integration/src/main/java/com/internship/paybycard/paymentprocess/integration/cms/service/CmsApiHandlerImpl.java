@@ -23,20 +23,25 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix="cms.api")
+@ConfigurationProperties(prefix = "cms.api")
 public class CmsApiHandlerImpl implements CmsApiHandler {
 
-    @Getter@Setter
+    @Getter
+    @Setter
     private String baseUrl;
 
     private final Logger log = LoggerFactory.getLogger(CmsApiHandlerImpl.class);
 
-    private final WebClient client = WebClient.create(this.getBaseUrl());
+    private WebClient getWebClient() {
+        log.info("creating webclient with baseurl {}", baseUrl);
+        return WebClient.builder().baseUrl(this.getBaseUrl()).build();
+    }
 
     @Override
     public CardDto verifyCard(VerifyCardDto verifyCardDto) {
+        log.info("base URL: " + baseUrl);
         log.info("verifying card with CMS api: {}", verifyCardDto);
-        Mono<CardApiResponse> apiResponse = client.post()
+        Mono<CardApiResponse> apiResponse = getWebClient().post()
                 .uri("/api/v1/cards/validate")
                 .bodyValue(verifyCardDto)
                 .retrieve()
@@ -50,14 +55,10 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 )
                 .bodyToMono(CardApiResponse.class)
                 .doOnSuccess(response -> {
-
                     log.debug("card validated: {}", response.getData());
-                    System.out.println("✅ Card is valid");
-
                 })
                 .doOnError(error -> {
                     log.error("card validation error: {}", error.getMessage());
-                    System.err.println("❌ Error validating card: " + error.getMessage());
                 });
         return Objects.requireNonNull(apiResponse.block()).getData();
     }

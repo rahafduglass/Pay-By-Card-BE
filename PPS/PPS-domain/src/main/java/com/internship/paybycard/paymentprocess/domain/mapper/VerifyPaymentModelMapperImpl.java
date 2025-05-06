@@ -17,7 +17,7 @@ public class VerifyPaymentModelMapperImpl implements VerifyPaymentModelMapper {
     private final OtpService otpService;
     private final EmailService emailService;
 
-    // Q: is it ok that I am mapping with the contrustor?
+
     @Override
     public VerifyPaymentModel commandToModel(VerifyPaymentCommand command) {
         if (command == null) {

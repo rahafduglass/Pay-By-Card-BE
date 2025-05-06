@@ -36,7 +36,7 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
         }
         log.debug("Verifying payment with reference number " + referenceNumber + " by paymentDao");
         paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
-        if (paymentDto == null) {
+        if(paymentDto.isNull()) {
             log.error("Payment with reference number " + referenceNumber + " not found");
             throw new PaymentNotFoundException("payment not found " + referenceNumber);
         }

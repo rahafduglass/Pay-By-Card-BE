@@ -50,7 +50,7 @@ public class CardControllerTest {
         CreateCardRequest request = new CreateCardRequest();
         when(cardService.createCard(request)).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,new NullCardDto()));
         ResponseEntity<Result<Void>> response = cardController.createCard(request);
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(422, response.getStatusCodeValue());
         assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
     }
 
@@ -68,7 +68,7 @@ public class CardControllerTest {
     public void givenAnyInvalidRequestWithCardServiceReturnRejectedStatusAndInvalidCardInfoErrorCode_whenCallUpdateCard_thenReturnBadRequestHttpStatus() {
         when(cardService.updateCard(any())).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,null));
         ResponseEntity<Result<Void>> response = cardController.updateCard(any());
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(422, response.getStatusCodeValue());
         assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
 
     }
@@ -86,7 +86,7 @@ public class CardControllerTest {
         ValidateCardRequest request = new ValidateCardRequest();
         when(cardService.deleteCard(request)).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,null));
         ResponseEntity<Result<Void>> response = cardController.deleteCard(request);
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(422, response.getStatusCodeValue());
         assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
     }
 
@@ -106,7 +106,7 @@ public class CardControllerTest {
         ValidateCardRequest request = new ValidateCardRequest();
         when(cardService.validateCard(request)).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,null));
         ResponseEntity<Result<CardDto>> response = cardController.validateCard(request);
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(422, response.getStatusCodeValue());
         assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
     }
 }

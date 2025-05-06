@@ -35,7 +35,7 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             initiatePaymentModel.validatePayment();
             log.debug("initiating payment: {}", initiatePaymentModel);
             PaymentDto initiatedPayment = initiatePaymentModel.initiate();
-            return new Result<String>(Status.ACT, ErrorCode.NULL, initiatedPayment.getReferenceNumber());
+            return new Result<>(Status.ACT, ErrorCode.NULL, initiatedPayment.getReferenceNumber());
         } catch (IllegalArgumentException e) {
             log.error("invalid command argument: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INVALID_COMMAND_INPUT, null);

@@ -57,7 +57,7 @@ public class CardController {
 
     private <T> ResponseEntity<Result<T>> rejectResponse(Result<T> result) {
         return switch (result.errorCode()) {
-            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(result);
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         };
     }

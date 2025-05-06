@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;
@@ -36,7 +36,7 @@ public class VerifyPaymentModelImplTest {
 
     @Test
     public void givenValidReferenceNumber_whenCallVerifyPayment_thenSuccess() {
-        when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(new PaymentDto());
+        when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(new RealPaymentDto());
         verifyPaymentModel = new VerifyPaymentModelImpl("number", paymentDao, otpService, emailService);
         verifyPaymentModel.verifyPayment();
     }
@@ -68,10 +68,10 @@ public class VerifyPaymentModelImplTest {
 
     @Test
     public void callSendOtpWithCallingVerifyPaymentFirst_thenSuccess() {
-        PaymentDto paymentDto = mock(PaymentDto.class);
-        when(paymentDto.getClientEmail()).thenReturn("client@paybycard.com");
+        RealPaymentDto realPaymentDto = mock(RealPaymentDto.class);
+        when(realPaymentDto.getClientEmail()).thenReturn("client@paybycard.com");
 
-        when(paymentDao.findPaymentByReferenceNumber("number")).thenReturn(paymentDto);
+        when(paymentDao.findPaymentByReferenceNumber("number")).thenReturn(realPaymentDto);
         when(otpService.generateOtp()).thenReturn("1234");
         doNothing().when(otpService).storeOtp("number", "1234");
         when(emailService.sendOtpEmail("client@paybycard.com", "number", "1234")).thenReturn(true);

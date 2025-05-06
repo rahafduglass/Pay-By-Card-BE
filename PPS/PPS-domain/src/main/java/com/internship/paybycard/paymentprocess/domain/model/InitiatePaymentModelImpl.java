@@ -1,5 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
+import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
@@ -7,7 +8,7 @@ import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDt
 import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
 
     @Override
     public boolean validatePayment() {
-        log.info("Validating payment with reference number {}", card.getCardNumber());
+        log.info("Validating payment input with reference number {}", card.getCardNumber());
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0
                 || items == null || items.isEmpty()
                 || clientName == null || clientName.isEmpty()) {
@@ -58,16 +59,16 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
                 throw new InsufficientCardBalance("the amount is bigger your card balance");
             }
 
-            PaymentDto paymentDto = new PaymentDto();
-            paymentDto.setAmount(amount);
-            paymentDto.setItems(items);
-            paymentDto.setClientName(clientName);
-            paymentDto.setClientEmail(verifiedCard.getClientEmail());
-            paymentDto.setCardNumber(verifiedCard.getCardNumber());
-            paymentDto.setConfirmed(false);
-            paymentDto.setReferenceNumber(UUID.randomUUID().toString());
-            log.debug("creating payment record in database: {}", paymentDto);
-            return paymentDao.createPayment(paymentDto);
+            RealPaymentDto realPaymentDto = new RealPaymentDto();
+            realPaymentDto.setAmount(amount);
+            realPaymentDto.setItems(items);
+            realPaymentDto.setClientName(clientName);
+            realPaymentDto.setClientEmail(verifiedCard.getClientEmail());
+            realPaymentDto.setCardNumber(verifiedCard.getCardNumber());
+            realPaymentDto.setConfirmed(false);
+            realPaymentDto.setReferenceNumber(UUID.randomUUID().toString());
+            log.debug("creating payment record in database: {}", realPaymentDto);
+            return paymentDao.createPayment(realPaymentDto);
         } else {
             log.error("Payment is not valid ");
             throw new RuntimeException("Payment is not valid: consider calling validatePayment() method first");
