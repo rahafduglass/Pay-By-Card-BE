@@ -1,6 +1,6 @@
-package com.internship.paybycard.paymentprocess.core.domain.dto.command.payment;
+package com.internship.paybycard.paymentprocess.core.domain.dto.payment.command;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.card.VerifyCardCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.card.command.VerifyCardCommand;
 
 import java.math.BigDecimal;
 

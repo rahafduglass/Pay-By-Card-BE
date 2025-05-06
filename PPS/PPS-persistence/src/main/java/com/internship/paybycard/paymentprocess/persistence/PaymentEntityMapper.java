@@ -1,8 +1,8 @@
 package com.internship.paybycard.paymentprocess.persistence;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.NullPaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.NullPaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,7 +10,7 @@ public class PaymentEntityMapper {
 
     public PaymentProcessEntity dtoToEntity(PaymentDto realPaymentDto) {
         if(realPaymentDto == null) {
-            throw new RuntimeException("Payment DTO is null");
+            throw new IllegalArgumentException("Payment DTO is null");
         }
         PaymentProcessEntity paymentProcessEntity = new PaymentProcessEntity();
         paymentProcessEntity.setId(realPaymentDto.getId());

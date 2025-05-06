@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.mapper;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.VerifyPaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;

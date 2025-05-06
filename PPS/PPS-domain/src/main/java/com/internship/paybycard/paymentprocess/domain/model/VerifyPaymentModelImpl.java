@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;

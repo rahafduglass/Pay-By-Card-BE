@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.core.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 
 import java.math.BigDecimal;

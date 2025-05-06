@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.core.domain.dto;
+package com.internship.paybycard.paymentprocess.core.domain.dto.payment;
 
 import java.math.BigDecimal;
 

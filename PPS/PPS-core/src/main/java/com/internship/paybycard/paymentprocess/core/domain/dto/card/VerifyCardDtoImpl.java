@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.integration.cms.dto;
+package com.internship.paybycard.paymentprocess.core.domain.dto.card;
 
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import lombok.Data;

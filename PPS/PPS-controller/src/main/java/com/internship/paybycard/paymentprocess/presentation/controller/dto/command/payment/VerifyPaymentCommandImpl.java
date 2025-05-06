@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
 import lombok.Data;
 
 @Data

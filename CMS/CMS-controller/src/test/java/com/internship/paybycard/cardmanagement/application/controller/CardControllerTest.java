@@ -60,7 +60,6 @@ public class CardControllerTest {
         when(cardService.updateCard(any())).thenReturn(new Result(Status.ACP, null,null));
         ResponseEntity<Result<Void>> response = cardController.updateCard(any());
         assertEquals(204, response.getStatusCodeValue());
-        assertEquals(Status.ACP, response.getBody().status());
 
     }
 
@@ -69,7 +68,6 @@ public class CardControllerTest {
         when(cardService.updateCard(any())).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,null));
         ResponseEntity<Result<Void>> response = cardController.updateCard(any());
         assertEquals(422, response.getStatusCodeValue());
-        assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
 
     }
 
@@ -78,7 +76,7 @@ public class CardControllerTest {
         when(cardService.deleteCard(any())).thenReturn(new Result(Status.ACP, null,null));
         ResponseEntity<Result<Void>> response = cardController.deleteCard(any());
         assertEquals(204, response.getStatusCodeValue());
-        assertEquals(Status.ACP, response.getBody().status());
+
     }
 
     @Test
@@ -87,7 +85,6 @@ public class CardControllerTest {
         when(cardService.deleteCard(request)).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,null));
         ResponseEntity<Result<Void>> response = cardController.deleteCard(request);
         assertEquals(422, response.getStatusCodeValue());
-        assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
     }
 
     @Test

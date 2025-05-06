@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.mapper;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.InitiatePaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.InitiatePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;

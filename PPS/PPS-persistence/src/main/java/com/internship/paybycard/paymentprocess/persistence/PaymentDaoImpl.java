@@ -1,8 +1,8 @@
 package com.internship.paybycard.paymentprocess.persistence;
 
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -32,7 +32,8 @@ public class PaymentDaoImpl implements PaymentDao {
     }
 
     @Override
-    public void updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed) {
+    public int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed) {
         log.debug("updating payment confirmed by reference number {}", referenceNumber);
+        return paymentProcessJpaRepository.updatePaymentByReferenceNumber(referenceNumber,confirmed);
     }
 }

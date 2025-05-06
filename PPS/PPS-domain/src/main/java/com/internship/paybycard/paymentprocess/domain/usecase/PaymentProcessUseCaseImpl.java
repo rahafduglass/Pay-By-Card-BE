@@ -1,12 +1,14 @@
 package com.internship.paybycard.paymentprocess.domain.usecase;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.CompletePaymentCommand;
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.InitiatePaymentCommand;
-import com.internship.paybycard.paymentprocess.core.domain.dto.command.payment.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.CompletePaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.exception.*;
+import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.CompletePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.InitiatePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.VerifyPaymentModelMapper;
+import com.internship.paybycard.paymentprocess.core.domain.model.CompletePaymentModel;
 import com.internship.paybycard.paymentprocess.core.domain.model.InitiatePaymentModel;
 import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
@@ -22,6 +24,7 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
 
     private final InitiatePaymentModelMapper initiatePaymentModelMapper;
     private final VerifyPaymentModelMapper verifyPaymentModelMapper;
+    private final CompletePaymentModelMapper completePaymentModelMapper;
     private final Logger log = LoggerFactory.getLogger(PaymentProcessUseCaseImpl.class);
 
     @Override
@@ -79,11 +82,33 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             log.error("unexpected error: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
-
     }
 
     @Override
-    public Result completePayment(CompletePaymentCommand command) {
-        return null;
+    public Result<Void> completePayment(CompletePaymentCommand command) {
+        log.info("Complete payment use case with command: {}", command);
+        try{
+            log.debug("mapping command to model,command: {}", command);
+            CompletePaymentModel completePaymentModel=completePaymentModelMapper.commandToModel(command);
+            log.debug("mapping command to model, mapped model: {}", completePaymentModel);
+            log.debug("verifying OTP for paymentModel: {}", completePaymentModel);
+            completePaymentModel.verifyOTP();
+            log.debug("perform payment using with pay(): paymentModel: {}", completePaymentModel);
+            completePaymentModel.pay();
+            return new Result<>(Status.ACT, ErrorCode.NULL, null);
+        }catch (EmptyOtpException e){
+            log.error("empty otp: {}", e.getMessage());
+            return new Result<>(Status.RJC,ErrorCode.EMPTY_OTP,null);
+        }catch (InvalidOtpException e){
+            log.error("invalid otp: {}", e.getMessage());
+            return new Result<>(Status.RJC,ErrorCode.INVALID_OR_EXPIRED_OTP,null);
+        }catch (InvalidCardException e){
+            log.error("invalid card: {}", e.getMessage());
+            return new Result<>(Status.RJC,ErrorCode.INVALID_CARD,null);
+        }
+        catch (Exception e) {
+            log.error("unexpected error: {}", e.getMessage());
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
+        }
     }
 }

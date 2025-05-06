@@ -4,15 +4,13 @@ import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
+import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment.CompletePaymentCommandImpl;
 import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment.InitiatePaymentCommandImpl;
 import com.internship.paybycard.paymentprocess.presentation.controller.dto.command.payment.VerifyPaymentCommandImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/paymentProcess")
@@ -30,7 +28,7 @@ public class PaymentProcessController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PostMapping("/verify")
+    @PutMapping("/verify")
     public ResponseEntity<Result<Void>> verifyPayment(@RequestBody VerifyPaymentCommandImpl command) {
         Result<Void> result = paymentProcessUseCase.verifyPayment(command);
         if (result.getStatus().name().equals("RJC")) {
@@ -38,6 +36,16 @@ public class PaymentProcessController {
         }
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/complete")
+    public ResponseEntity<Result<Void>> completePayment(@RequestBody CompletePaymentCommandImpl command) {
+        Result<Void> result= paymentProcessUseCase.completePayment(command);
+        if (result.getStatus().name().equals("RJC")) {
+            return rejectResponse(result.getErrorCode());
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+
 
     private <T> ResponseEntity<Result<T>> rejectResponse(ErrorCode errorCode) {
         return switch (errorCode) {

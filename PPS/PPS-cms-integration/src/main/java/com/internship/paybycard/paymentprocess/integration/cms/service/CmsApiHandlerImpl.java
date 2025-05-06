@@ -5,6 +5,7 @@ import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCa
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.integration.cms.dto.CardApiResponse;
+import com.internship.paybycard.paymentprocess.integration.cms.dto.CmsApiWithdrawRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -39,7 +41,6 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
 
     @Override
     public CardDto verifyCard(VerifyCardDto verifyCardDto) {
-        log.info("base URL: " + baseUrl);
         log.info("verifying card with CMS api: {}", verifyCardDto);
         Mono<CardApiResponse> apiResponse = getWebClient().post()
                 .uri("/api/v1/cards/validate")
@@ -65,7 +66,28 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
 
     @Override
     public void pay(VerifyCardDto verifyCardDto, BigDecimal amount) {
-
+        log.info("paying by card with CMS api: {}", verifyCardDto);
+        CmsApiWithdrawRequest request = new CmsApiWithdrawRequest(verifyCardDto, amount);
+      getWebClient().put()
+                .uri("/api/v1/cards/withdraw")
+              .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(request)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, response ->
+                        response.bodyToMono(String.class)
+                                .flatMap(errorBody -> Mono.error(new RuntimeException("Client error: " + errorBody)))
+                )
+                .onStatus(HttpStatusCode::is5xxServerError, response ->
+                        response.bodyToMono(String.class)
+                                .flatMap(errorBody -> Mono.error(new RuntimeException("Server error: " + errorBody)))
+                )
+                .bodyToMono(Void.class)
+                .doOnSuccess(response -> {
+                    log.debug("card validated ");
+                })
+                .doOnError(error -> {
+                    log.error("card validation error: {}", error.getMessage());
+                }).block();
     }
 
 }

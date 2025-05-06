@@ -3,7 +3,7 @@ package com.internship.paybycard.paymentprocess.integration.cms.service;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.integration.cms.CmsTestApp;
-import com.internship.paybycard.paymentprocess.integration.cms.dto.VerifyCardDtoImpl;
+import com.internship.paybycard.paymentprocess.core.domain.dto.card.VerifyCardDtoImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,4 +27,9 @@ public class CmsApiHandlerImplTest {
         CardDto cardDto = cmsApiHandlerImpl.verifyCard(verifyCardDto);
         assertNotNull(cardDto);
     }
+
+   // @Test
+ //   public void givenValidRequest_whenCallPay_then
+
+
 }

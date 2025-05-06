@@ -4,6 +4,7 @@ import com.internship.paybycard.cardmanagement.core.dao.CardDao;
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
+import com.internship.paybycard.cardmanagement.core.interactor.WithdrawInteractor;
 import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
@@ -15,6 +16,7 @@ import com.internship.paybycard.cardmanagement.domain.util.CardUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -28,67 +30,105 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Result<Void> createCard(CreateCardInteractor card) {
-        log.info("Creating new card {}", card.getClientName());
-        log.debug("Mapping card interactor to card model");
-        RealCardDto cardModel = createCardMapperImpl.mapTo(card);
-        log.debug("the mapped card model: {}", cardModel);
-
-        log.debug("setting generated values in card model");
-        cardModel.setExpiryDate(LocalDate.now().plusYears(2));
-        cardModel.setCVV(CardUtils.generateCVV());
-        cardModel.setCardNumber(UUID.randomUUID().toString());
-        log.debug("the card model with generated values: {}", cardModel);
         try {
+            log.info("Creating new card {}", card.getClientName());
+            log.debug("Mapping card interactor to card model");
+            RealCardDto cardModel = createCardMapperImpl.mapTo(card);
+            log.debug("the mapped card model: {}", cardModel);
+
+            log.debug("setting generated values in card model");
+            cardModel.setExpiryDate(LocalDate.now().plusYears(2));
+            cardModel.setCVV(CardUtils.generateCVV());
+            cardModel.setCardNumber(UUID.randomUUID().toString());
+            log.debug("the card model with generated values: {}", cardModel);
+
             log.info("saving new card model by card dao");
-            cardDao.saveCard(cardModel);
+            if (cardDao.saveCard(cardModel).isNull()) {
+                log.error("couldn't create card: {}", cardModel.getClientEmail());
+                return new Result<>(Status.RJC, ErrorCode.FAILED, null);
+            }
+            log.debug("card created successfully");
+            return new Result<>(Status.ACP, null, null);
+        } catch (IllegalArgumentException e) {
+            log.error("couldn't create card: {}", card.getClientEmail());
+            return new Result<>(Status.RJC, ErrorCode.INVALID_INTERACTOR, null);
         } catch (Exception e) {
-            log.error("couldn't create card: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.FAILED,null);
+            log.error("couldn't create card: {}", card.getClientEmail());
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
-        log.debug("card created successfully");
-        return new Result<>(Status.ACP, null,null);
     }
 
     @Override
     public Result<Void> updateCard(UpdateCardInteractor card) {
-        log.info("CardService: Updating card");
         try {
-            log.debug("CardService: updating card by card dao");
-            cardDao.updateCardInfo(card);
+            log.info("Updating card");
+
+            log.debug("updating card by card dao");
+            if (cardDao.updateCardInfo(card) <= 0) {
+                log.error("couldn't update card: {}", card.getCardNumber());
+                return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO, null);
+            }
+            log.debug("card updated successfully");
+            return new Result<>(Status.ACP, null, null);
+        } catch (IllegalArgumentException e) {
+            log.error("couldn't create card: invalid interactor{}", card);
+            return new Result<>(Status.RJC, ErrorCode.INVALID_INTERACTOR, null);
         } catch (Exception e) {
-            log.error("CardService: couldn't update card: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO,null);
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
-        log.debug("CardService: card updated successfully");
-        return new Result<>(Status.ACP, null, null);
     }
 
     @Override
     public Result<CardDto> validateCard(ValidateCardInteractor card) {
-        log.info("CardService: Validating card");
-        CardDto cardDto =null;
         try {
-            log.debug("CardService: validating card by card dao");
-            cardDto = cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
+            log.info("Validating card");
+            log.debug("validating card by card dao");
+            CardDto cardDto = cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
+            if (cardDto.isNull()) {
+                log.debug("invalid card: {}", card.getCardNumber());
+                return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO, null);
+            }
+            log.debug("card validated successfully");
+            return new Result<>(Status.ACP, null, cardDto);
+        } catch (IllegalArgumentException e) {
+            log.error("couldn't create card: invalid interactor{}", card);
+            return new Result<>(Status.RJC, ErrorCode.INVALID_INTERACTOR, null);
         } catch (Exception e) {
-            log.debug("CardService: invalid card: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO,null);
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
-        log.debug("CardService: card validated successfully");
-        return new Result<>(Status.ACP, null, cardDto);
-
     }
 
     @Override
     public Result<Void> deleteCard(ValidateCardInteractor card) {
         try {
-            cardDao.deleteCard(card);
+            log.info("Deleting card");
+            if (cardDao.deleteCard(card) <= 0) {
+                log.error("couldn't delete card: {}", card.getCardNumber());
+                return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO, null);
+            }
+            log.debug("card deleted successfully");
+            return new Result<>(Status.ACP, null, null);
+        } catch (IllegalArgumentException e) {
+            log.error("couldn't create card: invalid interactor {}", card);
+            return new Result<>(Status.RJC, ErrorCode.INVALID_INTERACTOR, null);
         } catch (Exception e) {
-            log.error("CardService: couldn't delete card: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO,null);
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
-        log.debug("CardService: card deleted successfully");
-        return new Result<>(Status.ACP, null,null);
+    }
+
+    @Override
+    public Result<Void> withdraw(WithdrawInteractor withdrawInteractor) {
+        try{
+            log.info("Withdrawing from card");
+            ValidateCardInteractor card= withdrawInteractor.getValidateCardInfo();
+            CardDto cardDto = cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
+            BigDecimal newBalance =cardDto.getBalance().subtract(withdrawInteractor.getAmount());
+            if(cardDao.updateCardBalance(card.getCardNumber(), card.getCVV(), card.getExpiryDate(), newBalance) == 1)
+                return new Result<>(Status.ACP, null, null);
+             return new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE, null);
+        }catch (Exception e){
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
+        }
     }
 
 }

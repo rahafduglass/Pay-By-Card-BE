@@ -1,7 +1,6 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.RealPaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidPaymentException;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;

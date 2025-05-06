@@ -9,6 +9,9 @@ public class CreateCardMapperImpl implements CreateCardMapper {
 
     @Override
     public RealCardDto mapTo(CreateCardInteractor createCardInteractor) {
+        if(createCardInteractor == null) {
+            throw new IllegalArgumentException("createCardInteractor cannot be null");
+        }
 
         RealCardDto cardModel= new RealCardDto();
         cardModel.setClientEmail(createCardInteractor.getClientEmail());

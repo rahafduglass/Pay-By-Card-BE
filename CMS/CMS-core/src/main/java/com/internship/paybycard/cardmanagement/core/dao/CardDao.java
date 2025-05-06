@@ -6,12 +6,15 @@ import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInter
 import com.internship.paybycard.cardmanagement.core.model.CardDto;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface CardDao {
     CardDto saveCard(CardDto card);
-    void updateCardInfo(UpdateCardInteractor card);
+    int updateCardInfo(UpdateCardInteractor card);
     CardDto findCard(String cardNumber, String cvv, LocalDate expiryDate);
     CardDto findCardById(Long cardId);
-    void deleteCard(ValidateCardInteractor card);
+    int deleteCard(ValidateCardInteractor card);
+
+    int updateCardBalance(String cardNumber, String cvv, LocalDate expiryDate, BigDecimal newBalance);
 }

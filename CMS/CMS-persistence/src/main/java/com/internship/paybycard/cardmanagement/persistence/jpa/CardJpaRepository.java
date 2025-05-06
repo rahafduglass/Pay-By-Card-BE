@@ -29,4 +29,10 @@ public interface CardJpaRepository extends JpaRepository<CardEntity, Long> {
     @Modifying
     @Query("UPDATE CardEntity c SET c.balance=:balance , c.clientEmail=:clientEmail,c.clientName=:clientName WHERE c.CVV=:cvv AND c.cardNumber=:cardNumber AND c.expiryDate=:expiryDate")
     Integer updateCardBalanceAndClientEmailAndClientNameByCvvAndCardNumberAndExpiryDate(@Param("balance")BigDecimal balance, @Param("clientEmail")String clientEmail, @Param("clientName")String clientName, @Param("cvv") String cvv, @Param("cardNumber")String cardNumber,@Param("expiryDate")LocalDate expiryDate);
+
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE CardEntity c SET c.balance=:balance WHERE c.CVV=:cvv AND c.cardNumber=:cardNumber AND c.expiryDate=:expiryDate")
+    int updateCardBalance(@Param("cardNumber")String cardNumber, @Param("cvv") String cvv,@Param("expiryDate") LocalDate expiryDate, @Param("balance") BigDecimal newBalance);
 }
