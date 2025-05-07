@@ -37,20 +37,11 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             log.debug("validating mode: {}", initiatePaymentModel);
             initiatePaymentModel.validatePayment();
             log.debug("initiating payment: {}", initiatePaymentModel);
-            PaymentDto initiatedPayment = initiatePaymentModel.initiate();
+            PaymentDto initiatedPayment = initiatePaymentModel.process();
             return new Result<>(Status.ACT, ErrorCode.NULL, initiatedPayment.getReferenceNumber());
-        } catch (IllegalArgumentException e) {
-            log.error("invalid command argument: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_COMMAND_INPUT, null);
-        } catch (InvalidPaymentException e) {
-            log.error("invalid payment input: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_PAYMENT_INPUT, null);
-        } catch (InsufficientCardBalance e) {
-            log.error("insufficient card balance: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE, null);
-        } catch (InvalidCardException e) {
-            log.error("invalid card: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_CARD, null);
+        } catch (BusinessException e){
+            log.error("Business exception", e);
+            return new Result<>(Status.RJC,e.getErrorCode(),null);
         } catch (Exception e) {
             log.error("unexpected error: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
@@ -69,15 +60,9 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             log.debug("sending OTP to email with the following reference number: : {}", verifyPaymentModel.getReferenceNumber());
             verifyPaymentModel.sendOtp();
             return new Result<>(Status.ACT, ErrorCode.NULL, null);
-        } catch (IllegalArgumentException e) {
-            log.error("invalid command argument: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.INVALID_COMMAND_INPUT, null);
-        } catch (EmptyReferenceNumberException e) {
-            log.error("empty reference number: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.EMPTY_REFERENCE_NUMBER, null);
-        } catch (PaymentNotFoundException e) {
-            log.error("payment not found: {}", e.getMessage());
-            return new Result<>(Status.RJC, ErrorCode.PAYMENT_NOT_FOUND, null);
+        } catch (BusinessException e){
+            log.error("Business exception", e);
+            return new Result<>(Status.RJC,e.getErrorCode(),null);
         } catch (Exception e) {
             log.error("unexpected error: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
@@ -87,30 +72,19 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
     @Override
     public Result<Void> completePayment(CompletePaymentCommand command) {
         log.info("Complete payment use case with command: {}", command);
-        try{
+        try {
             log.debug("mapping command to model,command: {}", command);
-            CompletePaymentModel completePaymentModel=completePaymentModelMapper.commandToModel(command);
+            CompletePaymentModel completePaymentModel = completePaymentModelMapper.commandToModel(command);
             log.debug("mapping command to model, mapped model: {}", completePaymentModel);
             log.debug("verifying OTP for paymentModel: {}", completePaymentModel);
             completePaymentModel.verifyOTP();
             log.debug("perform payment using with pay(): paymentModel: {}", completePaymentModel);
             completePaymentModel.pay();
             return new Result<>(Status.ACT, ErrorCode.NULL, null);
-        }catch (EmptyOtpException e){
-            log.error("empty otp: {}", e.getMessage());
-            return new Result<>(Status.RJC,ErrorCode.EMPTY_OTP,null);
-        }catch (InvalidOtpException e){
-            log.error("invalid otp: {}", e.getMessage());
-            return new Result<>(Status.RJC,ErrorCode.INVALID_OR_EXPIRED_OTP,null);
-        }catch (InvalidCardException e){
-            log.error("invalid card: {}", e.getMessage());
-            return new Result<>(Status.RJC,ErrorCode.INVALID_CARD,null);
-        }
-        catch (PaymentNotFoundException e){
-            log.error("payment not found: {}", e.getMessage());
-            return new Result<>(Status.RJC,ErrorCode.PAYMENT_NOT_FOUND,null);
-        }
-        catch (Exception e) {
+        } catch (BusinessException e){
+            log.error("Business exception", e);
+            return new Result<>(Status.RJC,e.getErrorCode(),null);
+        } catch (Exception e) {
             log.error("unexpected error: {}", e.getMessage());
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }

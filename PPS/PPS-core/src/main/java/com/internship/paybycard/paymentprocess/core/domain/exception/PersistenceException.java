@@ -1,8 +1,10 @@
 package com.internship.paybycard.paymentprocess.core.domain.exception;
 
-public class PersistenceException extends RuntimeException {
-    public PersistenceException(String message) {
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 
-        super(message);
+public class PersistenceException extends BusinessException {
+    public PersistenceException(String message, ErrorCode errorCode) {
+
+        super(message,errorCode);
     }
 }

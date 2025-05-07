@@ -1,9 +1,9 @@
 package com.internship.paybycard.paymentprocess.integration.cms.mapper;
 
-import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
-import com.internship.paybycard.paymentprocess.core.domain.dto.card.command.VerifyCardCommand;
-import com.internship.paybycard.paymentprocess.core.domain.mapper.card.VerifyCardMapper;
 import com.internship.paybycard.paymentprocess.core.domain.dto.card.VerifyCardDtoImpl;
+import com.internship.paybycard.paymentprocess.core.domain.dto.card.command.VerifyCardDetails;
+import com.internship.paybycard.paymentprocess.core.domain.mapper.card.VerifyCardMapper;
+import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import org.springframework.stereotype.Component;
 
 
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 public class VerifyCardMapperImpl implements VerifyCardMapper {
 
     @Override
-    public VerifyCardDto commandToDto(VerifyCardCommand verifyCardCommand) {
-        if(verifyCardCommand == null) {return null;}
-        VerifyCardDto verifyCardDto= new VerifyCardDtoImpl();
-        verifyCardDto.setCardNumber(verifyCardCommand.getCardNumber());
-        verifyCardDto.setExpiryDate(verifyCardCommand.getExpiryDate());
-        verifyCardDto.setCVV(verifyCardCommand.getCVV());
+    public VerifyCardDto commandToDto(VerifyCardDetails verifyCardDetails) {
+        if(verifyCardDetails == null) {return null;}
+        VerifyCardDtoImpl verifyCardDto= new VerifyCardDtoImpl();
+        verifyCardDto.setCardNumber(verifyCardDetails.getCardNumber());
+        verifyCardDto.setExpiryDate(verifyCardDetails.getExpiryDate());
+        verifyCardDto.setCVV(verifyCardDetails.getCVV());
         return verifyCardDto;
     }
 }

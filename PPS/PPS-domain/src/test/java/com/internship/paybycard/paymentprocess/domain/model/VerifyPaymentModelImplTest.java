@@ -2,7 +2,6 @@ package com.internship.paybycard.paymentprocess.domain.model;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.NullPaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
@@ -50,16 +49,6 @@ public class VerifyPaymentModelImplTest {
         assertEquals("payment not found 12312", exception.getMessage());
     }
 
-    @Test
-    public void givenEmptyAndNullReferenceNumber_whenCallVerifyPayment_thenThrowException() {
-        verifyPaymentModel = new VerifyPaymentModelImpl("",  paymentDao, otpService, emailService);
-        Exception exception = assertThrows(EmptyReferenceNumberException.class, () -> verifyPaymentModel.verifyPayment());
-        assertEquals("empty reference number", exception.getMessage());
-
-        verifyPaymentModel = new VerifyPaymentModelImpl(null,  paymentDao, otpService, emailService);
-        Exception exception1 = assertThrows(EmptyReferenceNumberException.class, () -> verifyPaymentModel.verifyPayment());
-        assertEquals("empty reference number", exception1.getMessage());
-    }
 
     @Test
     public void callSendOtpWithoutCallingVerifyPaymentFirst_thenThrowException() {

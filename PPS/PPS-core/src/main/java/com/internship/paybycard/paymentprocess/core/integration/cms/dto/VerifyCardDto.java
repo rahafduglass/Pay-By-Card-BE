@@ -7,8 +7,5 @@ public interface VerifyCardDto {
     String getCVV();
     LocalDate getExpiryDate();
 
-    //todo no setters
-    void setExpiryDate(LocalDate expiryDate);
-    void setCardNumber(String cardNumber);
-    void setCVV(String cvv);
+
 }

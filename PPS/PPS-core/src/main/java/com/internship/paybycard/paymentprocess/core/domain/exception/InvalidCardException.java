@@ -1,7 +1,13 @@
 package com.internship.paybycard.paymentprocess.core.domain.exception;
 
-public class InvalidCardException extends RuntimeException {
-    public InvalidCardException(String message) {
-        super(message);
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
+
+public class InvalidCardException extends BusinessException {
+
+    public InvalidCardException(String message, ErrorCode errorCode) {
+        super(message, errorCode);
     }
+
+
+
 }

@@ -20,10 +20,17 @@ public class InitiatePaymentModelMapperImpl implements InitiatePaymentModelMappe
 
     @Override
     public InitiatePaymentModel commandToModel(InitiatePaymentCommand command) {
-        if(command==null||command.getCard()==null) {
+        if (command == null || command.getCard() == null) {
             throw new IllegalArgumentException("command cannot be null");
         }
-        return new InitiatePaymentModelImpl(command.getItems(), command.getAmount(), command.getClientName(), verifyCardMapper.commandToDto(command.getCard()), paymentDao, cmsApiHandler);
+        return InitiatePaymentModelImpl.builder()
+                .items(command.getItems())
+                .amount(command.getAmount())
+                .clientName(command.getClientName())
+                .card(verifyCardMapper.commandToDto(command.getCard()))
+                .paymentDao(paymentDao)
+                .cmsApiHandler(cmsApiHandler)
+                .build();
     }
 
 }

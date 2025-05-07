@@ -1,7 +1,13 @@
 package com.internship.paybycard.paymentprocess.core.domain.exception;
 
-public class InsufficientCardBalance extends RuntimeException {
-    public InsufficientCardBalance(String message) {
-        super(message);
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
+
+public class InsufficientCardBalance extends BusinessException {
+
+
+
+    public InsufficientCardBalance(String message, ErrorCode errorCode) {
+        super(message, errorCode);
     }
+
 }

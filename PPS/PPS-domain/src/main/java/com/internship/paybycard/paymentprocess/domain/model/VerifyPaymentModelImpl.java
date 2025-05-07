@@ -1,9 +1,9 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.exception.EmptyReferenceNumberException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
@@ -30,15 +30,11 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
     @Override
     public void verifyPayment() {
         log.info("Verifying payment with reference number " + referenceNumber);
-        if (referenceNumber == null || referenceNumber.isEmpty()) {
-            log.error("reference number is null or empty");
-            throw new EmptyReferenceNumberException("empty reference number");
-        }
-        log.debug("Verifying payment with reference number " + referenceNumber + " by paymentDao");
+
         paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
         if(paymentDto.isNull()) {
             log.error("Payment with reference number " + referenceNumber + " not found");
-            throw new PaymentNotFoundException("payment not found " + referenceNumber);
+            throw new PaymentNotFoundException("payment not found " + referenceNumber, ErrorCode.PAYMENT_NOT_FOUND);
         }
         isVerified = true;
     }
@@ -55,7 +51,7 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
             emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otp);
         } else {
             log.error("Payment with reference number " + referenceNumber + " not verified");
-            throw new PaymentNotFoundException("payment does not exist OR you haven't called verifyPayment() method first");
+            throw new PaymentNotFoundException("payment does not exist OR you haven't called verifyPayment() method first",ErrorCode.PAYMENT_NOT_FOUND);
         }
     }
 

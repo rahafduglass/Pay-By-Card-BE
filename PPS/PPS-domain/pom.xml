@@ -7,7 +7,6 @@
         <artifactId>PPS</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.internship.paybycard</groupId>
     <artifactId>PPS-domain</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PPS-domain</name>

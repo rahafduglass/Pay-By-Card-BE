@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/cards")
 @RequiredArgsConstructor
 public class CardController {
-    // todo unit test
     private final CardService cardService;
 
     @PostMapping
