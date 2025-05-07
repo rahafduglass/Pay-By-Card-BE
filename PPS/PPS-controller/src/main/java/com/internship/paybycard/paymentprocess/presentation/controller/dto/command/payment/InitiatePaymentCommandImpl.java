@@ -10,8 +10,9 @@ import java.math.BigDecimal;
 
 @Data
 @Component
+//todo Add validation rules (Mandatory/Optional | Maximum Length as well)
 public class InitiatePaymentCommandImpl implements InitiatePaymentCommand {
-    private  String items;
+    private String items;
     private BigDecimal amount;
     private String clientName;
     private VerifyCardCommandImpl card;

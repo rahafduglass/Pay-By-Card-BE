@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
+//todo Builder instead of constructor
 public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     private final String items;
     private final BigDecimal amount;
@@ -39,6 +40,8 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0
                 || items == null || items.isEmpty()
                 || clientName == null || clientName.isEmpty()) {
+            // todo since u validate the data required or not in controller then the expected data here should be validated already
+            // from the upper layer
             log.error("Invalid payment data");
             throw new InvalidPaymentException("invalid payment input");
         }

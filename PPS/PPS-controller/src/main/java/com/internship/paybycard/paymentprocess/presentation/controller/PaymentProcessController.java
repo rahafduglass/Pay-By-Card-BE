@@ -21,6 +21,7 @@ public class PaymentProcessController {
 
     @PostMapping("/initiate")
     public ResponseEntity<Result<String>> initiatePayment(@RequestBody InitiatePaymentCommandImpl command) {
+//        todo create new response for and map it in new layer (formatter) this should be implemetned for all api's paths
         Result<String> result = paymentProcessUseCase.initiatePayment(command);
         if (result.getStatus().name().equals("RJC")) {
             return rejectResponse(result.getErrorCode());

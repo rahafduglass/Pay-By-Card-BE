@@ -8,6 +8,8 @@ import java.time.LocalDate;
 
 @Data
 @Component
+//todo Add validation rules (Mandatory/Optional | Maximum Length as well)
+
 public class VerifyCardCommandImpl implements VerifyCardCommand {
 
     private String cardNumber;

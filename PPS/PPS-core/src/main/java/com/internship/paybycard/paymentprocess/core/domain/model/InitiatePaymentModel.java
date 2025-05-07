@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 public interface InitiatePaymentModel {
 
+    //todo rename to process
     PaymentDto initiate() throws IllegalAccessException;
     boolean validatePayment();
 

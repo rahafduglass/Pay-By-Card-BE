@@ -4,6 +4,8 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.V
 import lombok.Data;
 
 @Data
+//todo Add validation rules (Mandatory/Optional | Maximum Length as well)
+
 public class VerifyPaymentCommandImpl implements VerifyPaymentCommand {
 
     private String paymentReference;

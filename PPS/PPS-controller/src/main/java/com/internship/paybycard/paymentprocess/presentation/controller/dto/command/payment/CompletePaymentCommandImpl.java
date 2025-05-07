@@ -7,6 +7,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
+//todo Add validation rules (Mandatory/Optional | Maximum Length as well)
+
 public class CompletePaymentCommandImpl implements CompletePaymentCommand {
     String paymentReference;
     String OTP;
