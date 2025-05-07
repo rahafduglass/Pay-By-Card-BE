@@ -25,7 +25,7 @@ public class PaymentProcessController {
     public ResponseEntity<InitiatePaymentResponse> initiatePayment(@RequestBody InitiatePaymentCommandImpl command) {
         Result<String> result = paymentProcessUseCase.initiatePayment(command);
         if (result.getStatus().name().equals("RJC")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(null);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentFormatter.toInitiatePaymentResponse(result.getData()));
     }
