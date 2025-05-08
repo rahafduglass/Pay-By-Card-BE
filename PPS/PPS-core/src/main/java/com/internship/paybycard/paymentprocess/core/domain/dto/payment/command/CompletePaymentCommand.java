@@ -8,5 +8,4 @@ public interface CompletePaymentCommand {
     String getPaymentReference();
     String getOTP();
     VerifyCardDto getVerifyCard();
-
 }

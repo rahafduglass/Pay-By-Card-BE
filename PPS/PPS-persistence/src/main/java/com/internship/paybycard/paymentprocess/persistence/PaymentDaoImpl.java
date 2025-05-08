@@ -5,19 +5,16 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDt
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PaymentDaoImpl implements PaymentDao {
 
     private final PaymentEntityMapper paymentEntityMapper;
-
     private final PaymentProcessJpaRepository paymentProcessJpaRepository;
-
-    private final Logger log = LoggerFactory.getLogger(PaymentDaoImpl.class);
 
     @Override
     public PaymentDto createPayment(RealPaymentDto realPaymentDto) {
@@ -34,6 +31,6 @@ public class PaymentDaoImpl implements PaymentDao {
     @Override
     public int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed) {
         log.debug("updating payment confirmed by reference number {}", referenceNumber);
-        return paymentProcessJpaRepository.updatePaymentByReferenceNumber(referenceNumber,confirmed);
+        return paymentProcessJpaRepository.updatePaymentByReferenceNumber(referenceNumber, confirmed);
     }
 }

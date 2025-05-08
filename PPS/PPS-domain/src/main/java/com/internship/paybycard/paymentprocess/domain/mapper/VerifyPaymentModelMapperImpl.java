@@ -11,12 +11,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class VerifyPaymentModelMapperImpl implements VerifyPaymentModelMapper {
-
-
     private final PaymentDao paymentDao;
     private final OtpService otpService;
     private final EmailService emailService;
-
 
     @Override
     public VerifyPaymentModel commandToModel(VerifyPaymentCommand command) {

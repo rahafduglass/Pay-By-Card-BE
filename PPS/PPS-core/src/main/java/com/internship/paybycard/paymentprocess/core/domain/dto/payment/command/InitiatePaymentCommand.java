@@ -9,5 +9,4 @@ public interface InitiatePaymentCommand {
     BigDecimal getAmount();
     String getClientName();
     VerifyCardDetails getCard();
-
 }

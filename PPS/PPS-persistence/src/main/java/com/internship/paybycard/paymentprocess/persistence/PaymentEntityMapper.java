@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PaymentEntityMapper {
 
     public PaymentProcessEntity dtoToEntity(PaymentDto realPaymentDto) {
-        if(realPaymentDto == null) {
+        if (realPaymentDto == null) {
             throw new IllegalArgumentException("Payment DTO is null");
         }
         PaymentProcessEntity paymentProcessEntity = new PaymentProcessEntity();

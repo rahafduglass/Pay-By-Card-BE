@@ -3,11 +3,9 @@ package com.internship.paybycard.paymentprocess.core.domain.dto.payment;
 import java.math.BigDecimal;
 
 public interface PaymentDto {
-
-    default boolean isNull(){
+    default boolean isNull() {
         return this instanceof NullPaymentDto;
-    };
-
+    }
     Long getId();
 
     String getReferenceNumber();

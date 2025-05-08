@@ -16,5 +16,5 @@ public interface PaymentProcessJpaRepository extends JpaRepository<PaymentProces
     @Modifying
     @Transactional
     @Query("UPDATE PaymentProcessEntity p SET p.confirmed=:confirmed WHERE p.referenceNumber=:referenceNumber")
-    Integer updatePaymentByReferenceNumber(@Param("referenceNumber") String referenceNumber,@Param("confirmed") Boolean confirmed);
+    Integer updatePaymentByReferenceNumber(@Param("referenceNumber") String referenceNumber, @Param("confirmed") Boolean confirmed);
 }

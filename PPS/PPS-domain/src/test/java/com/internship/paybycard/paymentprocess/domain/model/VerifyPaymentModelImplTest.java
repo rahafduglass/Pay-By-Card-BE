@@ -19,8 +19,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class VerifyPaymentModelImplTest {
-
-
     @Mock
     private EmailService emailService;
 
@@ -32,7 +30,6 @@ public class VerifyPaymentModelImplTest {
 
     @InjectMocks
     private VerifyPaymentModelImpl verifyPaymentModel;
-
 
     @Test
     public void givenValidReferenceNumber_whenCallVerifyPayment_thenSuccess() {

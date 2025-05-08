@@ -1,14 +1,23 @@
 package com.internship.paybycard.paymentprocess.presentation.dto.request.card;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.card.command.VerifyCardDetails;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
 public class VerifyCardDetailsImpl implements VerifyCardDetails {
-// todo size and not null rules
+
+    @NotBlank
+    @Size(min = 36, max = 36)
     private String cardNumber;
+    @NotBlank
+    @Size(min = 4, max = 4)
     private String CVV;
+    @NotBlank
+    @NotNull
     private LocalDate expiryDate;
 }

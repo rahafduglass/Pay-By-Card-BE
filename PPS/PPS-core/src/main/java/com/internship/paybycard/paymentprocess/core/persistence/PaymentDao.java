@@ -4,9 +4,9 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDt
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
 
 public interface PaymentDao {
-
     PaymentDto createPayment(RealPaymentDto model);
-    PaymentDto findPaymentByReferenceNumber(String referenceNumber);
-    int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed);
 
+    PaymentDto findPaymentByReferenceNumber(String referenceNumber);
+
+    int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed);
 }

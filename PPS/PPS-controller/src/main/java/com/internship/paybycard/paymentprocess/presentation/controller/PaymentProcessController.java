@@ -8,6 +8,7 @@ import com.internship.paybycard.paymentprocess.presentation.dto.request.payment.
 import com.internship.paybycard.paymentprocess.presentation.dto.request.payment.VerifyPaymentCommandImpl;
 import com.internship.paybycard.paymentprocess.presentation.dto.response.InitiatePaymentResponse;
 import com.internship.paybycard.paymentprocess.presentation.formatter.PaymentFormatter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class PaymentProcessController {
     private final PaymentFormatter paymentFormatter;
 
     @PostMapping("/initiate")
-    public ResponseEntity<InitiatePaymentResponse> initiatePayment(@RequestBody InitiatePaymentCommandImpl command) {
+    public ResponseEntity<InitiatePaymentResponse> initiatePayment(@RequestBody @Valid InitiatePaymentCommandImpl command) {
         Result<String> result = paymentProcessUseCase.initiatePayment(command);
         if (result.getStatus().name().equals("RJC")) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -31,7 +32,7 @@ public class PaymentProcessController {
     }
 
     @PutMapping("/verify")
-    public ResponseEntity<Void> verifyPayment(@RequestBody VerifyPaymentCommandImpl command) {
+    public ResponseEntity<Void> verifyPayment(@RequestBody @Valid VerifyPaymentCommandImpl command) {
         Result<Void> result = paymentProcessUseCase.verifyPayment(command);
         if (result.getStatus().name().equals("RJC")) {
             return rejectResponse(result.getErrorCode());
@@ -40,7 +41,7 @@ public class PaymentProcessController {
     }
 
     @PutMapping("/complete")
-    public ResponseEntity<Void> completePayment(@RequestBody CompletePaymentCommandImpl command) {
+    public ResponseEntity<Void> completePayment(@RequestBody @Valid CompletePaymentCommandImpl command) {
         Result<Void> result = paymentProcessUseCase.completePayment(command);
         if (result.getStatus().name().equals("RJC")) {
             return rejectResponse(result.getErrorCode());
@@ -55,5 +56,4 @@ public class PaymentProcessController {
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         };
     }
-
 }

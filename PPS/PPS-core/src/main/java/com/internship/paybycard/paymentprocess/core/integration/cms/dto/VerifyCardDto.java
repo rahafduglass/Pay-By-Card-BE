@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public interface VerifyCardDto {
     String getCardNumber();
+
     String getCVV();
+
     LocalDate getExpiryDate();
-
-
 }

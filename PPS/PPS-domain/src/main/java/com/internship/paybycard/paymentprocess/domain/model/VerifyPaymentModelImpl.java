@@ -9,23 +9,19 @@ import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @RequiredArgsConstructor
 public class VerifyPaymentModelImpl implements VerifyPaymentModel {
-
     private final String referenceNumber;
-
-    private boolean isVerified = false;
-    private PaymentDto paymentDto;
-
     private final PaymentDao paymentDao;
     private final OtpService otpService;
     private final EmailService emailService;
 
-    private final Logger log = LoggerFactory.getLogger(VerifyPaymentModelImpl.class);
+    private boolean isVerified = false;
+    private PaymentDto paymentDto;
 
     @Override
     public void verifyPayment() {
@@ -54,5 +50,4 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
             throw new PaymentNotFoundException("payment does not exist OR you haven't called verifyPayment() method first",ErrorCode.PAYMENT_NOT_FOUND);
         }
     }
-
 }

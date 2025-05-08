@@ -6,13 +6,12 @@ import java.math.BigDecimal;
 
 @Getter
 public class NullPaymentDto implements PaymentDto {
-    private Long id = -1L;
-    private String referenceNumber = "";
-    private String items = "";
-    private BigDecimal amount = BigDecimal.ZERO;
-    private String cardNumber = "";
-    private String clientName = "";
-    private String clientEmail = "";
-    private Boolean confirmed = false;
-
+    private final Long id = -1L;
+    private final String referenceNumber = "";
+    private final String items = "";
+    private final BigDecimal amount = BigDecimal.ZERO;
+    private final String cardNumber = "";
+    private final String clientName = "";
+    private final String clientEmail = "";
+    private final Boolean confirmed = false;
 }
