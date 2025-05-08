@@ -8,5 +8,5 @@ public interface PaymentDao {
 
     PaymentDto findPaymentByReferenceNumber(String referenceNumber);
 
-    int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed);
+    int updatePaymentConfirmed(String referenceNumber, Boolean confirmed);
 }

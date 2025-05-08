@@ -51,8 +51,8 @@ public class PaymentProcessController {
 
     private <T> ResponseEntity<T> rejectResponse(ErrorCode errorCode) {
         return switch (errorCode) {
-            case INVALID_COMMAND_INPUT, INVALID_PAYMENT_INPUT, INVALID_CARD, EMPTY_REFERENCE_NUMBER,
-                 PAYMENT_NOT_FOUND -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+            case INVALID_CARD, PAYMENT_NOT_FOUND, INSUFFICIENT_CARD_BALANCE,INVALID_OR_EXPIRED_OTP ->
+                    ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         };
     }

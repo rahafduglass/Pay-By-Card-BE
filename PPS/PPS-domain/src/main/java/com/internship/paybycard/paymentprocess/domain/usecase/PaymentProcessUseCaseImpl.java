@@ -16,15 +16,16 @@ import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
     private final InitiatePaymentModelMapper initiatePaymentModelMapper;
     private final VerifyPaymentModelMapper verifyPaymentModelMapper;
     private final CompletePaymentModelMapper completePaymentModelMapper;
-    private final Logger log = LoggerFactory.getLogger(PaymentProcessUseCaseImpl.class);
 
     @Override
     public Result<String> initiatePayment(InitiatePaymentCommand command) {

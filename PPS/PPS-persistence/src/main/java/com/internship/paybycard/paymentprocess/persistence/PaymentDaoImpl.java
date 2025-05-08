@@ -14,23 +14,23 @@ import org.springframework.stereotype.Repository;
 public class PaymentDaoImpl implements PaymentDao {
 
     private final PaymentEntityMapper paymentEntityMapper;
-    private final PaymentProcessJpaRepository paymentProcessJpaRepository;
+    private final PaymentJpaRepository paymentJpaRepository;
 
     @Override
     public PaymentDto createPayment(RealPaymentDto realPaymentDto) {
         log.debug("creating payment {}", realPaymentDto);
-        return paymentEntityMapper.entityToDto(paymentProcessJpaRepository.save(paymentEntityMapper.dtoToEntity(realPaymentDto)));
+        return paymentEntityMapper.entityToDto(paymentJpaRepository.save(paymentEntityMapper.dtoToEntity(realPaymentDto)));
     }
 
     @Override
     public PaymentDto findPaymentByReferenceNumber(String referenceNumber) {
         log.debug("finding payment by reference number {}", referenceNumber);
-        return paymentEntityMapper.entityToDto(paymentProcessJpaRepository.findByReferenceNumber(referenceNumber));
+        return paymentEntityMapper.entityToDto(paymentJpaRepository.findByReferenceNumber(referenceNumber));
     }
 
     @Override
-    public int updatePaymentConfirmedByReferenceNumber(String referenceNumber, Boolean confirmed) {
+    public int updatePaymentConfirmed(String referenceNumber, Boolean confirmed) {
         log.debug("updating payment confirmed by reference number {}", referenceNumber);
-        return paymentProcessJpaRepository.updatePaymentByReferenceNumber(referenceNumber, confirmed);
+        return paymentJpaRepository.updatePaymentByReferenceNumber(referenceNumber, confirmed);
     }
 }

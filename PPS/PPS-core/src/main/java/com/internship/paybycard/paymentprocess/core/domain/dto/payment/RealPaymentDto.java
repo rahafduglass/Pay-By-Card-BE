@@ -1,11 +1,13 @@
 package com.internship.paybycard.paymentprocess.core.domain.dto.payment;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class RealPaymentDto implements PaymentDto {
     private Long id;
     private String referenceNumber;

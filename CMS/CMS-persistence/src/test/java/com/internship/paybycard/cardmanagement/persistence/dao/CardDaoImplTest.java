@@ -1,7 +1,6 @@
 package com.internship.paybycard.cardmanagement.persistence.dao;
 
 
-import com.internship.paybycard.cardmanagement.core.exception.CardNotFoundException;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.model.CardDto;
@@ -24,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = PersistenceTestApp.class)
 @ActiveProfiles("test")
-@ExtendWith(SpringExtension.class)
 public class CardDaoImplTest {
 
     @Autowired

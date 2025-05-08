@@ -1,8 +1,10 @@
 package com.internship.paybycard.paymentprocess.core.domain.result;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(callSuper = false)
 public class Result<T> {
     private final Status status;
     private final ErrorCode errorCode;
