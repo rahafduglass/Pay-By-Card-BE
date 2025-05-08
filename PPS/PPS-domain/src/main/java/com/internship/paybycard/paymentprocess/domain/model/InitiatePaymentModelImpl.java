@@ -10,26 +10,25 @@ import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDt
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Slf4j
 @Getter
 public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     private final String items;
     private final BigDecimal amount;
     private final String clientName;
     private final VerifyCardDto card;
-
-
-    private final PaymentDao paymentDao;
-    private final CmsApiHandler cmsApiHandler;
     private boolean isPaymentValid = false;
     private CardDto verifiedCard;
 
-    private final Logger log = LoggerFactory.getLogger(InitiatePaymentModelImpl.class);
+    private final PaymentDao paymentDao;
+    private final CmsApiHandler cmsApiHandler;
 
     @Override
     public boolean validatePayment() {

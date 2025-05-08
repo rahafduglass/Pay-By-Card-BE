@@ -6,9 +6,9 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.V
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 
 public interface PaymentProcessUseCase {
+    Result<String> initiatePayment(InitiatePaymentCommand command);
 
-    <T> Result<T> initiatePayment(InitiatePaymentCommand command);
-    <T> Result<T> verifyPayment(VerifyPaymentCommand command);
-    <T> Result<T> completePayment(CompletePaymentCommand command);
+    Result<Void> verifyPayment(VerifyPaymentCommand command);
 
+    Result<Void> completePayment(CompletePaymentCommand command);
 }

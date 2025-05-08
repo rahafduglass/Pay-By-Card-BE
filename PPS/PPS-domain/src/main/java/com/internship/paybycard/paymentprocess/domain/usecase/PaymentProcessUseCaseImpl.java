@@ -4,7 +4,7 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDt
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.CompletePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
-import com.internship.paybycard.paymentprocess.core.domain.exception.*;
+import com.internship.paybycard.paymentprocess.core.domain.exception.BusinessException;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.CompletePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.InitiatePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.VerifyPaymentModelMapper;
@@ -32,18 +32,17 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
         log.info("Initiate payment use case with command: {}", command);
         try {
             InitiatePaymentModel initiatePaymentModel = initiatePaymentModelMapper.commandToModel(command);
-            log.debug("mapping command to model, mapped model: {}", initiatePaymentModel);
-
-            log.debug("validating mode: {}", initiatePaymentModel);
+            log.debug("finish: mapping initiatePayment, mapped model");
+            log.debug("validate payment: {}", initiatePaymentModel);
             initiatePaymentModel.validatePayment();
-            log.debug("initiating payment: {}", initiatePaymentModel);
+            log.debug("initiate payment: {}", initiatePaymentModel);
             PaymentDto initiatedPayment = initiatePaymentModel.process();
             return new Result<>(Status.ACT, ErrorCode.NULL, initiatedPayment.getReferenceNumber());
-        } catch (BusinessException e){
+        } catch (BusinessException e) {
             log.error("Business exception", e);
-            return new Result<>(Status.RJC,e.getErrorCode(),null);
+            return new Result<>(Status.RJC, e.getErrorCode(), null);
         } catch (Exception e) {
-            log.error("unexpected error: {}", e.getMessage());
+            log.error("unexpected error in initiatePayment: {}", e.getMessage(), e);
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
 
@@ -54,17 +53,18 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
         try {
             log.info("Verify payment use case with command: {}", command);
             VerifyPaymentModel verifyPaymentModel = verifyPaymentModelMapper.commandToModel(command);
+//            todo modify log messages similar to initiate payment
             log.debug("mapping command to model, mapped model: {}", verifyPaymentModel);
             log.debug("verifying payment with model verifyPayment(): {}", verifyPaymentModel);
             verifyPaymentModel.verifyPayment();
             log.debug("sending OTP to email with the following reference number: : {}", verifyPaymentModel.getReferenceNumber());
             verifyPaymentModel.sendOtp();
             return new Result<>(Status.ACT, ErrorCode.NULL, null);
-        } catch (BusinessException e){
+        } catch (BusinessException e) {
             log.error("Business exception", e);
-            return new Result<>(Status.RJC,e.getErrorCode(),null);
+            return new Result<>(Status.RJC, e.getErrorCode(), null);
         } catch (Exception e) {
-            log.error("unexpected error: {}", e.getMessage());
+            log.error("unexpected error in verifyPayment: {}", e.getMessage(), e);
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
     }
@@ -75,17 +75,18 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
         try {
             log.debug("mapping command to model,command: {}", command);
             CompletePaymentModel completePaymentModel = completePaymentModelMapper.commandToModel(command);
+            //            todo modify log messages similar to initiate payment
             log.debug("mapping command to model, mapped model: {}", completePaymentModel);
             log.debug("verifying OTP for paymentModel: {}", completePaymentModel);
             completePaymentModel.verifyOTP();
             log.debug("perform payment using with pay(): paymentModel: {}", completePaymentModel);
             completePaymentModel.pay();
             return new Result<>(Status.ACT, ErrorCode.NULL, null);
-        } catch (BusinessException e){
+        } catch (BusinessException e) {
             log.error("Business exception", e);
-            return new Result<>(Status.RJC,e.getErrorCode(),null);
+            return new Result<>(Status.RJC, e.getErrorCode(), null);
         } catch (Exception e) {
-            log.error("unexpected error: {}", e.getMessage());
+            log.error("unexpected error in completePayment : {}", e.getMessage(), e);
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
     }

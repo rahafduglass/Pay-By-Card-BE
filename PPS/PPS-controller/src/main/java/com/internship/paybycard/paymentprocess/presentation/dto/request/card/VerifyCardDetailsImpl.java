@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class VerifyCardDetailsImpl implements VerifyCardDetails {
-
+// todo size and not null rules
     private String cardNumber;
     private String CVV;
     private LocalDate expiryDate;

@@ -10,6 +10,7 @@ public interface InitiatePaymentModel {
     PaymentDto process() throws IllegalAccessException;
     boolean validatePayment();
 
+    // todo no need for the below getters they are not used
     String getItems();
     BigDecimal getAmount();
     String getClientName();
