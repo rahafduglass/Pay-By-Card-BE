@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/paymentProcess")
+@RequestMapping("api/v1/payment-process")
 @RequiredArgsConstructor
 public class PaymentProcessController {
 
@@ -26,9 +26,10 @@ public class PaymentProcessController {
     public ResponseEntity<InitiatePaymentResponse> initiatePayment(@RequestBody @Valid InitiatePaymentCommandImpl command) {
         Result<String> result = paymentProcessUseCase.initiatePayment(command);
         if (result.getStatus().name().equals("RJC")) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+                    .body(new InitiatePaymentResponse(result.getErrorCode().toString(),null));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(paymentFormatter.toInitiatePaymentResponse(result.getData()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentFormatter.toInitiatePaymentResponse("initiated successfully",result.getData()));
     }
 
     @PutMapping("/verify")
@@ -51,7 +52,7 @@ public class PaymentProcessController {
 
     private <T> ResponseEntity<T> rejectResponse(ErrorCode errorCode) {
         return switch (errorCode) {
-            case INVALID_CARD, PAYMENT_NOT_FOUND, INSUFFICIENT_CARD_BALANCE,INVALID_OR_EXPIRED_OTP ->
+            case INVALID_CARD, PAYMENT_NOT_FOUND, INSUFFICIENT_CARD_BALANCE, INVALID_OR_EXPIRED_OTP ->
                     ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         };

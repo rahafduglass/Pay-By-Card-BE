@@ -41,10 +41,10 @@ public class PaymentProcessControllerTest {
     @Test
     public void givenValidRequest_whenCallInitiatePayment_thenReturnInitiatePaymentResponseAndHttpsStatus201() {
         String referenceNumber = UUID.randomUUID().toString();
-        InitiatePaymentResponse response = new InitiatePaymentResponse(referenceNumber);
+        InitiatePaymentResponse response = new InitiatePaymentResponse("message",referenceNumber);
 
         when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommand.class))).thenReturn(new Result<>(Status.ACT, ErrorCode.NULL, referenceNumber));
-        when(paymentFormatter.toInitiatePaymentResponse(any(String.class))).thenReturn(response);
+        when(paymentFormatter.toInitiatePaymentResponse(any(String.class),any(String.class))).thenReturn(response);
         ResponseEntity<InitiatePaymentResponse> apiResponse = paymentProcessController.initiatePayment(InitiatePaymentCommandImpl.builder().build());
         assertEquals(201, apiResponse.getStatusCodeValue());
         assertEquals(response, apiResponse.getBody());

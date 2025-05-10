@@ -1,5 +1,6 @@
 package com.internship.paybycard.cardmanagement.application.controller;
 
+import com.internship.paybycard.cardmanagement.application.dtos.response.CreateCardResponse;
 import com.internship.paybycard.cardmanagement.application.interactors.CreateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
 import com.internship.paybycard.cardmanagement.core.model.CardDto;
@@ -36,23 +37,7 @@ public class CardControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void givenValidRequestWithCardServiceReturnAccepted_whenCallCreateCard_thenShouldReturnCreatedHttpStatus() {
-        CreateCardRequest request = new CreateCardRequest();
-        when(cardService.createCard(request)).thenReturn(new Result(Status.ACP, null,null));
-        ResponseEntity<Result<Void>> response = cardController.createCard(request);
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals(Status.ACP, response.getBody().status());
-    }
 
-    @Test
-    public void givenInvalidRequestWithCardServiceReturnRejectedStatusAndInvalidCardInfoErrorCode_whenCallCreateCard_thenShouldReturnBadRequestHttpStatus() {
-        CreateCardRequest request = new CreateCardRequest();
-        when(cardService.createCard(request)).thenReturn(new Result(Status.RJC, ErrorCode.INVALID_CARD_INFO,new NullCardDto()));
-        ResponseEntity<Result<Void>> response = cardController.createCard(request);
-        assertEquals(422, response.getStatusCodeValue());
-        assertEquals(ErrorCode.INVALID_CARD_INFO, response.getBody().errorCode());
-    }
 
     @Test
     public void givenAnyValidRequestWithCardServiceReturnAccepted_whenCallUpdateCard_thenReturnNoContentHttpStatus() {

@@ -8,7 +8,7 @@ import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 
 public interface CardService {
-    Result<Void> createCard(CreateCardInteractor card);
+    Result<Long> createCard(CreateCardInteractor card);
 
     Result<Void> updateCard(UpdateCardInteractor card);
 
@@ -17,4 +17,6 @@ public interface CardService {
     Result<Void> deleteCard(ValidateCardInteractor card);
 
     Result<Void> withdraw( WithdrawInteractor withdrawInteractor);
+
+    Result<CardDto> getCard( Long cardId);
 }

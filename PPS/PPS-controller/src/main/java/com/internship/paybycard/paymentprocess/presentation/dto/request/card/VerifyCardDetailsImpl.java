@@ -7,20 +7,22 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerifyCardDetailsImpl implements VerifyCardDetails {
 
     @NotBlank
     @Size(min = 36, max = 36)
     private String cardNumber;
     @NotBlank
-    @Size(min = 4, max = 4)
+    @Size(min = 3, max =3 )
     private String CVV;
-    @NotBlank
     @NotNull
     private LocalDate expiryDate;
 }

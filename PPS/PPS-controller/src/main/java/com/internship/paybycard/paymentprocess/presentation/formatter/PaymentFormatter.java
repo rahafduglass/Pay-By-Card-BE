@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PaymentFormatter {
-    public InitiatePaymentResponse toInitiatePaymentResponse(String data) {
-        return new InitiatePaymentResponse(data);
+    public InitiatePaymentResponse toInitiatePaymentResponse(String message, String data) {
+        return new InitiatePaymentResponse(message, data);
     }
 }

@@ -29,7 +29,7 @@ public class CardServiceImpl implements CardService {
     private final CreateCardMapperImpl createCardMapperImpl;
 
     @Override
-    public Result<Void> createCard(CreateCardInteractor card) {
+    public Result<Long> createCard(CreateCardInteractor card) {
         try {
             log.info("Creating new card {}", card.getClientName());
             log.debug("Mapping card interactor to card model");
@@ -43,12 +43,13 @@ public class CardServiceImpl implements CardService {
             log.debug("the card model with generated values: {}", cardModel);
 
             log.info("saving new card model by card dao");
-            if (cardDao.saveCard(cardModel).isNull()) {
-                log.error("couldn't create card: {}", cardModel.getClientEmail());
+            CardDto savedCard = cardDao.saveCard(cardModel);
+            if (savedCard.isNull()) {
+                log.error("couldn't create card: {}", cardModel.getId());
                 return new Result<>(Status.RJC, ErrorCode.FAILED, null);
             }
             log.debug("card created successfully");
-            return new Result<>(Status.ACP, null, null);
+            return new Result<>(Status.ACP, null, savedCard.getId());
         } catch (IllegalArgumentException e) {
             log.error("couldn't create card: {}", card.getClientEmail());
             return new Result<>(Status.RJC, ErrorCode.INVALID_INTERACTOR, null);
@@ -118,15 +119,35 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Result<Void> withdraw(WithdrawInteractor withdrawInteractor) {
-        try{
+        try {
             log.info("Withdrawing from card");
-            ValidateCardInteractor card= withdrawInteractor.getValidateCardInfo();
-            CardDto cardDto = cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
-            BigDecimal newBalance =cardDto.getBalance().subtract(withdrawInteractor.getAmount());
-            if(cardDao.updateCardBalance(card.getCardNumber(), card.getCVV(), card.getExpiryDate(), newBalance) == 1)
+            ValidateCardInteractor card = withdrawInteractor.getValidateCardInfo();
+            CardDto retrievedCard = cardDao.findCard(card.getCardNumber(), card.getCVV(), card.getExpiryDate());
+            BigDecimal newBalance = retrievedCard.getBalance().subtract(withdrawInteractor.getAmount());
+            if (!retrievedCard.isNull() && retrievedCard.getBalance().compareTo(withdrawInteractor.getAmount()) < 0) {
+                return new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE, null);
+            }
+            if (cardDao.updateCardBalance(card.getCardNumber(), card.getCVV(), card.getExpiryDate(), newBalance) == 1)
                 return new Result<>(Status.ACP, null, null);
-             return new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE, null);
-        }catch (Exception e){
+            return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO, null);
+        } catch (Exception e) {
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
+    @Override
+    public Result<CardDto> getCard(Long cardId) {
+        try {
+            log.info("Retrieving card");
+            CardDto retrievedCard = cardDao.findCardById(cardId);
+            if (retrievedCard.isNull()) {
+                log.debug("invalid card id {}", cardId);
+                return new Result<>(Status.RJC, ErrorCode.INVALID_CARD_INFO, null);
+            }
+            log.debug("card retrieved successfully");
+            return new Result<>(Status.ACP, null, retrievedCard);
+
+        } catch (Exception e) {
             return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
         }
     }

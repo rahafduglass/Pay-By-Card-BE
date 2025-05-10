@@ -69,7 +69,7 @@ public class CardServiceImplTest {
         when(createCardMapper.mapTo(interactor)).thenReturn(realCard);
         when(cardDao.saveCard(realCard)).thenReturn(realCard);
 
-        Result<Void> result = cardService.createCard(interactor);
+        Result<Long> result = cardService.createCard(interactor);
 
         assertEquals(Status.ACP, result.status());
         verify(cardDao).saveCard(realCard);
@@ -85,7 +85,7 @@ public class CardServiceImplTest {
         when(createCardMapper.mapTo(interactor)).thenReturn(realCard);
         when(cardDao.saveCard(realCard)).thenReturn(new NullCardDto());
 
-        Result<Void> result = cardService.createCard(interactor);
+        Result<Long> result = cardService.createCard(interactor);
 
         assertEquals(Status.RJC, result.status());
         assertEquals(ErrorCode.FAILED, result.errorCode());

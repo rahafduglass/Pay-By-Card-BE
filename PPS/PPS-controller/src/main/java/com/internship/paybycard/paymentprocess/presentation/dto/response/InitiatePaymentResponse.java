@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class InitiatePaymentResponse {
+
+    private String message;
+
     @NotBlank
     @Size(min = 36, max = 36)
     private String referenceNumber;
