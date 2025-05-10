@@ -1,0 +1,1230 @@
+{
+	"info": {
+		"_postman_id": "5c22deff-0811-4701-8f83-a412ff43f330",
+		"name": "paybycard API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41794978",
+		"_collection_link": "https://paybycard-team.postman.co/workspace/My-Workspace~645ffe58-8922-401b-8d38-f26f6458acbc/collection/41794978-5c22deff-0811-4701-8f83-a412ff43f330?action=share&source=collection_link&creator=41794978"
+	},
+	"item": [
+		{
+			"name": "CMS",
+			"item": [
+				{
+					"name": "validate card request",
+					"item": [
+						{
+							"name": "valid card validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"1190-05-03\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"invalid format\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"cvv\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"invalid format\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"837492015683947102384756192837465091\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number validate card request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"invalid format\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "create card request",
+					"item": [
+						{
+							"name": "valid create card request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"cardId\", jsonData.cardId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"clientName\":\"postman\",\n\n    \"clientEmail\":\"postman@paybycard.com\",\n    \n     \"balance\":30\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid create card requets",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"clientName\":\"\",\n\n    \"clientEmail\":\"rahaf@paybycard.com\",\n    \n     \"balance\":30\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "withdraw request",
+					"item": [
+						{
+							"name": "valid request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"1999-02-03\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "insufficient amount",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 309090,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"cvv\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"837492015683947102384756192837465091\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"invalid format\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"invalid\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get card request",
+					"item": [
+						{
+							"name": "valid get card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"cardNumber\", jsonData.cardNumber);",
+											"pm.environment.set(\"cvv\", jsonData.cvv);",
+											"pm.environment.set(\"expiryDate\", jsonData.expiryDate);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/{{cardId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"{{cardId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid get card request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/-1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update card request",
+					"item": [
+						{
+							"name": "valid update card request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv size update card request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"invalid cvv\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cardNumber size update card request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"invalid card number\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date card update card request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"invalid expiry date\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number update request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"837492015683947102384756192837465091\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv number update request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"cvv\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date update card request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"1988-05-06\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "PPS",
+			"item": [
+				{
+					"name": "initiate payment request",
+					"item": [
+						{
+							"name": "valid request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid items",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid amount",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid client name",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "insufficient amount",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "complete payment request",
+					"item": [
+						{
+							"name": "valid request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/complete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid request",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/complete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "verify payment request",
+					"item": [
+						{
+							"name": "valid reference number",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong reference number",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid reference number",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
