@@ -13,22 +13,29 @@ import com.internship.paybycard.paymentprocess.domain.mapper.CompletePaymentMode
 import com.internship.paybycard.paymentprocess.domain.mapper.InitiatePaymentModelMapperImpl;
 import com.internship.paybycard.paymentprocess.domain.mapper.VerifyPaymentModelMapperImpl;
 import com.internship.paybycard.paymentprocess.domain.usecase.PaymentProcessUseCaseImpl;
-import com.internship.paybycard.paymentprocess.integration.cms.mapper.VerifyCardMapperImpl;
+import com.internship.paybycard.paymentprocess.integration.cms.config.CmsApiProperties;
+import com.internship.paybycard.paymentprocess.integration.cms.service.CmsApiHandlerRestTemplateImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class DomainBeansConfig {
-
+public class BeansConfig {
     @Bean
-    public PaymentProcessUseCase paymentProcessUseCase(InitiatePaymentModelMapper initiatePaymentModelMapper, VerifyPaymentModelMapper verifyPaymentModelMapper, CompletePaymentModelMapper completePaymentModelMapper) {
-        return new PaymentProcessUseCaseImpl(initiatePaymentModelMapper, verifyPaymentModelMapper, completePaymentModelMapper);
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 
     @Bean
     public InitiatePaymentModelMapper initiatePaymentModelMapper(PaymentDao paymentDao, CmsApiHandler cmsApiHandler, VerifyCardMapper verifyCardMapper) {
         return new InitiatePaymentModelMapperImpl(paymentDao, cmsApiHandler, verifyCardMapper);
     }
+
+    @Bean
+    public PaymentProcessUseCase paymentProcessUseCase(InitiatePaymentModelMapper initiatePaymentModelMapper, VerifyPaymentModelMapper verifyPaymentModelMapper, CompletePaymentModelMapper completePaymentModelMapper) {
+        return new PaymentProcessUseCaseImpl(initiatePaymentModelMapper, verifyPaymentModelMapper, completePaymentModelMapper);
+    }
+
 
     @Bean
     public VerifyPaymentModelMapper verifyPaymentModelMapper(PaymentDao paymentDao, OtpService otpService, EmailService emailService) {
@@ -40,4 +47,8 @@ public class DomainBeansConfig {
         return new CompletePaymentModelMapperImpl(paymentDao, otpService, cmsApiHandler);
     }
 
+    @Bean
+    public CmsApiHandler cmsApiHandler(CmsApiProperties cmsApiProperties) {
+        return new CmsApiHandlerRestTemplateImpl(cmsApiProperties);
+    }
 }

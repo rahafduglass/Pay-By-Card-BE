@@ -6,6 +6,7 @@ import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
+import com.internship.paybycard.paymentprocess.integration.cms.config.CmsApiProperties;
 import com.internship.paybycard.paymentprocess.integration.cms.dto.CardApiResponse;
 import com.internship.paybycard.paymentprocess.integration.cms.dto.CmsApiWithdrawRequest;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -26,18 +28,17 @@ import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
-@ConfigurationProperties(prefix = "cms.api")
-public class CmsApiHandlerImpl implements CmsApiHandler {
+public class CmsApiHandlerWebClientImpl implements CmsApiHandler {
 
-    @Getter
-    @Setter
-    private String baseUrl;
 
-    private final Logger log = LoggerFactory.getLogger(CmsApiHandlerImpl.class);
+    @Autowired
+    private CmsApiProperties cmsApiProperties;
+
+    private final Logger log = LoggerFactory.getLogger(CmsApiHandlerWebClientImpl.class);
 
     private WebClient getWebClient() {
-        log.info("creating webclient with baseurl {}", baseUrl);
-        return WebClient.builder().baseUrl(this.getBaseUrl()).build();
+        log.info("creating webclient with baseurl {}", cmsApiProperties.getBaseUrl());
+        return WebClient.builder().baseUrl(cmsApiProperties.getBaseUrl()).build();
     }
 
     @Override
@@ -68,7 +69,6 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
             throw new ExternalApiNullResponseException("CMS api null response",ErrorCode.EXTERNAL_API_NULL_RESPONSE);
         }
         return responseBlock.getData();
-    //    return Objects.requireNonNull(apiResponse.block()).getData(); // todo if apiResponse.block was null what will happen ?
     }
 
     @Override
@@ -94,7 +94,7 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 })
                 .doOnError(error -> {
                     log.error("card validation error: {}", error.getMessage());
-                }).block(); // todo if apiResponse.block was null what will happen ?
+                }).block();
     }
 
 }
