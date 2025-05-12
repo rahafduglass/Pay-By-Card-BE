@@ -71,7 +71,7 @@ public class CompletePaymentModelTest {
 
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(retrievedPayment);
         when(paymentDao.updatePaymentConfirmed(any(), any())).thenReturn(1);
-        doNothing().when(cmsApiHandler).pay(any(VerifyCardDto.class), any(BigDecimal.class));
+        doNothing().when(cmsApiHandler).withdraw(any(VerifyCardDto.class), any(BigDecimal.class));
 
         assertDoesNotThrow(() -> model.pay());
     }
@@ -99,7 +99,7 @@ public class CompletePaymentModelTest {
         PaymentDto retrievedPayment = mock(PaymentDto.class);
         when(retrievedPayment.isNull()).thenReturn(false);
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(retrievedPayment);
-        doNothing().when(cmsApiHandler).pay(any(VerifyCardDto.class), any(BigDecimal.class));
+        doNothing().when(cmsApiHandler).withdraw(any(VerifyCardDto.class), any(BigDecimal.class));
         when(paymentDao.updatePaymentConfirmed(any(), any())).thenReturn(0);
         assertThrows(PersistenceException.class, () -> model.pay());
     }

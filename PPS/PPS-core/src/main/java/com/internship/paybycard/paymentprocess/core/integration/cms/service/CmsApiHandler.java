@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 
 public interface CmsApiHandler {
     CardDto verifyCard(VerifyCardDto verifyCardDto) ;
-    void pay(VerifyCardDto verifyCardDto, BigDecimal amount);
+    void withdraw(VerifyCardDto verifyCardDto, BigDecimal amount);
 }

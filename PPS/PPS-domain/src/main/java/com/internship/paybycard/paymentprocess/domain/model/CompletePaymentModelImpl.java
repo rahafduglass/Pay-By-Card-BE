@@ -57,7 +57,7 @@ public class CompletePaymentModelImpl implements CompletePaymentModel {
                 log.debug("payment with reference number {} is null -> not found", referenceNumber);
                 throw new PaymentNotFoundException("Payment not found", ErrorCode.PAYMENT_NOT_FOUND);
             }
-            cmsApiHandler.pay(verifyCardDto, retrievedPayment.getAmount());
+            cmsApiHandler.withdraw(verifyCardDto, retrievedPayment.getAmount());
             if (!(paymentDao.updatePaymentConfirmed(referenceNumber, true) == 1)) {
                 log.error("Failed to perform payment by reference number {} in pay()", referenceNumber);
                 throw new PersistenceException("couldn't update card", ErrorCode.INTERNAL_SERVER_ERROR);

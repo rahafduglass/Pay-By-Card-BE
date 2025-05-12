@@ -2,6 +2,7 @@ package com.internship.paybycard.paymentprocess.controller;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.response.InitiatePaymentUseCaseResponse;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
@@ -24,6 +25,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,10 +43,12 @@ public class PaymentProcessControllerTest {
     @Test
     public void givenValidRequest_whenCallInitiatePayment_thenReturnInitiatePaymentResponseAndHttpsStatus201() {
         String referenceNumber = UUID.randomUUID().toString();
-        InitiatePaymentResponse response = new InitiatePaymentResponse("message",referenceNumber);
+        InitiatePaymentUseCaseResponse result = mock(InitiatePaymentUseCaseResponse.class);
+        when(result.getMessage()).thenReturn("initiated Successfully");
+        InitiatePaymentResponse response = new InitiatePaymentResponse(result.getMessage(), referenceNumber);
 
-        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommand.class))).thenReturn(new Result<>(Status.ACT, ErrorCode.NULL, referenceNumber));
-        when(paymentFormatter.toInitiatePaymentResponse(any(String.class),any(String.class))).thenReturn(response);
+        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommand.class))).thenReturn(new Result<>(Status.ACT, ErrorCode.NULL, result));
+        when(paymentFormatter.toInitiatePaymentResponse(any(InitiatePaymentUseCaseResponse.class))).thenReturn(response);
         ResponseEntity<InitiatePaymentResponse> apiResponse = paymentProcessController.initiatePayment(InitiatePaymentCommandImpl.builder().build());
         assertEquals(201, apiResponse.getStatusCodeValue());
         assertEquals(response, apiResponse.getBody());
@@ -52,10 +56,10 @@ public class PaymentProcessControllerTest {
 
     @Test
     public void givenInvalidRequest_whenCallInitiatePayment_thenShouldReturnHttpsStatus422() {
-        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommandImpl.class))).thenReturn(new Result<String>(Status.RJC, ErrorCode.INVALID_CARD, null));
+        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommandImpl.class))).thenReturn(new Result<InitiatePaymentUseCaseResponse>(Status.RJC, ErrorCode.INVALID_CARD, null));
         ResponseEntity<InitiatePaymentResponse> apiResponse = paymentProcessController.initiatePayment(InitiatePaymentCommandImpl.builder().build());
         assertEquals(422, apiResponse.getStatusCodeValue());
-        assertNull(apiResponse.getBody());
+        assertNull(apiResponse.getBody().getReferenceNumber());
     }
 
     @Test

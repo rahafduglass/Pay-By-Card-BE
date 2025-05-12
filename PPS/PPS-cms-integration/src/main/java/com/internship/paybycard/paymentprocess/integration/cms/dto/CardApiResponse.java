@@ -8,5 +8,4 @@ public class CardApiResponse {
     private String status;
     private String errorCode;
     private CardDto data;
-
 }

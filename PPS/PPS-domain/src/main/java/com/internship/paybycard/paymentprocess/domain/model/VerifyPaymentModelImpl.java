@@ -25,13 +25,11 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
 
     @Override
     public void verifyPayment() {
-        // todo u can replace the concatenation with parameter
-        log.info("Verifying payment with reference number " + referenceNumber);
+        log.info("Verifying payment with reference number {}" , referenceNumber);
 
         paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
         if(paymentDto.isNull()) {
-            // todo u can replace the concatenation with parameter
-            log.error("Payment with reference number " + referenceNumber + " not found");
+            log.error("Payment with reference number {} not found" , referenceNumber );
             throw new PaymentNotFoundException("payment not found " + referenceNumber, ErrorCode.PAYMENT_NOT_FOUND);
         }
         isVerified = true;
@@ -48,7 +46,7 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
             log.debug("sending OTP to email address= {}", paymentDto.getClientEmail());
             emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otp);
         } else {
-            log.error("Payment with reference number " + referenceNumber + " not verified");
+            log.error("Payment with reference number {}  not verified" , referenceNumber );
             throw new PaymentNotFoundException("payment does not exist OR you haven't called verifyPayment() method first",ErrorCode.PAYMENT_NOT_FOUND);
         }
     }

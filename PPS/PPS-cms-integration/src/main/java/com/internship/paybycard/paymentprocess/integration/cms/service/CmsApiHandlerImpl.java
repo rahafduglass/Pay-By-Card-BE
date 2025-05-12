@@ -1,6 +1,7 @@
 package com.internship.paybycard.paymentprocess.integration.cms.service;
 
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidCardException;
+import com.internship.paybycard.paymentprocess.core.domain.exception.ExternalApiNullResponseException;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
@@ -22,7 +23,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -62,12 +62,17 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .doOnError(error -> {
                     log.error("card validation error: {}", error.getMessage());
                 });
-        return Objects.requireNonNull(apiResponse.block()).getData(); // todo if apiResponse.block was null what will happen ?
+        CardApiResponse responseBlock=apiResponse.block();
+        if(responseBlock==null){
+            log.error("CMS null response");
+            throw new ExternalApiNullResponseException("CMS api null response",ErrorCode.EXTERNAL_API_NULL_RESPONSE);
+        }
+        return responseBlock.getData();
+    //    return Objects.requireNonNull(apiResponse.block()).getData(); // todo if apiResponse.block was null what will happen ?
     }
 
-    // todo this method name shall be withdrow or credit rather than pay
     @Override
-    public void pay(VerifyCardDto verifyCardDto, BigDecimal amount) {
+    public void withdraw(VerifyCardDto verifyCardDto, BigDecimal amount) {
         log.info("paying by card with CMS api: {}", verifyCardDto);
         CmsApiWithdrawRequest request = new CmsApiWithdrawRequest(verifyCardDto, amount);
       getWebClient().put()

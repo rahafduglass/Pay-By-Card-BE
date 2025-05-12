@@ -4,6 +4,7 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDt
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.CompletePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.response.InitiatePaymentUseCaseResponse;
 import com.internship.paybycard.paymentprocess.core.domain.exception.BusinessException;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.CompletePaymentModelMapper;
 import com.internship.paybycard.paymentprocess.core.domain.mapper.payment.InitiatePaymentModelMapper;
@@ -15,6 +16,7 @@ import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
+import com.internship.paybycard.paymentprocess.domain.dto.payment.response.InitiatePaymentUseCaseResponseImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -28,7 +30,7 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
     private final CompletePaymentModelMapper completePaymentModelMapper;
 
     @Override
-    public Result<String> initiatePayment(InitiatePaymentCommand command) {
+    public Result<InitiatePaymentUseCaseResponse> initiatePayment(InitiatePaymentCommand command) {
         log.info("Initiate payment use case with command: {}", command);
         try {
             InitiatePaymentModel initiatePaymentModel = initiatePaymentModelMapper.commandToModel(command);
@@ -37,7 +39,7 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
             initiatePaymentModel.validatePayment();
             log.debug("processing initiate payment");
             PaymentDto initiatedPayment = initiatePaymentModel.process();
-            return new Result<>(Status.ACT, ErrorCode.NULL, initiatedPayment.getReferenceNumber());
+            return new Result<>(Status.ACT, ErrorCode.NULL, new InitiatePaymentUseCaseResponseImpl(initiatedPayment.getReferenceNumber(), "initiated successfully"));
         } catch (BusinessException e) {
             log.error("Business exception", e);
             return new Result<>(Status.RJC, e.getErrorCode(), null);

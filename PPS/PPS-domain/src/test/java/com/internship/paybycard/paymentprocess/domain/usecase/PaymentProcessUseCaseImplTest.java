@@ -5,6 +5,7 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPayme
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.CompletePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.InitiatePaymentCommand;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.command.VerifyPaymentCommand;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.response.InitiatePaymentUseCaseResponse;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidCardException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
@@ -17,6 +18,7 @@ import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentMo
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
+import com.internship.paybycard.paymentprocess.domain.dto.payment.response.InitiatePaymentUseCaseResponseImpl;
 import com.internship.paybycard.paymentprocess.domain.model.InitiatePaymentModelImpl;
 import lombok.Builder;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,8 +62,8 @@ public class PaymentProcessUseCaseImplTest {
         InitiatePaymentCommand command= mock(InitiatePaymentCommand.class);
         when(command.toString()).thenReturn("meow");
         when(initiatePaymentModelMapper.commandToModel(any(InitiatePaymentCommand.class))).thenReturn(initiatePaymentModel);
-        Result<String> useCaseResult=paymentProcessUseCase.initiatePayment(command);
-        Result<String> expectedResult= new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE,null);
+        Result<InitiatePaymentUseCaseResponse> useCaseResult=paymentProcessUseCase.initiatePayment(command);
+        Result<InitiatePaymentUseCaseResponse> expectedResult= new Result<>(Status.RJC, ErrorCode.INSUFFICIENT_CARD_BALANCE,null);
         assertEquals(expectedResult,useCaseResult);
     }
 
@@ -75,8 +77,8 @@ public class PaymentProcessUseCaseImplTest {
         RealPaymentDto realPaymentDto = new RealPaymentDto();
         realPaymentDto.setReferenceNumber(UUID.randomUUID().toString());
         when(initiatePaymentModel.process()).thenReturn(realPaymentDto);
-        Result<String> useCaseResult=paymentProcessUseCase.initiatePayment(command);
-        Result<String> expectedResult= new Result<>(Status.ACT, ErrorCode.NULL, realPaymentDto.getReferenceNumber());
+        Result<InitiatePaymentUseCaseResponse> useCaseResult=paymentProcessUseCase.initiatePayment(command);
+        Result<InitiatePaymentUseCaseResponse> expectedResult= new Result<>(Status.ACT, ErrorCode.NULL, new InitiatePaymentUseCaseResponseImpl(realPaymentDto.getReferenceNumber(),"initiated successfully"));
         assertEquals(expectedResult,useCaseResult);
     }
 
