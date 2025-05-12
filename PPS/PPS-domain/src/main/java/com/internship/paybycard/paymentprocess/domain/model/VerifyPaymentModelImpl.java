@@ -25,10 +25,12 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
 
     @Override
     public void verifyPayment() {
+        // todo u can replace the concatenation with parameter
         log.info("Verifying payment with reference number " + referenceNumber);
 
         paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
         if(paymentDto.isNull()) {
+            // todo u can replace the concatenation with parameter
             log.error("Payment with reference number " + referenceNumber + " not found");
             throw new PaymentNotFoundException("payment not found " + referenceNumber, ErrorCode.PAYMENT_NOT_FOUND);
         }

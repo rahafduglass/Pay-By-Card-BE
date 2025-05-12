@@ -62,9 +62,10 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 .doOnError(error -> {
                     log.error("card validation error: {}", error.getMessage());
                 });
-        return Objects.requireNonNull(apiResponse.block()).getData();
+        return Objects.requireNonNull(apiResponse.block()).getData(); // todo if apiResponse.block was null what will happen ?
     }
 
+    // todo this method name shall be withdrow or credit rather than pay
     @Override
     public void pay(VerifyCardDto verifyCardDto, BigDecimal amount) {
         log.info("paying by card with CMS api: {}", verifyCardDto);
@@ -88,7 +89,7 @@ public class CmsApiHandlerImpl implements CmsApiHandler {
                 })
                 .doOnError(error -> {
                     log.error("card validation error: {}", error.getMessage());
-                }).block();
+                }).block(); // todo if apiResponse.block was null what will happen ?
     }
 
 }

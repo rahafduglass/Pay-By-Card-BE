@@ -25,16 +25,19 @@ public class PaymentProcessController {
     @PostMapping("/initiate")
     public ResponseEntity<InitiatePaymentResponse> initiatePayment(@RequestBody @Valid InitiatePaymentCommandImpl command) {
         Result<String> result = paymentProcessUseCase.initiatePayment(command);
+        // todo since u have enum why u need to compare it with string ?
         if (result.getStatus().name().equals("RJC")) {
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(new InitiatePaymentResponse(result.getErrorCode().toString(),null));
+                    .body(new InitiatePaymentResponse(result.getErrorCode().toString(), null));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(paymentFormatter.toInitiatePaymentResponse("initiated successfully",result.getData()));
+        // todo Response Message "initiated successfully" shall be retrieved from the use-case directly
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentFormatter.toInitiatePaymentResponse("initiated successfully", result.getData()));
     }
 
     @PutMapping("/verify")
     public ResponseEntity<Void> verifyPayment(@RequestBody @Valid VerifyPaymentCommandImpl command) {
         Result<Void> result = paymentProcessUseCase.verifyPayment(command);
+        // todo since u have enum why u need to compare it with string ?
         if (result.getStatus().name().equals("RJC")) {
             return rejectResponse(result.getErrorCode());
         }
@@ -44,6 +47,7 @@ public class PaymentProcessController {
     @PutMapping("/complete")
     public ResponseEntity<Void> completePayment(@RequestBody @Valid CompletePaymentCommandImpl command) {
         Result<Void> result = paymentProcessUseCase.completePayment(command);
+        // todo since u have enum why u need to compare it with string ?
         if (result.getStatus().name().equals("RJC")) {
             return rejectResponse(result.getErrorCode());
         }
