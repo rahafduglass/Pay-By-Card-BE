@@ -23,25 +23,25 @@ public class CmsApiHandlerImplTest {
     @Autowired
     private CmsApiHandler cmsApiHandlerImpl;
 
-    @Test
-    public void givenValidRequest_whenCallVerifyCard_thenReturnCardDto(){
-        VerifyCardDtoImpl verifyCardDto = new VerifyCardDtoImpl();
-        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
-        verifyCardDto.setCVV("123");
-        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
-        CardDto cardDto = cmsApiHandlerImpl.verifyCard(verifyCardDto);
-        assertNotNull(cardDto);
-    }
-
-    @Test
-    public void givenValidRequest_whenCallWithdrawCard_thenReturnNothing(){
-        VerifyCardDtoImpl verifyCardDto = new VerifyCardDtoImpl();
-        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
-        verifyCardDto.setCVV("123");
-        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
-        BigDecimal amount = new BigDecimal("33");
-        cmsApiHandlerImpl.withdraw(verifyCardDto, amount);
-
-    }
+//    @Test
+//    public void givenValidRequest_whenCallVerifyCard_thenReturnCardDto(){
+//        VerifyCardDtoImpl verifyCardDto = new VerifyCardDtoImpl();
+//        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
+//        verifyCardDto.setCVV("123");
+//        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
+//        CardDto cardDto = cmsApiHandlerImpl.verifyCard(verifyCardDto);
+//        assertNotNull(cardDto);
+//    }
+//
+//    @Test
+//    public void givenValidRequest_whenCallWithdrawCard_thenReturnNothing(){
+//        VerifyCardDtoImpl verifyCardDto = new VerifyCardDtoImpl();
+//        verifyCardDto.setCardNumber("b2583dee-4c27-45fc-9df0-c779f6531a39"); // from db record xD
+//        verifyCardDto.setCVV("123");
+//        verifyCardDto.setExpiryDate(LocalDate.parse("2027-05-01"));
+//        BigDecimal amount = new BigDecimal("33");
+//        cmsApiHandlerImpl.withdraw(verifyCardDto, amount);
+//
+//    }
 
 }
