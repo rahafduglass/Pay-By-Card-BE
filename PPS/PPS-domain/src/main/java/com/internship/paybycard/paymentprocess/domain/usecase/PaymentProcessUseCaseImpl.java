@@ -19,8 +19,6 @@ import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProces
 import com.internship.paybycard.paymentprocess.domain.dto.payment.response.InitiatePaymentUseCaseResponseImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,21 +30,13 @@ public class PaymentProcessUseCaseImpl implements PaymentProcessUseCase {
     @Override
     public Result<InitiatePaymentUseCaseResponse> initiatePayment(InitiatePaymentCommand command) {
         log.info("Initiate payment use case with command: {}", command);
-        try {
-            InitiatePaymentModel initiatePaymentModel = initiatePaymentModelMapper.commandToModel(command);
-            log.debug("finish: mapping initiatePayment");
-            log.debug("validating payment:");
-            initiatePaymentModel.validatePayment();
-            log.debug("processing initiate payment");
-            PaymentDto initiatedPayment = initiatePaymentModel.process();
-            return new Result<>(Status.ACT, ErrorCode.NULL, new InitiatePaymentUseCaseResponseImpl(initiatedPayment.getReferenceNumber(), "initiated successfully"));
-        } catch (BusinessException e) {
-            log.error("Business exception", e);
-            return new Result<>(Status.RJC, e.getErrorCode(), null);
-        } catch (Exception e) {
-            log.error("unexpected error in initiatePayment: {}", e.getMessage(), e);
-            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
-        }
+        InitiatePaymentModel initiatePaymentModel = initiatePaymentModelMapper.commandToModel(command);
+        log.debug("finish: mapping initiatePayment");
+        log.debug("validating payment:");
+        initiatePaymentModel.validatePayment();
+        log.debug("processing initiate payment");
+        initiatePaymentModel.process();
+        return initiatePaymentModel.result();
     }
 
     @Override

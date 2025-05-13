@@ -1,6 +1,7 @@
 package com.internship.paybycard.paymentprocess.core.domain.result;
 
 public enum ErrorCode {
+    SUCCESS,
     NULL,
     INTERNAL_SERVER_ERROR,
     EXTERNAL_API_NULL_RESPONSE,

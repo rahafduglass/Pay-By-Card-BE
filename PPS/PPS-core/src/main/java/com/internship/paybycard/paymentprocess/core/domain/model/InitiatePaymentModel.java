@@ -1,9 +1,12 @@
 package com.internship.paybycard.paymentprocess.core.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.response.InitiatePaymentUseCaseResponse;
+import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 
 public interface InitiatePaymentModel {
-    PaymentDto process() ;
+    void process();
 
-    boolean validatePayment();
+    void validatePayment();
+
+    Result<InitiatePaymentUseCaseResponse> result();
 }
