@@ -33,10 +33,9 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
     private final VerifyCardDto card;
     private final PaymentDao paymentDao;
     private final CmsApiHandler cmsApiHandler;
-    private CardDto verifiedCard;
 
+    private CardDto verifiedCard;
     private boolean isPaymentValid;
-    private Result<InitiatePaymentUseCaseResponseImpl> modelStatus;
     private ErrorCode errorCode;
     private InitiatePaymentUseCaseResponseImpl response;
 
@@ -49,7 +48,7 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
         this.card = card;
         this.paymentDao = paymentDao;
         this.cmsApiHandler = cmsApiHandler;
-        this.isPaymentValid = true;
+        this.isPaymentValid = false;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
             if (amount.compareTo(verifiedCard.getBalance()) > 0)
                 throw new InsufficientCardBalance("the amount is bigger your card balance", ErrorCode.INSUFFICIENT_CARD_BALANCE);
             isPaymentValid = true;
-            errorCode = ErrorCode.SUCCESS;
+
         } catch (BusinessException e) {
             log.error("Business exception", e);
             errorCode = e.getErrorCode();
@@ -76,7 +75,7 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
 
     @Override
     public void process() {
-        try{
+        try {
             if (isPaymentValid) {
                 log.info("processing initiate payment with reference number {}", card.getCardNumber());
                 RealPaymentDto realPaymentDto = new RealPaymentDto();
@@ -90,8 +89,9 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
                 log.debug("creating payment record in database: {}", realPaymentDto);
                 PaymentDto initiatedPayment = paymentDao.createPayment(realPaymentDto);
                 response = new InitiatePaymentUseCaseResponseImpl(initiatedPayment.getReferenceNumber(), "initiated successfully");
+                errorCode = ErrorCode.SUCCESS;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("unexpected error in initiatePayment process : {}", e.getMessage(), e);
             isPaymentValid = false;
             errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
@@ -100,11 +100,10 @@ public class InitiatePaymentModelImpl implements InitiatePaymentModel {
 
     @Override
     public Result<InitiatePaymentUseCaseResponse> result() {
-        if (isPaymentValid)
+        if (response!=null)
             return new Result<>(Status.ACT, ErrorCode.SUCCESS, response);
         else
-            return new Result<>(Status.RJC, errorCode, response);
-
+            return new Result<>(Status.RJC, errorCode, null);
     }
 
 }

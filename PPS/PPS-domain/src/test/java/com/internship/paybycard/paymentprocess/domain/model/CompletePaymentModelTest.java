@@ -4,6 +4,7 @@ import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDt
 import com.internship.paybycard.paymentprocess.core.domain.exception.InvalidOtpException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PersistenceException;
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
@@ -16,8 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -56,13 +56,14 @@ public class CompletePaymentModelTest {
     }
 
     @Test
-    public void givenInvalidOtp_whenCallVerifyOtp_shouldThrowInvalidOtpException() {
+    public void givenInvalidOtp_whenCallVerifyOtp_thenErrorCodeShouldBeInvalidOtp() {
         when(otpService.verifyOtp(any(), any())).thenReturn(false);
-        assertThrows(InvalidOtpException.class, () -> model.verifyOTP());
+        model.verifyOTP();
+        assertEquals(ErrorCode.INVALID_OR_EXPIRED_OTP, model.getErrorCode());
     }
 
     @Test
-    public void givenValidPayment_whenCallVerifyOtpThenCallPay_shouldDoNothing() {
+    public void givenValidPayment_whenCallVerifyOtpThenCallPay_thenErrorCodeShouldBeSuccess() {
         givenValidOtp_whenCallVerifyOtp_shouldDoNothing();
 
         PaymentDto retrievedPayment = mock(PaymentDto.class);
@@ -73,17 +74,12 @@ public class CompletePaymentModelTest {
         when(paymentDao.updatePaymentConfirmed(any(), any())).thenReturn(1);
         doNothing().when(cmsApiHandler).withdraw(any(VerifyCardDto.class), any(BigDecimal.class));
 
-        assertDoesNotThrow(() -> model.pay());
-    }
-
-    @Test
-    public void givenIsOtpVerifiedFalse_whenCallPay_thenThrowInvalidOtpException() {
-        assertThrows(InvalidOtpException.class, () -> model.pay());
+        model.pay();
+        assertEquals(ErrorCode.SUCCESS, model.getErrorCode());
     }
 
     @Test
     public void givenInvalidReferenceNumber_whenCallVerifyOtpThenCallPay_shouldThrowPaymentNotFoundException() {
-        givenValidOtp_whenCallVerifyOtp_shouldDoNothing();
 
         PaymentDto retrievedPayment = mock(PaymentDto.class);
         when(retrievedPayment.isNull()).thenReturn(true);

@@ -1,9 +1,12 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.exception.BusinessException;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
 import com.internship.paybycard.paymentprocess.core.domain.model.VerifyPaymentModel;
 import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
+import com.internship.paybycard.paymentprocess.core.domain.result.Result;
+import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
@@ -22,32 +25,53 @@ public class VerifyPaymentModelImpl implements VerifyPaymentModel {
 
     private boolean isVerified = false;
     private PaymentDto paymentDto;
+    private ErrorCode errorCode;
 
     @Override
     public void verifyPayment() {
-        log.info("Verifying payment with reference number {}" , referenceNumber);
-
-        paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
-        if(paymentDto.isNull()) {
-            log.error("Payment with reference number {} not found" , referenceNumber );
-            throw new PaymentNotFoundException("payment not found " + referenceNumber, ErrorCode.PAYMENT_NOT_FOUND);
+        try {
+            log.info("Verifying payment with reference number {}", referenceNumber);
+            paymentDto = paymentDao.findPaymentByReferenceNumber(referenceNumber);
+            if (paymentDto.isNull()) {
+                log.error("Payment with reference number {} not found", referenceNumber);
+                throw new PaymentNotFoundException("payment not found " + referenceNumber, ErrorCode.PAYMENT_NOT_FOUND);
+            }
+            isVerified = true;
+        } catch (BusinessException e) {
+            log.error("Business exception", e);
+            errorCode = e.getErrorCode();
+        } catch (Exception e) {
+            log.error("unexpected error in verifyPayment(): {}", e.getMessage(), e);
+            errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         }
-        isVerified = true;
     }
 
     @Override
     public void sendOtp() {
-        log.info("Sending OTP with reference number= {}", referenceNumber);
-        if (isVerified) {
-            log.debug("generating OTP for reference number= {}", referenceNumber);
-            String otp = otpService.generateOtp();
-            log.debug("storing OTP for reference number= {}", referenceNumber);
-            otpService.storeOtp(referenceNumber, otp);
-            log.debug("sending OTP to email address= {}", paymentDto.getClientEmail());
-            emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otp);
-        } else {
-            log.error("Payment with reference number {}  not verified" , referenceNumber );
-            throw new PaymentNotFoundException("payment does not exist OR you haven't called verifyPayment() method first",ErrorCode.PAYMENT_NOT_FOUND);
+        try {
+            if (isVerified) {
+                log.info("Sending OTP with reference number= {}", referenceNumber);
+                log.debug("generating OTP for reference number= {}", referenceNumber);
+                String otp = otpService.generateOtp();
+                log.debug("storing OTP for reference number= {}", referenceNumber);
+                otpService.storeOtp(referenceNumber, otp);
+                log.debug("sending OTP to email address= {}", paymentDto.getClientEmail());
+                emailService.sendOtpEmail(paymentDto.getClientEmail(), referenceNumber, otp);
+                errorCode = ErrorCode.SUCCESS;
+            }
+        } catch (Exception e) {
+            log.error("unexpected error in verifyPayment(): {}", e.getMessage(), e);
+            errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         }
     }
+
+    @Override
+    public Result<Void> result() {
+        if (errorCode.equals(ErrorCode.SUCCESS)) {
+            return new Result<>(Status.ACT, ErrorCode.SUCCESS, null);
+        } else {
+            return new Result<>(Status.RJC, errorCode, null);
+        }
+    }
+
 }

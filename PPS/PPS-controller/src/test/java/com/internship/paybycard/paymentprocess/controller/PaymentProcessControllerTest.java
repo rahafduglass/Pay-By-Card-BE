@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
@@ -48,7 +49,8 @@ public class PaymentProcessControllerTest {
         InitiatePaymentResponse response = new InitiatePaymentResponse(result.getMessage(), referenceNumber);
 
         when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommand.class))).thenReturn(new Result<>(Status.ACT, ErrorCode.NULL, result));
-        when(paymentFormatter.toInitiatePaymentResponse(any(InitiatePaymentUseCaseResponse.class))).thenReturn(response);
+        when(paymentFormatter.toInitiatePaymentResponse(any(Result.class)))
+                .thenReturn(new ResponseEntity<>(response,HttpStatus.CREATED));
         ResponseEntity<InitiatePaymentResponse> apiResponse = paymentProcessController.initiatePayment(InitiatePaymentCommandImpl.builder().build());
         assertEquals(201, apiResponse.getStatusCodeValue());
         assertEquals(response, apiResponse.getBody());
@@ -56,7 +58,9 @@ public class PaymentProcessControllerTest {
 
     @Test
     public void givenInvalidRequest_whenCallInitiatePayment_thenShouldReturnHttpsStatus422() {
-        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommandImpl.class))).thenReturn(new Result<InitiatePaymentUseCaseResponse>(Status.RJC, ErrorCode.INVALID_CARD, null));
+        when(paymentProcessUseCase.initiatePayment(any(InitiatePaymentCommandImpl.class))).thenReturn(new Result<>(Status.RJC, ErrorCode.INVALID_CARD, null));
+        when(paymentFormatter.toInitiatePaymentResponse(any(Result.class)))
+                .thenReturn(new ResponseEntity<>(new InitiatePaymentResponse(ErrorCode.INVALID_CARD.toString(), null),HttpStatus.UNPROCESSABLE_ENTITY));
         ResponseEntity<InitiatePaymentResponse> apiResponse = paymentProcessController.initiatePayment(InitiatePaymentCommandImpl.builder().build());
         assertEquals(422, apiResponse.getStatusCodeValue());
         assertNull(apiResponse.getBody().getReferenceNumber());

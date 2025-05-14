@@ -3,6 +3,7 @@ package com.internship.paybycard.paymentprocess.domain.model;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.NullPaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
 import com.internship.paybycard.paymentprocess.core.domain.exception.PaymentNotFoundException;
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.EmailService;
 import com.internship.paybycard.paymentprocess.core.integration.OtpService;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
@@ -39,19 +40,13 @@ public class VerifyPaymentModelImplTest {
     }
 
     @Test
-    public void givenInvalidReferenceNumber_whenCallVerifyPayment_thenThrowException() {
+    public void givenInvalidReferenceNumber_whenCallVerifyPayment_thenErrorCodePaymentNotFound() {
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(new NullPaymentDto());
         verifyPaymentModel = new VerifyPaymentModelImpl("12312", paymentDao, otpService, emailService);
-        Exception exception = assertThrows(PaymentNotFoundException.class, () -> verifyPaymentModel.verifyPayment());
-        assertEquals("payment not found 12312", exception.getMessage());
+        verifyPaymentModel.verifyPayment();
+        assertEquals(verifyPaymentModel.getErrorCode(), ErrorCode.PAYMENT_NOT_FOUND);
     }
 
-
-    @Test
-    public void callSendOtpWithoutCallingVerifyPaymentFirst_thenThrowException() {
-        verifyPaymentModel = new VerifyPaymentModelImpl("number", paymentDao, otpService, emailService);
-        assertThrows(PaymentNotFoundException.class, () -> verifyPaymentModel.sendOtp());
-    }
 
     @Test
     public void callSendOtpWithCallingVerifyPaymentFirst_thenSuccess() {

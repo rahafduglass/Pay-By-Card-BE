@@ -1,26 +1,27 @@
 package com.internship.paybycard.paymentprocess.domain.model;
 
-import com.internship.paybycard.paymentprocess.core.domain.dto.payment.PaymentDto;
-import com.internship.paybycard.paymentprocess.core.domain.exception.InsufficientCardBalance;
+import com.internship.paybycard.paymentprocess.core.domain.dto.payment.RealPaymentDto;
+import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.core.integration.cms.dto.VerifyCardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.model.CardDto;
 import com.internship.paybycard.paymentprocess.core.integration.cms.service.CmsApiHandler;
 import com.internship.paybycard.paymentprocess.core.persistence.PaymentDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class InitiatePaymentModelImplTest {
     @Mock
     private PaymentDao paymentDao;
@@ -29,75 +30,91 @@ public class InitiatePaymentModelImplTest {
     private CmsApiHandler cmsApiHandler;
 
     @Mock
-    private VerifyCardDto cardTOVerify;
+    private VerifyCardDto card;
+
+    @Mock
+    private CardDto verifiedCard;
 
     @InjectMocks
     private InitiatePaymentModelImpl model;
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-
-        cardTOVerify = mock(VerifyCardDto.class);
-        when(cardTOVerify.getCardNumber()).thenReturn("123456789");
-        when(cardTOVerify.getExpiryDate()).thenReturn(LocalDate.now());
-        when(cardTOVerify.getCVV()).thenReturn("123");
-
+        when(card.getCardNumber()).thenReturn(UUID.randomUUID().toString());
         model = InitiatePaymentModelImpl.builder()
-                .card(cardTOVerify)
                 .items("items")
-                .clientName("client")
-                .amount(BigDecimal.valueOf(23444))
-                .cmsApiHandler(cmsApiHandler)
+                .amount(new BigDecimal(10))
+                .clientName("clientName")
+                .card(card)
                 .paymentDao(paymentDao)
+                .cmsApiHandler(cmsApiHandler)
                 .build();
     }
 
     @Test
-    public void givenValidModel_whenCallValidateCardThenProcess_shouldReturnSavedPaymentDto() {
-        CardDto cmsCardResponse = mock(CardDto.class);
-        when(cmsCardResponse.getCardNumber()).thenReturn("123456789");
-        when(cmsCardResponse.getClientEmail()).thenReturn("client@email.com");
-        when(cmsCardResponse.getBalance()).thenReturn(BigDecimal.valueOf(3000000.5454));
-
-        when(cmsApiHandler.verifyCard(any())).thenReturn(cmsCardResponse);
-        when(paymentDao.createPayment(Mockito.any())).thenAnswer(invocation -> invocation.getArgument(0));
+    public void givenAmountBiggerThanBalanceWithCmsApiHandlerReturnVerifiedCard_whenCallValidPayment_thenErrorCodeShouldReturnInsufficientBalance() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(verifiedCard);
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal(5));
 
         model.validatePayment();
-        PaymentDto result = model.process();
-        assertEquals(result.getAmount(), BigDecimal.valueOf(23444));
-        assertEquals("client", result.getClientName());
-        assertEquals("123456789", result.getCardNumber());
-        assertEquals("items", result.getItems());
-        assertEquals("123456789", result.getCardNumber());
-        assertEquals(false, result.getConfirmed());
-        assertEquals("client@email.com", result.getClientEmail());
+        assertEquals(ErrorCode.INSUFFICIENT_CARD_BALANCE, model.getErrorCode());
+        assertFalse(model.isPaymentValid());
     }
 
     @Test
-    public void givenIsPaymentValidAsFalse_whenCallProcess_shouldThrowRunTimeException() {
-        assertThrows(RuntimeException.class, () -> model.process());
+    public void givenInvalidCardWithCmsApiHandlerReturnNull_whenCallValidPayment_thenErrorCodeShouldReturnInvalidCard() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(null);
+        model.validatePayment();
+        assertEquals(ErrorCode.INVALID_CARD, model.getErrorCode());
+        assertFalse(model.isPaymentValid());
     }
 
     @Test
-    public void givenInvalidAmount_whenCallValidatePayment_shouldThrowInsufficientCardBalanceException() {
-        CardDto cmsCardResponse = mock(CardDto.class);
+    public void givenValidModelDetails_whenCallValidPayment_thenIsPaymentValidReturnsTrue() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(verifiedCard);
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal(1000));
 
-        when(cmsCardResponse.getBalance()).thenReturn(BigDecimal.valueOf(344));
-        when(cmsApiHandler.verifyCard(any())).thenReturn(cmsCardResponse);
-
-        assertThrows(InsufficientCardBalance.class, () -> model.validatePayment());
+        model.validatePayment();
+        assertTrue(model.isPaymentValid());
     }
 
     @Test
-    public void givenValidPaymentModel_whenCallValidatePayment_shouldReturnTrue() {
-        CardDto cmsCardResponse = mock(CardDto.class);
-
-        when(cmsCardResponse.getBalance()).thenReturn(BigDecimal.valueOf(3000000.5454));
-        when(cmsApiHandler.verifyCard(any())).thenReturn(cmsCardResponse);
-
-        assertTrue(model.validatePayment());
+    public void givenUnexpectedError_whenCallValidPayment_thenErrorCodeShouldReturnInternalServerError() {
+        doThrow(RuntimeException.class).when(cmsApiHandler).verifyCard(any(VerifyCardDto.class));
+        model.validatePayment();
+        assertEquals(ErrorCode.INTERNAL_SERVER_ERROR, model.getErrorCode());
+        assertFalse(model.isPaymentValid());
     }
 
+    @Test
+    public void givenValidPayment_whenCallProcess_thenResponseShouldNotBeNull() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(verifiedCard);
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal(1000));
+        model.validatePayment();
 
+        when(paymentDao.createPayment(any(RealPaymentDto.class))).thenReturn(new RealPaymentDto());
+        model.process();
+        assertNotNull(model.getResponse());
+    }
+
+    @Test
+    public void givenInvalidPayment_whenCallProcess_thenResponseShouldBeNull() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(null);
+        model.validatePayment();
+
+        model.process();
+        assertNull(model.getResponse());
+    }
+
+    @Test
+    public void givenUnexpectedError_whenCallProcess_thenErrorCodeShouldReturnInternalServerError() {
+        when(cmsApiHandler.verifyCard(any(VerifyCardDto.class))).thenReturn(verifiedCard);
+        when(verifiedCard.getBalance()).thenReturn(new BigDecimal(1000));
+        model.validatePayment();
+
+        doThrow(RuntimeException.class).when(paymentDao).createPayment(any(RealPaymentDto.class));
+        model.process();
+        assertEquals(ErrorCode.INTERNAL_SERVER_ERROR, model.getErrorCode());
+        assertFalse(model.isPaymentValid());
+    }
 }
