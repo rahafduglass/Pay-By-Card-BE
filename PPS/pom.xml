@@ -25,6 +25,7 @@
         <module>PPS-persistence</module>
         <module>PPS-email-service</module>
         <module>PPS-otp-service</module>
+        <module>PPS-terminal-ui</module>
     </modules>
 
     <properties>
