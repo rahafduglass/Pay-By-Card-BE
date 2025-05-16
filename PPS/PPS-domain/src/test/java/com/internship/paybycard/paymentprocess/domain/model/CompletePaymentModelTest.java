@@ -65,38 +65,42 @@ public class CompletePaymentModelTest {
     @Test
     public void givenValidPayment_whenCallVerifyOtpThenCallPay_thenErrorCodeShouldBeSuccess() {
         givenValidOtp_whenCallVerifyOtp_shouldDoNothing();
-
         PaymentDto retrievedPayment = mock(PaymentDto.class);
         when(retrievedPayment.isNull()).thenReturn(false);
         when(retrievedPayment.getAmount()).thenReturn(BigDecimal.ONE);
-
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(retrievedPayment);
         when(paymentDao.updatePaymentConfirmed(any(), any())).thenReturn(1);
         doNothing().when(cmsApiHandler).withdraw(any(VerifyCardDto.class), any(BigDecimal.class));
 
         model.pay();
+
         assertEquals(ErrorCode.SUCCESS, model.getErrorCode());
     }
 
     @Test
-    public void givenInvalidReferenceNumber_whenCallVerifyOtpThenCallPay_shouldThrowPaymentNotFoundException() {
-
+    public void givenInvalidReferenceNumber_whenCallVerifyOtpThenCallPay_thenErrorCodeShouldBePaymentNotFound() {
+        when(otpService.verifyOtp(any(), any())).thenReturn(true);
+        assertDoesNotThrow(() -> model.verifyOTP());
         PaymentDto retrievedPayment = mock(PaymentDto.class);
         when(retrievedPayment.isNull()).thenReturn(true);
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(retrievedPayment);
 
-        assertThrows(PaymentNotFoundException.class, () -> model.pay());
+        model.pay();
+
+        assertEquals(ErrorCode.PAYMENT_NOT_FOUND, model.getErrorCode());
     }
 
     @Test
-    public void givenValidPaymentWithPaymentDaoNotUpdating_whenCallPay_shouldThrowPersistenceException() {
+    public void givenValidPaymentWithPaymentDaoNotUpdating_whenCallPay_shouldErrorCodeShouldBeInternalServerError() {
         givenValidOtp_whenCallVerifyOtp_shouldDoNothing();
-
         PaymentDto retrievedPayment = mock(PaymentDto.class);
         when(retrievedPayment.isNull()).thenReturn(false);
         when(paymentDao.findPaymentByReferenceNumber(any())).thenReturn(retrievedPayment);
         doNothing().when(cmsApiHandler).withdraw(any(VerifyCardDto.class), any(BigDecimal.class));
         when(paymentDao.updatePaymentConfirmed(any(), any())).thenReturn(0);
-        assertThrows(PersistenceException.class, () -> model.pay());
+
+        model.pay();
+
+        assertEquals(ErrorCode.INTERNAL_SERVER_ERROR,model.getErrorCode());
     }
 }
