@@ -1,6 +1,6 @@
-package com.internship.paybycard.validation.initiatepayment;
+package com.internship.paybycard.paymentprocess.terminalui.validation.initiatepayment;
 
-import com.internship.paybycard.validation.Validator;
+import com.internship.paybycard.paymentprocess.terminalui.validation.Validator;
 
 public class ClientNameValidator implements Validator {
 
