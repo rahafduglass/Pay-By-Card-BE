@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.terminalui.validation.initiatepayment;
+package com.internship.paybycard.paymentprocess.terminalui.validation.verifypayment;
 
 import com.internship.paybycard.paymentprocess.terminalui.validation.Validator;
 

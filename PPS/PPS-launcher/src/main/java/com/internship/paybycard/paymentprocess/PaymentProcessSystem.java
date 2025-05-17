@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import static com.internship.paybycard.paymentprocess.terminalui.validation.Validator.*;
@@ -14,7 +13,7 @@ import static com.internship.paybycard.paymentprocess.terminalui.validation.Vali
 @SpringBootApplication
 public class PaymentProcessSystem {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)  {
         ApplicationContext ctx=SpringApplication.run(PaymentProcessSystem.class, args);
 
         System.out.println(ORANGE+"WANT TO START TERMINAL UI?"+RESET+RED+" n"+RESET+"/"+GREEN+"y"+RESET);

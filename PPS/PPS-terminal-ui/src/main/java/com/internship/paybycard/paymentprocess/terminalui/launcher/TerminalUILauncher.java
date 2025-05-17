@@ -1,10 +1,10 @@
 package com.internship.paybycard.paymentprocess.terminalui.launcher;
 
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
+import com.internship.paybycard.paymentprocess.terminalui.dto.response.InitiatePaymentHandlerResponse;
 import com.internship.paybycard.paymentprocess.terminalui.handler.PaymentInputHandler;
 import com.internship.paybycard.paymentprocess.terminalui.util.ConsoleHandler;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import static com.internship.paybycard.paymentprocess.terminalui.validation.Validator.ORANGE;
@@ -12,11 +12,11 @@ import static com.internship.paybycard.paymentprocess.terminalui.validation.Vali
 
 public class TerminalUILauncher {
 
-    public static void launch(PaymentProcessUseCase paymentProcessUseCase) throws IOException {
+    public static void launch(PaymentProcessUseCase paymentProcessUseCase) {
         Scanner scanner = new Scanner(System.in);
         ConsoleHandler consoleHandler = new ConsoleHandler(scanner);
         PaymentInputHandler paymentInputHandler = new PaymentInputHandler(consoleHandler, paymentProcessUseCase);
-        String paymentReferenceNumber = null;
+        InitiatePaymentHandlerResponse initiatePaymentHandlerResponse = null;
         outerLoop:
         while (true) {
             System.out.println("1. initiate payment");
@@ -28,14 +28,13 @@ public class TerminalUILauncher {
             scanner.nextLine();
             switch (option) {
                 case 1:
-                    paymentReferenceNumber = paymentInputHandler.initiatePayment();
+                     initiatePaymentHandlerResponse= paymentInputHandler.initiatePayment();
                     continue;
                 case 2:
-                    paymentInputHandler.verifyPayment(paymentReferenceNumber);
+                    paymentInputHandler.verifyPayment(initiatePaymentHandlerResponse.getPaymentReferenceNumber());
                     continue;
                 case 3:
-                    System.out.println("enter otp code: ");
-                    String otpCode = scanner.nextLine();
+                    paymentInputHandler.completePayment(initiatePaymentHandlerResponse.getPaymentReferenceNumber(),initiatePaymentHandlerResponse.getCard());
                     //call complete payment use case :D
                 case 4:
                     System.out.println("exiting");
