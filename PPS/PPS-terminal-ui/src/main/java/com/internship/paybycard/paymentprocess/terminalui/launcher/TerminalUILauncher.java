@@ -15,7 +15,7 @@ public class TerminalUILauncher {
     public static void launch(PaymentProcessUseCase paymentProcessUseCase) throws IOException {
         Scanner scanner = new Scanner(System.in);
         ConsoleHandler consoleHandler = new ConsoleHandler(scanner);
-        PaymentInputHandler handler = new PaymentInputHandler(consoleHandler, paymentProcessUseCase);
+        PaymentInputHandler paymentInputHandler = new PaymentInputHandler(consoleHandler, paymentProcessUseCase);
         String paymentReferenceNumber = null;
         outerLoop:
         while (true) {
@@ -23,15 +23,15 @@ public class TerminalUILauncher {
             System.out.println("2. verify payment");
             System.out.println("3. complete payment");
             System.out.println("4. exit");
-            System.out.println(ORANGE+"pick an option number: "+RESET);
+            System.out.println(ORANGE + "pick an option number: " + RESET);
             int option = scanner.nextInt();
             scanner.nextLine();
             switch (option) {
                 case 1:
-                    paymentReferenceNumber = handler.initiatePayment();
+                    paymentReferenceNumber = paymentInputHandler.initiatePayment();
                     continue;
                 case 2:
-                    //call verify payment use case then inform user accordingly
+                    paymentInputHandler.verifyPayment(paymentReferenceNumber);
                     continue;
                 case 3:
                     System.out.println("enter otp code: ");

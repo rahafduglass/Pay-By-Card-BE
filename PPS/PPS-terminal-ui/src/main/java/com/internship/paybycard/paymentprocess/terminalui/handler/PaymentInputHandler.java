@@ -10,7 +10,12 @@ public class PaymentInputHandler {
     private final PaymentProcessUseCase paymentProcessUseCase;
 
     public String initiatePayment() {
-        InitiatePaymentInputHandler handler = new InitiatePaymentInputHandler(consoleHandler, paymentProcessUseCase);
+        InitiatePaymentInputHandler handler = new InitiatePaymentInputHandler(paymentProcessUseCase,consoleHandler);
         return handler.initiatePayment();
     }
+    public void verifyPayment(String paymentReferenceNumber) {
+        VerifyPaymentInputHandler handler= new VerifyPaymentInputHandler(consoleHandler,paymentProcessUseCase);
+        handler.verifyPayment(paymentReferenceNumber);
+    }
+
 }

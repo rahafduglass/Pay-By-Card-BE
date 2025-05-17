@@ -8,21 +8,15 @@ import com.internship.paybycard.paymentprocess.terminalui.dto.card.VerifyCardDet
 import com.internship.paybycard.paymentprocess.terminalui.dto.payment.command.InitiatePaymentCommandImpl;
 import com.internship.paybycard.paymentprocess.terminalui.util.ConsoleHandler;
 import com.internship.paybycard.paymentprocess.terminalui.validation.initiatepayment.*;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static com.internship.paybycard.paymentprocess.terminalui.validation.Validator.*;
-
-
+@RequiredArgsConstructor
 public class InitiatePaymentInputHandler {
     private final PaymentProcessUseCase paymentProcessUseCase;
     private final ConsoleHandler consoleHandler;
-
-    public InitiatePaymentInputHandler(ConsoleHandler consoleHandler, PaymentProcessUseCase paymentProcessUseCase) {
-        this.paymentProcessUseCase = paymentProcessUseCase;
-        this.consoleHandler = consoleHandler;
-    }
 
     public String initiatePayment() {
         return generateResponse(paymentProcessUseCase.initiatePayment(requestAndBuildCommand()));
@@ -30,10 +24,10 @@ public class InitiatePaymentInputHandler {
 
     private String generateResponse(Result<InitiatePaymentUseCaseResponse> response) {
         if (response.getStatus() == Status.ACT) {
-            System.out.println(GREEN + response.getData().getMessage() + ORANGE + " * proceed with verify payment * " + RESET);
+            consoleHandler.positiveFeedbackMessage(response.getData().getMessage(), " | proceed with verify payment * ");
             return response.getData().getReferenceNumber();
         } else {
-            System.out.println(RED + response.getErrorCode() + ORANGE + " => try again: " + RESET);
+            consoleHandler.negativeFeedbackMessage(response.getErrorCode().name(), " | try again: ");
             return null;
         }
     }

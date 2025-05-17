@@ -10,7 +10,6 @@ import static com.internship.paybycard.paymentprocess.terminalui.validation.Vali
 
 @RequiredArgsConstructor
 public class ConsoleHandler {
-
     private final Scanner scanner;
 
     public String requestFieldInput(String requestMessage, String fieldName, Validator fieldValidator) {
@@ -35,5 +34,13 @@ public class ConsoleHandler {
         } catch (Exception e) {
             return requestFieldInput(RED + "please enter a valid " + fieldName + " format" + RESET, fieldName);
         }
+    }
+
+    public void positiveFeedbackMessage(String feedbackMessage, String whatToDoMessage) {
+        System.out.println(GREEN+feedbackMessage+ORANGE+whatToDoMessage+RESET);
+    }
+
+    public void negativeFeedbackMessage(String feedbackMessage, String whatToDoMessage) {
+        System.out.println(RED+feedbackMessage+ORANGE+whatToDoMessage+RESET);
     }
 }
