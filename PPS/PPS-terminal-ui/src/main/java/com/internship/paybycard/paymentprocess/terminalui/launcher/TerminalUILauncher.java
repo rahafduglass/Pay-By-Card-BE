@@ -1,7 +1,8 @@
 package com.internship.paybycard.paymentprocess.terminalui.launcher;
 
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
-import com.internship.paybycard.paymentprocess.terminalui.dto.payment.handler.PaymentHandler;
+import com.internship.paybycard.paymentprocess.terminalui.handler.PaymentInputHandler;
+import com.internship.paybycard.paymentprocess.terminalui.util.ConsoleHandler;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,7 +14,8 @@ public class TerminalUILauncher {
 
     public static void launch(PaymentProcessUseCase paymentProcessUseCase) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        PaymentHandler handler = new PaymentHandler(scanner, paymentProcessUseCase);
+        ConsoleHandler consoleHandler = new ConsoleHandler(scanner);
+        PaymentInputHandler handler = new PaymentInputHandler(consoleHandler, paymentProcessUseCase);
         String paymentReferenceNumber = null;
         outerLoop:
         while (true) {
