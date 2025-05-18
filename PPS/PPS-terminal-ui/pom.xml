@@ -15,7 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>com.internship.paybycard.paymentprocess.terminalui.launcher.TerminalUILauncher</start-class>
+        <start-class>com.internship.paybycard.paymentprocess.terminalui.service.TerminalUIService</start-class>
 
     </properties>
     <dependencies>
@@ -33,6 +33,12 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>3.4.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-launcher</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -41,7 +47,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
-                    <mainClass>com.internship.paybycard.paymentprocess.terminalui.launcher.TerminalUILauncher</mainClass>
+                    <mainClass>com.internship.paybycard.paymentprocess.terminalui.service.TerminalUIService</mainClass>
                 </configuration>
                 <executions>
                     <execution>
