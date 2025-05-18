@@ -2,8 +2,8 @@ package com.internship.paybycard.paymentprocess.terminalui.service;
 
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
 import com.internship.paybycard.paymentprocess.terminalui.dto.response.InitiatePaymentHandlerResponse;
-import com.internship.paybycard.paymentprocess.terminalui.handler.PaymentInputHandler;
-import com.internship.paybycard.paymentprocess.terminalui.util.ConsoleHandler;
+import com.internship.paybycard.paymentprocess.terminalui.handler.payment.PaymentInputHandler;
+import com.internship.paybycard.paymentprocess.terminalui.handler.ConsoleHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -50,13 +50,7 @@ public class TerminalUIService {
                     }
                     paymentInputHandler.completePayment(initiatePaymentHandlerResponse.getPaymentReferenceNumber(), initiatePaymentHandlerResponse.getCard());
                 case 4:
-                    System.out.println(ORANGE + " want to pay again?  " + RED + "n/" + GREEN + "y" + RESET);
-                    String payAgain = scanner.nextLine();
-                    if (payAgain.equals("y")) {
-                        initiatePaymentHandlerResponse = null;
-                        continue;
-                    }
-                    System.out.println("exiting, thank u for using paybycard, to access terminal UI again rerun the app XDD");
+                    System.out.println("exiting, thank u for using paybycard, type \"start\" to start terminal UI again");
                     break outerLoop;
                 default:
                     System.out.println(RED + "invalid option number: " + RESET);

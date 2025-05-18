@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.terminalui.util;
+package com.internship.paybycard.paymentprocess.terminalui.handler;
 
 import com.internship.paybycard.paymentprocess.terminalui.validation.Validator;
 import lombok.RequiredArgsConstructor;

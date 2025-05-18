@@ -16,25 +16,9 @@ public class PaymentProcessSystem {
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(PaymentProcessSystem.class, args);
 
-        System.out.println(ORANGE + "WANT TO START TERMINAL UI?" + RESET + RED + " n" + RESET + "/" + GREEN + "y" + RESET);
-
-        while (true) {
-            try {
-                String option = new Scanner(System.in).nextLine();
-                switch (option) {
-                    case "y":
-                        TerminalUIService terminalUiService = new TerminalUIService(ctx.getBean(PaymentProcessUseCase.class));
-                        terminalUiService.start();
-                        break;
-                    case "n":
-                        break;
-                    default:
-                        System.out.println(RED + "please pick a valid option" + RESET);
-                }
-
-            } catch (Exception e) {
-                System.out.println(RED + "please pick a valid option" + RESET);
-            }
-        }
+        TerminalUIRunner terminalUIRunner = ctx.getBean(TerminalUIRunner.class);
+        Thread thread = new Thread(terminalUIRunner);
+        thread.setDaemon(false);
+        thread.start();
     }
 }

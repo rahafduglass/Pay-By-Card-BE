@@ -1,10 +1,10 @@
-package com.internship.paybycard.paymentprocess.terminalui.handler;
+package com.internship.paybycard.paymentprocess.terminalui.handler.payment;
 
 import com.internship.paybycard.paymentprocess.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
 import com.internship.paybycard.paymentprocess.terminalui.dto.payment.command.VerifyPaymentCommandImpl;
-import com.internship.paybycard.paymentprocess.terminalui.util.ConsoleHandler;
+import com.internship.paybycard.paymentprocess.terminalui.handler.ConsoleHandler;
 import com.internship.paybycard.paymentprocess.terminalui.validation.verifypayment.ReferenceNumberValidator;
 import lombok.RequiredArgsConstructor;
 
