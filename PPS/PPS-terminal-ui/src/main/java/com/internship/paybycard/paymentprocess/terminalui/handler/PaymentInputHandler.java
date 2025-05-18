@@ -12,16 +12,15 @@ public class PaymentInputHandler {
     private final PaymentProcessUseCase paymentProcessUseCase;
 
     public InitiatePaymentHandlerResponse initiatePayment() {
-        InitiatePaymentInputHandler handler = new InitiatePaymentInputHandler(paymentProcessUseCase,consoleHandler);
-        return handler.initiatePayment();
+        return new InitiatePaymentInputHandler(paymentProcessUseCase, consoleHandler).initiatePayment();
     }
+
     public void verifyPayment(String paymentReferenceNumber) {
-        VerifyPaymentInputHandler handler= new VerifyPaymentInputHandler(consoleHandler,paymentProcessUseCase);
-        handler.verifyPayment(paymentReferenceNumber);
+        new VerifyPaymentInputHandler(consoleHandler, paymentProcessUseCase).verifyPayment(paymentReferenceNumber);
     }
+
     public void completePayment(String paymentReferenceNumber, VerifyCardDtoImpl card) {
-        CompletePaymentInputHandler handler = new CompletePaymentInputHandler(consoleHandler,paymentProcessUseCase);
-        handler.completePayment(paymentReferenceNumber,card);
+        new CompletePaymentInputHandler(consoleHandler, paymentProcessUseCase).completePayment(paymentReferenceNumber, card);
     }
 
 }

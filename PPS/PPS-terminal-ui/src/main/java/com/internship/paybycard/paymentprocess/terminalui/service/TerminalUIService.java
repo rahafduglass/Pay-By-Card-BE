@@ -56,7 +56,7 @@ public class TerminalUIService {
                         initiatePaymentHandlerResponse = null;
                         continue;
                     }
-                    System.out.println("exiting, thank u for using paybycard");
+                    System.out.println("exiting, thank u for using paybycard, to access terminal UI again rerun the app XDD");
                     break outerLoop;
                 default:
                     System.out.println(RED + "invalid option number: " + RESET);
