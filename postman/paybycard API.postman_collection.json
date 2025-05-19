@@ -1,0 +1,2072 @@
+{
+	"info": {
+		"_postman_id": "5c22deff-0811-4701-8f83-a412ff43f330",
+		"name": "paybycard API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41794978",
+		"_collection_link": "https://paybycard-team.postman.co/workspace/645ffe58-8922-401b-8d38-f26f6458acbc/collection/41794978-5c22deff-0811-4701-8f83-a412ff43f330?action=share&source=collection_link&creator=41794978"
+	},
+	"item": [
+		{
+			"name": "CMS",
+			"item": [
+				{
+					"name": "create card request",
+					"item": [
+						{
+							"name": "valid create card request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"cardId\", jsonData.cardId);",
+											"",
+											"pm.test(\"Status code is 201 Created\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const responseJson = pm.response.json();",
+											"",
+											"pm.test(\"Response contains cardId\", function () {",
+											"    pm.expect(responseJson).to.have.property(\"cardId\");",
+											"    pm.expect(responseJson.cardId).to.not.be.null;",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"clientName\":\"postman\",\n\n    \"clientEmail\":\"postman@paybycard.com\",\n    \n     \"balance\":30\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid create card requets",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400 bad request\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"clientName\":\"\",\n\n    \"clientEmail\":\"rahaf@paybycard.com\",\n    \n     \"balance\":30\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get card request",
+					"item": [
+						{
+							"name": "valid get card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"cardNumber\", jsonData.cardNumber);",
+											"pm.environment.set(\"cvv\", jsonData.cvv);",
+											"pm.environment.set(\"expiryDate\", jsonData.expiryDate);",
+											"",
+											"pm.test(\"status is 200\",function (){",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response has response\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.cvv).to.be.a(\"string\").and.not.empty;",
+											"    pm.expect(jsonData.expiryDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+											"    pm.expect(jsonData.cardNumber).to.be.a(\"string\").and.not.empty.and.length.to.eql(36);",
+											"",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/{{cardId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"{{cardId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid get card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/df",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"df"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong id get card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\",function(){",
+											"    pm.response.to.have.status(422);",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/-1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"-1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update card request",
+					"item": [
+						{
+							"name": "valid update card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 204\", function(){",
+											"    pm.response.to.have.status(204);",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv size update card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"invalid cvv\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cardNumber size update card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"invalid card number\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date card update card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\": \"invalid expiry date\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number update request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"837492015683947102384756192837465091\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv number update request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"cvv\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"{{expiryDate}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date update card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cvv\": \"{{cvv}}\",\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"clientEmail\": \"updatedRahaf@paybycard.com\",\n  \"clientName\": \"updatedRahaf\",\n  \"balance\": 34342,\n  \"expiryDate\":\"1988-05-06\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "validate card request",
+					"item": [
+						{
+							"name": "valid card validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 200\", function(){",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Response has expected top-level keys\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData).to.have.property(\"status\");",
+											"    pm.expect(jsonData).to.have.property(\"errorCode\");",
+											"    pm.expect(jsonData).to.have.property(\"data\");",
+											"});",
+											"",
+											"pm.test(\"Field values and types are valid\", function () {",
+											"    let data = pm.response.json().data;",
+											"",
+											"    pm.expect(data.id).to.be.a(\"number\");",
+											"    pm.expect(data.cardNumber).to.be.a(\"string\").and.to.have.lengthOf(36); ",
+											"    pm.expect(data.clientName).to.be.a(\"string\").that.is.not.empty;",
+											"    pm.expect(data.clientEmail).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);",
+											"    pm.expect(data.expiryDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/); ",
+											"    pm.expect(data.balance).to.be.a(\"number\");",
+											"    pm.expect(data.cvv).to.match(/^\\d{3}$/);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"1190-05-03\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"invalid format\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"cvv\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"{{cardNumber}}\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"invalid format\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"837492015683947102384756192837465091\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number validate card request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cardNumber\": \"invalid format\",\n  \"expiryDate\": \"{{expiryDate}}\",\n  \"cvv\": \"{{cvv}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/validate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"validate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "withdraw request",
+					"item": [
+						{
+							"name": "valid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 204\", function(){",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD_INFO\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errorCode).to.eql(\"INVALID_CARD_INFO\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"1999-02-03\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "insufficient amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"",
+											"pm.test(\"Error code is INSUFFICIENT_CARD_BALANCE\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errorCode).to.eql(\"INSUFFICIENT_CARD_BALANCE\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 9090,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD_INFO\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errorCode).to.eql(\"INVALID_CARD_INFO\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"cvv\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD_INFO\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errorCode).to.eql(\"INVALID_CARD_INFO\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"837492015683947102384756192837465091\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"invalid format\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": 3,\n  \"validateCardInfo\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"invalid\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/cards/withdraw",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"cards",
+										"withdraw"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "PPS",
+			"item": [
+				{
+					"name": "initiate payment request",
+					"item": [
+						{
+							"name": "valid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"pm.environment.set(\"referenceNumber\", jsonData.referenceNumber);",
+											"",
+											"pm.test(\"status is 201\",function (){",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"message response is correct\", function () {",
+											"    pm.expect(jsonData.message).to.eql(\"initiated successfully\");",
+											"    pm.expect(jsonData.referenceNumber).to.exist;",
+											"    pm.expect(jsonData.referenceNumber).to.be.not.empty.and.length.to.eql(36);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"stuff i want to buy\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid items",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": -9,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid client name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid card number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"invalid\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid expiry date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"invalid\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid cvv",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\", function(){",
+											"    pm.response.to.have.status(400);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"invalid\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong cvv",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"INVALID_CARD\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"cvv\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong expiry date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"INVALID_CARD\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"1999-03-02\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong card number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INVALID_CARD\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"INVALID_CARD\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 2,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"837492015683947102384756192837465091\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "insufficient amount",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											"pm.test(\"Error code is INSUFFICIENT_CARD_BALANCE\", function () {",
+											"    let jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"INSUFFICIENT_CARD_BALANCE\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"items\": \"items\",\n  \"amount\": 3332,\n  \"clientName\": \"postman\",\n  \"card\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/initiate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"initiate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "verify payment request",
+					"item": [
+						{
+							"name": "valid reference number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 204\",function (){",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentReference\": \"{{referenceNumber}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "wrong reference number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\",function (){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentReference\": \"837492015683947102384756192837465091\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid reference number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 400\",function (){",
+											"    pm.response.to.have.status(400);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentReference\": \"invalid\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/verify",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "complete payment request",
+					"item": [
+						{
+							"name": "invalid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 422\",function (){",
+											"    pm.response.to.have.status(422);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentReference\": \"{{referenceNumber}}\",\n  \"verifyCard\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  },\n  \"otp\": \"9190\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/complete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "valid request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response unprocessable entity 422\", function(){",
+											"    pm.response.to.have.status(422);",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.test(\"status is 202\", function(){",
+											"    pm.response.to.have.status(202);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"paymentReference\": \"{{referenceNumber}}\",\n  \"verifyCard\": {\n    \"cardNumber\": \"{{cardNumber}}\",\n    \"expiryDate\": \"{{expiryDate}}\",\n    \"cvv\": \"{{cvv}}\"\n  },\n  \"otp\": \"8192\" // Replace this with the actual OTP from the email\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/api/v1/payment-process/complete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"v1",
+										"payment-process",
+										"complete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

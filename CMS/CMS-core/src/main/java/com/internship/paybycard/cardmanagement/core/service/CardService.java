@@ -3,14 +3,20 @@ package com.internship.paybycard.cardmanagement.core.service;
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
+import com.internship.paybycard.cardmanagement.core.interactor.WithdrawInteractor;
+import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 
 public interface CardService {
-    Result createCard(CreateCardInteractor card);
+    Result<Long> createCard(CreateCardInteractor card);
 
-    Result updateCard(UpdateCardInteractor card);
+    Result<Void> updateCard(UpdateCardInteractor card);
 
-    Result validateCard(ValidateCardInteractor card);
+    Result<CardDto> validateCard(ValidateCardInteractor card);
 
-    Result deleteCard(ValidateCardInteractor card);
+    Result<Void> deleteCard(ValidateCardInteractor card);
+
+    Result<Void> withdraw( WithdrawInteractor withdrawInteractor);
+
+    Result<CardDto> getCard( Long cardId);
 }

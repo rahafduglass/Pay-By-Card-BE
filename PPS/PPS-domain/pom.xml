@@ -7,7 +7,6 @@
         <artifactId>PPS</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.internship.paybycard</groupId>
     <artifactId>PPS-domain</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PPS-domain</name>
@@ -20,13 +19,22 @@
 
         <dependency>
             <groupId>com.internship.paybycard</groupId>
-            <artifactId>PPS-Core</artifactId>
+            <artifactId>PPS-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
         </dependency>
     </dependencies>
 

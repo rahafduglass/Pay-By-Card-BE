@@ -1,8 +1,8 @@
 package com.internship.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
+import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
 import com.internship.paybycard.cardmanagement.domain.mapper.UpdateCardMapperImpl;
-import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ public class UpdateCardMapperTest {
         when(card.getCvv()).thenReturn("cvv");
         when(card.getBalance()).thenReturn(BigDecimal.valueOf(300000));
 
-        RealCardModel cardModel = new RealCardModel();
+        RealCardDto cardModel = new RealCardDto();
 
         cardModel=updateCardMapper.mapTo(card);
         assertEquals(LocalDate.now(),cardModel.getExpiryDate());

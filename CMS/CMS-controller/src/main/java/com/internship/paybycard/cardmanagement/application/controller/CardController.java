@@ -1,10 +1,14 @@
 package com.internship.paybycard.cardmanagement.application.controller;
 
 
+import com.internship.paybycard.cardmanagement.application.dtos.response.CreateCardResponse;
+import com.internship.paybycard.cardmanagement.application.dtos.response.GetCardResponse;
+import com.internship.paybycard.cardmanagement.application.formatter.Formatter;
 import com.internship.paybycard.cardmanagement.application.interactors.CreateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.UpdateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
-import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
+import com.internship.paybycard.cardmanagement.application.interactors.WithdrawRequest;
+import com.internship.paybycard.cardmanagement.core.model.CardDto;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
 import com.internship.paybycard.cardmanagement.core.service.CardService;
@@ -18,46 +22,67 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/cards")
 @RequiredArgsConstructor
 public class CardController {
-    // todo unit test
     private final CardService cardService;
+    private final Formatter formatter;
 
     @PostMapping
-    public ResponseEntity<String> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
-        Result result = cardService.createCard(createCardRequest);
+    public ResponseEntity<CreateCardResponse> createCard(@RequestBody @Valid CreateCardRequest createCardRequest) {
+        Result<Long> result = cardService.createCard(createCardRequest);
+        CreateCardResponse response = new CreateCardResponse(result.data());
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.CREATED).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+    }
+
+    @GetMapping("/{cardId}")
+    public ResponseEntity<GetCardResponse> getCard(@PathVariable Long cardId) {
+        Result<CardDto> result = cardService.getCard(cardId);
+        if (result.status().equals(Status.ACP))
+            return ResponseEntity.ok(formatter.toGetCardResponse(result.data()));
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
 
     @PutMapping
-    public ResponseEntity<String> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
-        Result result = cardService.updateCard(updateCardRequest);
+    public ResponseEntity<Result<Void>> updateCard(@RequestBody @Valid UpdateCardRequest updateCardRequest) {
+        Result<Void> result = cardService.updateCard(updateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.noContent().build();
+        return rejectResponse(result);
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<String> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Result result = cardService.validateCard(validateCardRequest);
+    public ResponseEntity<Result<CardDto>> validateCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        Result<CardDto> result = cardService.validateCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
-        return rejectResponse(result.errorCode());
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        return rejectResponse(result);
+    }
+
+    @PutMapping("/withdraw")
+    public ResponseEntity<Result<Void>> withdraw(@RequestBody @Valid WithdrawRequest withdrawRequest) {
+        System.out.println("WITHDRAW API");
+        Result<Void> result = cardService.withdraw(withdrawRequest);
+        if (result.status().equals(Status.ACP)) {
+            return ResponseEntity.noContent().build();
+        }
+        return rejectResponse(result);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
-        Result result = cardService.deleteCard(validateCardRequest);
+    public ResponseEntity<Result<Void>> deleteCard(@RequestBody @Valid ValidateCardRequest validateCardRequest) {
+        Result<Void> result = cardService.deleteCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.status().toString());
+            return ResponseEntity.noContent().build();
 
-        return rejectResponse(result.errorCode());
+        return rejectResponse(result);
     }
 
-    private ResponseEntity<String> rejectResponse(ErrorCode errorCode) {
-        return switch (errorCode) {
-            case INVALID_CARD_INFO -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorCode.toString());
-            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorCode.toString());
+    private <T> ResponseEntity<Result<T>> rejectResponse(Result<T> result) {
+        return switch (result.errorCode()) {
+            case INVALID_CARD_INFO, INSUFFICIENT_CARD_BALANCE ->
+                    ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(result);
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(result);
         };
     }
+
 }

@@ -2,15 +2,15 @@ package com.internship.paybycard.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.mapper.UpdateCardMapper;
-import com.internship.paybycard.cardmanagement.domain.model.RealCardModel;
+import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
 
 
 public class UpdateCardMapperImpl implements UpdateCardMapper {
 
     @Override
-    public RealCardModel mapTo(UpdateCardInteractor updateCardInteractor) {
+    public RealCardDto mapTo(UpdateCardInteractor updateCardInteractor) {
 
-        RealCardModel cardModel = new RealCardModel();
+        RealCardDto cardModel = new RealCardDto();
 
         cardModel.setExpiryDate(updateCardInteractor.getExpiryDate());
         cardModel.setCardNumber(updateCardInteractor.getCardNumber());
