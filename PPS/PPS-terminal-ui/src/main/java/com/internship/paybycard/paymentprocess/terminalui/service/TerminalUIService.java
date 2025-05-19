@@ -2,8 +2,8 @@ package com.internship.paybycard.paymentprocess.terminalui.service;
 
 import com.internship.paybycard.paymentprocess.core.domain.usecase.PaymentProcessUseCase;
 import com.internship.paybycard.paymentprocess.terminalui.dto.response.InitiatePaymentHandlerResponse;
-import com.internship.paybycard.paymentprocess.terminalui.handler.payment.PaymentInputHandler;
 import com.internship.paybycard.paymentprocess.terminalui.handler.ConsoleHandler;
+import com.internship.paybycard.paymentprocess.terminalui.handler.payment.PaymentInputHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

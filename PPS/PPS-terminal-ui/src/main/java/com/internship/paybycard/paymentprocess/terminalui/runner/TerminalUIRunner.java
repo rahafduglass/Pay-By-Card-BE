@@ -10,7 +10,7 @@ import static com.internship.paybycard.paymentprocess.terminalui.validation.Vali
 
 @Component
 public class TerminalUIRunner implements Runnable {
-    private volatile boolean running = true;
+
 
     @Autowired
     private TerminalUIService terminalUIService;
@@ -21,14 +21,14 @@ public class TerminalUIRunner implements Runnable {
         Scanner scanner = new Scanner(System.in);
         System.out.println(GREEN + "terminal is running" + BLUE +
                 "\ntype" + ORANGE + " \"start\" " + BLUE + "to start payment process " +
-                "\ntype" + ORANGE + " \"exit\" " + BLUE + "to exit terminal UI"+RESET);
-        while (running) {
+                "\ntype" + ORANGE + " \"exit\" " + BLUE + "to exit terminal UI" + RESET);
+        while (true) {
             System.out.print("> ");
             String input = scanner.nextLine();
 
             if ("exit".equalsIgnoreCase(input)) {
-                running = false;
                 System.out.println("Shutting down terminal...");
+                System.exit(0);
             } else if ("start".equalsIgnoreCase(input)) {
                 terminalUIService.start();
             }
