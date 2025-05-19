@@ -34,11 +34,6 @@
         </dependency>
         <dependency>
             <groupId>com.internship.paybycard</groupId>
-            <artifactId>PPS-controller</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.internship.paybycard</groupId>
             <artifactId>PPS-persistence</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
