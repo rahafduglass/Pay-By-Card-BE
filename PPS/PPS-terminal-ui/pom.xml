@@ -4,24 +4,58 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.internship.paybycard</groupId>
-        <artifactId>PPS</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.5</version>
+        <relativePath/>
     </parent>
-
+    <groupId>com.internship.paybycard</groupId>
     <artifactId>PPS-terminal-ui</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>com.internship.paybycard.paymentprocess.terminalui.service.TerminalUIService</start-class>
-
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.internship.paybycard</groupId>
             <artifactId>PPS-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-domain</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-controller</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-persistence</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-email-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-cms-integration</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.internship.paybycard</groupId>
+            <artifactId>PPS-otp-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

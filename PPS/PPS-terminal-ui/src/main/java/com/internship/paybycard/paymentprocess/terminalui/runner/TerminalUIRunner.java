@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess;
+package com.internship.paybycard.paymentprocess.terminalui.runner;
 
 import com.internship.paybycard.paymentprocess.terminalui.service.TerminalUIService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ public class TerminalUIRunner implements Runnable {
 
     @Autowired
     private TerminalUIService terminalUIService;
+
 
     @Override
     public void run() {
