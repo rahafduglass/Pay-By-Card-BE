@@ -14,6 +14,7 @@
     <modules>
        <module>CMS</module>
        <module>PPS</module>
+        <module>PPS-authentication</module>
     </modules>
 
     <properties>
