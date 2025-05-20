@@ -12,9 +12,9 @@
 
     <url/>
     <modules>
-       <module>CMS</module>
-       <module>PPS</module>
-        <module>PPS-authentication</module>
+        <module>CMS</module>
+        <module>PPS</module>
+        <module>authentication</module>
     </modules>
 
     <properties>
