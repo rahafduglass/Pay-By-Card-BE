@@ -10,40 +10,24 @@
     </parent>
 
     <artifactId>PPS-authentication</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>PPS-authentication</name>
+    <description>PPS-authentication</description>
     <packaging>pom</packaging>
+
     <modules>
         <module>auth-persistence</module>
         <module>auth-core</module>
         <module>auth-domain</module>
+        <module>auth-controller</module>
+        <module>auth-launcher</module>
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>17</java.version>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.internship.paybycard</groupId>
-            <artifactId>PPS-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>3.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>6.4.5</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-    </dependencies>
+<dependencyManagement>
+    <dependencies>    </dependencies>
+</dependencyManagement>
 
 </project>

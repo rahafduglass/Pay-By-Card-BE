@@ -6,9 +6,9 @@ import com.internship.paybycard.paymentprocess.authentication.core.persistence.S
 import com.internship.paybycard.paymentprocess.authentication.core.presentation.command.RegistrationCommand;
 import com.internship.paybycard.paymentprocess.authentication.domain.dto.RegistrationDetailsImpl;
 import com.internship.paybycard.paymentprocess.authentication.domain.mapper.RegistrationDetailsMapper;
-import com.internship.paybycard.paymentprocess.core.domain.result.ErrorCode;
-import com.internship.paybycard.paymentprocess.core.domain.result.Result;
-import com.internship.paybycard.paymentprocess.core.domain.result.Status;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Status;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.result.ErrorCode;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
