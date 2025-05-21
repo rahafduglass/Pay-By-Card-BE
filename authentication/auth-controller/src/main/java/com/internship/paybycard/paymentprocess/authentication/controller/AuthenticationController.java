@@ -3,11 +3,12 @@ package com.internship.paybycard.paymentprocess.authentication.controller;
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.LoginResponse;
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.request.LoginRequest;
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.request.RegistrationRequest;
-import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.JwtTokenResponse;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.TokenResponse;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Status;
-import com.internship.paybycard.paymentprocess.authentication.core.domain.service.AuthenticationService;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.usecase.LoginUsecase;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.usecase.RegistrationUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationService authenticationService;
+    private final LoginUsecase loginUsecase;
+    private final RegistrationUseCase registrationUseCase;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid RegistrationRequest command) {
-        Result<Void> result = authenticationService.register(command);
+        Result<Void> result = registrationUseCase.register(command);
         if (result.getStatus().equals(Status.ACT))
             return ResponseEntity.status(HttpStatus.CREATED).build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -34,7 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-        Result<JwtTokenResponse> result = authenticationService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        Result<TokenResponse> result = loginUsecase.login(loginRequest.getUsername(), loginRequest.getPassword());
         if (result.getErrorCode().equals(ErrorCode.SUCCESS)) {
             LoginResponse response = new LoginResponse(result.getData().getToken());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);

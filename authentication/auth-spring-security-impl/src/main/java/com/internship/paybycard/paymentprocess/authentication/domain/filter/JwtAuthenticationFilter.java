@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.authentication.domain.filter;
 
-import com.internship.paybycard.paymentprocess.authentication.core.domain.service.JwtService;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.service.TokenService;
 import com.internship.paybycard.paymentprocess.authentication.domain.service.SysUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @Component
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final TokenService tokenService;
     private final SysUserDetailsService sysUserDetailsService;
 
     @Override
@@ -30,10 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             final String jwt = authHeader.substring(7);
-            final String username = jwtService.extractUsername(jwt);
+            final String username = tokenService.extractUsername(jwt);
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 log.info("validating jwt token for user: \"{}\"", username);
-                if (jwtService.validateToken(jwt)) {
+                if (tokenService.validateToken(jwt)) {
                     log.info("storing user details in security context for user: \"{}\"", username);
                     UserDetails userDetails = sysUserDetailsService.userDetailsService().loadUserByUsername(username);
                     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();

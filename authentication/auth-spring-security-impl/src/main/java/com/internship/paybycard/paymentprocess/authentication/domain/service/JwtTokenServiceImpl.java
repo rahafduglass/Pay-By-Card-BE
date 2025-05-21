@@ -1,10 +1,10 @@
 package com.internship.paybycard.paymentprocess.authentication.domain.service;
 
-import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.JwtTokenResponse;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.TokenResponse;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Result;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Status;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.ErrorCode;
-import com.internship.paybycard.paymentprocess.authentication.core.domain.service.JwtService;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.service.TokenService;
 import com.internship.paybycard.paymentprocess.authentication.domain.dto.JwtTokenResponseImpl;
 
 import io.jsonwebtoken.Claims;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+public class JwtTokenServiceImpl implements TokenService {
 
     @Value("${jwt.secret-key}")
     @Setter
@@ -28,7 +28,7 @@ public class JwtServiceImpl implements JwtService {
     private String secretKey;
 
     @Override
-    public Result<JwtTokenResponse> generateToken(String username) {
+    public Result<TokenResponse> generateToken(String username) {
         Date oneDayLater = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
         String jwt = Jwts.builder()
                 .setSubject(username)

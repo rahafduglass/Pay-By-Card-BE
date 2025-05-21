@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.authentication.core.exception;
+package com.internship.paybycard.paymentprocess.authentication.domain.exception;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

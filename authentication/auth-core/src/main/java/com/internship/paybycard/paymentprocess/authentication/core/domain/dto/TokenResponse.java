@@ -1,6 +1,6 @@
 package com.internship.paybycard.paymentprocess.authentication.core.domain.dto;
 
 
-public interface JwtTokenResponse {
+public interface TokenResponse {
     String getToken();
 }

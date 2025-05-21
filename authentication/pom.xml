@@ -18,7 +18,7 @@
     <modules>
         <module>auth-persistence</module>
         <module>auth-core</module>
-        <module>auth-domain</module>
+        <module>auth-spring-security-impl</module>
         <module>auth-controller</module>
         <module>auth-launcher</module>
     </modules>

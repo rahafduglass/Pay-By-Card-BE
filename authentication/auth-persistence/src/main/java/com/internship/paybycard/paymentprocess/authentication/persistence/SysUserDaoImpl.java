@@ -2,6 +2,7 @@ package com.internship.paybycard.paymentprocess.authentication.persistence;
 
 
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.RegistrationDetails;
+import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.SysUserDetails;
 import com.internship.paybycard.paymentprocess.authentication.core.persistence.SysUserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ public class SysUserDaoImpl implements SysUserDao {
 
     private final SysUserJpaRepository sysUserJpaRepository;
     private final SysUserEntityMapper sysUserEntityMapper;
+    private final SysUserDetailsMapper sysUserDetailsMapper;
 
     @Override
     public void save(RegistrationDetails registrationDetails) {
@@ -20,7 +22,9 @@ public class SysUserDaoImpl implements SysUserDao {
     }
 
     @Override
-    public UserDetails findByUsername(String username) {
-        return sysUserJpaRepository.findByUsername(username);
+    public SysUserDetails findByUsername(String username) {
+        UserDetails user= sysUserJpaRepository.findByUsername(username);
+        return sysUserDetailsMapper.toSysUserDetails(user);
     }
+
 }
