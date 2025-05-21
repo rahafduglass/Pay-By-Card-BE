@@ -1,12 +1,14 @@
 package com.internship.paybycard.cardmanagement.domain.service;
 
+import com.internship.paybycard.cardmanagement.core.SortDirection;
 import com.internship.paybycard.cardmanagement.core.dao.CardDao;
+import com.internship.paybycard.cardmanagement.core.dao.PageDetails;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.WithdrawInteractor;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
@@ -152,4 +154,20 @@ public class CardServiceImpl implements CardService {
         }
     }
 
+    @Override
+    public Result<PageDetails> getAllCards(int page, int size, SortDirection sortDirection) {
+        try {
+            log.info("Retrieving all cards with size {}", size);
+            PageDetails pageDetails = cardDao.findCards(page, size, sortDirection);
+            if (pageDetails.isEmpty()) {
+                log.debug("no records to retrieve in page= {} with size= {} ", page, size);
+                return new Result<>(Status.RJC, ErrorCode.INVALID_PAGE_NUMBER, null);
+            }
+            log.debug("cards retrieved successfully");
+            return new Result<>(Status.ACP, null, pageDetails);
+        } catch (Exception e) {
+            log.error("couldn't retrieve all cards: ", e);
+            return new Result<>(Status.RJC, ErrorCode.INTERNAL_SERVER_ERROR, null);
+        }
+    }
 }

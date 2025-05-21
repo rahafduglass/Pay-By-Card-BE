@@ -1,11 +1,8 @@
 package com.internship.paybycard.cardmanagement.application.controller;
 
-import com.internship.paybycard.cardmanagement.application.dtos.response.CreateCardResponse;
-import com.internship.paybycard.cardmanagement.application.interactors.CreateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
-import com.internship.paybycard.cardmanagement.core.model.NullCardDto;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;

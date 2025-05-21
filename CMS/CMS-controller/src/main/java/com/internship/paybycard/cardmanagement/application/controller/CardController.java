@@ -8,7 +8,9 @@ import com.internship.paybycard.cardmanagement.application.interactors.CreateCar
 import com.internship.paybycard.cardmanagement.application.interactors.UpdateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.ValidateCardRequest;
 import com.internship.paybycard.cardmanagement.application.interactors.WithdrawRequest;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
+import com.internship.paybycard.cardmanagement.core.SortDirection;
+import com.internship.paybycard.cardmanagement.core.dao.PageDetails;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;
 import com.internship.paybycard.cardmanagement.core.service.CardService;
@@ -62,9 +64,8 @@ public class CardController {
     public ResponseEntity<Result<Void>> withdraw(@RequestBody @Valid WithdrawRequest withdrawRequest) {
         System.out.println("WITHDRAW API");
         Result<Void> result = cardService.withdraw(withdrawRequest);
-        if (result.status().equals(Status.ACP)) {
+        if (result.status().equals(Status.ACP))
             return ResponseEntity.noContent().build();
-        }
         return rejectResponse(result);
     }
 
@@ -73,8 +74,17 @@ public class CardController {
         Result<Void> result = cardService.deleteCard(validateCardRequest);
         if (result.status().equals(Status.ACP))
             return ResponseEntity.noContent().build();
-
         return rejectResponse(result);
+    }
+
+    @GetMapping("/allCards")
+    public ResponseEntity<PageDetails> getAllCards(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                   @RequestParam(name = "size", defaultValue = "10") int size,
+                                                   @RequestParam(name = "sortDirection", defaultValue = "desc") SortDirection sortDirection) {
+        Result<PageDetails> result = cardService.getAllCards(page, size, sortDirection);
+        if (result.status().equals(Status.ACP))
+            return ResponseEntity.status(HttpStatus.OK).body(result.data());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
     }
 
     private <T> ResponseEntity<Result<T>> rejectResponse(Result<T> result) {

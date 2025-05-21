@@ -1,8 +1,8 @@
 package com.internship.paybycard.cardmanagement.persistence.mapper;
 
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
-import com.internship.paybycard.cardmanagement.core.model.NullCardDto;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.NullCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.cardmanagement.core.mapper.CardMapper;
 import org.springframework.stereotype.Component;

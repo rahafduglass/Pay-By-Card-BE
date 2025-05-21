@@ -1,7 +1,7 @@
 package com.internship.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 import com.internship.paybycard.cardmanagement.domain.mapper.UpdateCardMapperImpl;
 import org.junit.jupiter.api.Test;
 

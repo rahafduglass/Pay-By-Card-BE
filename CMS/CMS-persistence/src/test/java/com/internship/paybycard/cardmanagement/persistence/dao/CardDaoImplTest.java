@@ -3,17 +3,15 @@ package com.internship.paybycard.cardmanagement.persistence.dao;
 
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
 import com.internship.paybycard.cardmanagement.persistence.PersistenceTestApp;
 import com.internship.paybycard.cardmanagement.persistence.entity.CardEntity;
 import com.internship.paybycard.cardmanagement.persistence.jpa.CardJpaRepository;
 import com.internship.paybycard.cardmanagement.persistence.mapper.CardEntityMapperImpl;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

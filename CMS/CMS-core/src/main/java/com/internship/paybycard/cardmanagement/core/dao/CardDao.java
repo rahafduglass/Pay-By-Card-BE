@@ -1,9 +1,10 @@
 package com.internship.paybycard.cardmanagement.core.dao;
 
 
+import com.internship.paybycard.cardmanagement.core.SortDirection;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
 
 
 import java.math.BigDecimal;
@@ -15,6 +16,6 @@ public interface CardDao {
     CardDto findCard(String cardNumber, String cvv, LocalDate expiryDate);
     CardDto findCardById(Long cardId);
     int deleteCard(ValidateCardInteractor card);
-
     int updateCardBalance(String cardNumber, String cvv, LocalDate expiryDate, BigDecimal newBalance);
+    PageDetails findCards(int page, int size, SortDirection sortDirection);
 }

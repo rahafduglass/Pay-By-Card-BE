@@ -1,13 +1,12 @@
 package com.internship.cardmanagement.domain.service;
 
 import com.internship.paybycard.cardmanagement.core.dao.CardDao;
-import com.internship.paybycard.cardmanagement.core.exception.CardNotFoundException;
 import com.internship.paybycard.cardmanagement.core.interactor.CreateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.interactor.ValidateCardInteractor;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
-import com.internship.paybycard.cardmanagement.core.model.NullCardDto;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.NullCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 import com.internship.paybycard.cardmanagement.core.result.ErrorCode;
 import com.internship.paybycard.cardmanagement.core.result.Result;
 import com.internship.paybycard.cardmanagement.core.result.Status;

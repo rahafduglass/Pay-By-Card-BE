@@ -1,7 +1,7 @@
 package com.internship.paybycard.cardmanagement.application.formatter;
 
 import com.internship.paybycard.cardmanagement.application.dtos.response.GetCardResponse;
-import com.internship.paybycard.cardmanagement.core.model.CardDto;
+import com.internship.paybycard.cardmanagement.core.dto.CardDto;
 import org.springframework.stereotype.Component;
 
 @Component

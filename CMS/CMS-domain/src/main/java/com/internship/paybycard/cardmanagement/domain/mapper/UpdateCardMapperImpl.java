@@ -2,7 +2,7 @@ package com.internship.paybycard.cardmanagement.domain.mapper;
 
 import com.internship.paybycard.cardmanagement.core.interactor.UpdateCardInteractor;
 import com.internship.paybycard.cardmanagement.core.mapper.UpdateCardMapper;
-import com.internship.paybycard.cardmanagement.core.model.RealCardDto;
+import com.internship.paybycard.cardmanagement.core.dto.RealCardDto;
 
 
 public class UpdateCardMapperImpl implements UpdateCardMapper {

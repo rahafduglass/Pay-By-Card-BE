@@ -1,4 +1,4 @@
-package com.internship.paybycard.cardmanagement.core.model;
+package com.internship.paybycard.cardmanagement.core.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
