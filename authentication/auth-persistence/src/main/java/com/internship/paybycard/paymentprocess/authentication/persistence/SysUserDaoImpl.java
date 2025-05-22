@@ -5,7 +5,6 @@ import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.Re
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.SysUserDetails;
 import com.internship.paybycard.paymentprocess.authentication.core.persistence.SysUserDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,7 +22,7 @@ public class SysUserDaoImpl implements SysUserDao {
 
     @Override
     public SysUserDetails findByUsername(String username) {
-        UserDetails user= sysUserJpaRepository.findByUsername(username);
+        SysUserEntity user= sysUserJpaRepository.findByUsername(username);
         return sysUserDetailsMapper.toSysUserDetails(user);
     }
 
