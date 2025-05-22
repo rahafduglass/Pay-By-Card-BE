@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.authentication.persistence;
+package com.internship.paybycard.paymentprocess.authentication.persistence.dto;
 
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.SysUserDetails;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.authentication.persistence;
+package com.internship.paybycard.paymentprocess.authentication.persistence.jpa;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

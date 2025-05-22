@@ -1,4 +1,4 @@
-package com.internship.paybycard.paymentprocess.authentication.persistence;
+package com.internship.paybycard.paymentprocess.authentication.persistence.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

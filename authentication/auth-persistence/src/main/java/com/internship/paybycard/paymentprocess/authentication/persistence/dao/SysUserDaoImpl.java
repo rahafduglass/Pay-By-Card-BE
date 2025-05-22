@@ -1,9 +1,13 @@
-package com.internship.paybycard.paymentprocess.authentication.persistence;
+package com.internship.paybycard.paymentprocess.authentication.persistence.dao;
 
 
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.RegistrationDetails;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.SysUserDetails;
 import com.internship.paybycard.paymentprocess.authentication.core.persistence.SysUserDao;
+import com.internship.paybycard.paymentprocess.authentication.persistence.jpa.SysUserEntity;
+import com.internship.paybycard.paymentprocess.authentication.persistence.jpa.SysUserJpaRepository;
+import com.internship.paybycard.paymentprocess.authentication.persistence.mapper.SysUserDetailsMapper;
+import com.internship.paybycard.paymentprocess.authentication.persistence.mapper.SysUserEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
