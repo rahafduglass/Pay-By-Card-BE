@@ -17,7 +17,6 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
-    // todo did u manage to test it
     @Override
     public boolean sendOtpEmail(String emailAddress, String paymentReferenceNumber, String otpCode) {
         log.info("Sending OTP email to " + emailAddress);

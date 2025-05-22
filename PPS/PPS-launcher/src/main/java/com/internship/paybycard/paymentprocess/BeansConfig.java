@@ -17,6 +17,7 @@ import com.internship.paybycard.paymentprocess.integration.cms.config.CmsApiProp
 import com.internship.paybycard.paymentprocess.integration.cms.service.CmsApiHandlerRestTemplateImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -48,6 +49,7 @@ public class BeansConfig {
     }
 
     @Bean
+    @Primary
     public CmsApiHandler cmsApiHandler(CmsApiProperties cmsApiProperties) {
         return new CmsApiHandlerRestTemplateImpl(cmsApiProperties);
     }
