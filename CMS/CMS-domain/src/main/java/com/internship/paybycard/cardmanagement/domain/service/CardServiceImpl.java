@@ -157,7 +157,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public Result<PageDetails> getAllCards(int page, int size, SortDirection sortDirection) {
         try {
-            log.info("Retrieving all cards with size {}", size);
+            log.info("Retrieving cards with page size {}", size);
             PageDetails pageDetails = cardDao.findCards(page, size, sortDirection);
             if (pageDetails.isEmpty()) {
                 log.debug("no records to retrieve in page= {} with size= {} ", page, size);
