@@ -1,8 +1,9 @@
-package com.internship.paybycard.paymentprocess.authentication.controller;
+package com.internship.paybycard.paymentprocess.authentication.controller.controller;
 
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.LoginResponse;
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.request.LoginRequest;
 import com.internship.paybycard.paymentprocess.authentication.controller.dto.request.RegistrationRequest;
+import com.internship.paybycard.paymentprocess.authentication.controller.util.AESUtil;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.TokenResponse;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.ErrorCode;
 import com.internship.paybycard.paymentprocess.authentication.core.domain.result.Result;
@@ -36,6 +37,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+        loginRequest.setPassword(AESUtil.decrypt(loginRequest.getPassword()));
         Result<TokenResponse> result = loginUsecase.login(loginRequest.getUsername(), loginRequest.getPassword());
         if (result.getErrorCode().equals(ErrorCode.SUCCESS)) {
             LoginResponse response = new LoginResponse(result.getData().getToken());
