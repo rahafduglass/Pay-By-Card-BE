@@ -13,7 +13,6 @@ public class SysUserDetailsService {
     private final SpringUserDetailsMapper springUserDetailsMapper;
 
     public UserDetailsService userDetailsService() {
-        //TODO replace this with a mapper and remove implements UserDetails from sysUser entity.
         return e ->
                 springUserDetailsMapper.toUserDetails(sysUserDao.findByUsername(e));
     }

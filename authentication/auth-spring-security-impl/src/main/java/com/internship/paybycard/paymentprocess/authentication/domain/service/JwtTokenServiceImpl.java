@@ -13,6 +13,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtTokenServiceImpl implements TokenService {
 
     @Value("${jwt.secret-key}")
@@ -29,6 +31,7 @@ public class JwtTokenServiceImpl implements TokenService {
 
     @Override
     public Result<TokenResponse> generateToken(String username) {
+        log.info("generating token for username {}", username);
         Date oneDayLater = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
         String jwt = Jwts.builder()
                 .setSubject(username)
@@ -41,6 +44,7 @@ public class JwtTokenServiceImpl implements TokenService {
 
     @Override
     public Boolean validateToken(String token) {
+        log.info("validating token for username");
         try {
             return !isTokenExpired(token);
         } catch (Exception e) {

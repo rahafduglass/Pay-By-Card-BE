@@ -1,6 +1,7 @@
 package com.internship.paybycard.paymentprocess.authentication.domain.mapper;
 
 import com.internship.paybycard.paymentprocess.authentication.core.domain.dto.SysUserDetails;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -8,12 +9,13 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @Component
 public class SpringUserDetailsMapper {
 
     public UserDetails toUserDetails(SysUserDetails sysUserDetails) {
+        log.info("mapping domain sysUserDetails to spring UserDetails username={}", sysUserDetails.getUsername());
         return new UserDetails(){
-
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
                 return List.of();

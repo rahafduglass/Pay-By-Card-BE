@@ -22,6 +22,7 @@ public class LoginUsecaseImpl implements LoginUsecase {
 
     @Override
     public Result<TokenResponse> login(String username, String password) {
+        log.info("authenticating username {} with", username);
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             return tokenService.generateToken(username);
